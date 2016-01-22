@@ -25,6 +25,11 @@ var EventSchema = new Schema({
     required: true,
     trim: true
   },
+  chapter: {
+    type: String,
+    required: true,
+    trim: true
+  },
   user: {
     type: Schema.ObjectId,
     ref: 'User',

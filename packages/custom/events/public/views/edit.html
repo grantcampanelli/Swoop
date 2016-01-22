@@ -19,6 +19,17 @@
         </div>
       </div>
     </div>
+    <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.chapter.$invalid }">
+      <label mean-token="'create-chapter'" class="col-md-3 control-label">Chapter</label>
+      <div class="col-md-9">
+        <input name="chapter" type="text" class="form-control" data-ng-model="event.chapter" id="chapter"
+               placeholder="Chapter" required>
+        <!--<div ng-show="submitted && eventForm.chapter.$invalid" class="help-block">-->
+        <!--<p ng-show="eventForm.chapter.$error.required">Chapter is required</p>-->
+        <!--</div>-->
+      </div>
+
+    </div>
     <div class="form-group">
       <label mean-token="'permissions'" for="permissions" class="col-md-2 control-label">Permissions</label>
       <div class="col-md-10">

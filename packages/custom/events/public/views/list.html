@@ -4,7 +4,8 @@
       <span>{{event.created | date:'medium'}}</span> /
       <span>{{event.user.name}}</span>
       <h2>
-        <a data-ng-href="/events/{{event._id}}">{{event.title}}</a>
+        <a data-ng-href="/events/{{event._id}}">Event Title: {{event.title}}</a>
+        <div>Chapter: {{event.chapter}}</div>
         <span data-ng-if="hasAuthorization(event)">
           <a class="btn" href="/events/{{event._id}}/edit">
             <i class="glyphicon glyphicon-edit"></i>
