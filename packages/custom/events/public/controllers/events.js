@@ -19,6 +19,23 @@ angular.module('mean.events').controller('EventsController', ['$scope', '$stateP
 
     $scope.availableEndTimes = ['9:00am', '9:15am', '9:30am', '9:45am', '10:00am'];
 
+    $scope.hideOtherPointOfContact = function (pointofcontact) {
+      if (pointofcontact == 'Other') {
+        //console.log("point of contact clicked: "+pointofcontact);
+        $('.pointofcontactother').removeClass("ng-hide");
+        $('.pointofcontactother').addClass("ng-show");
+        $('.pointofcontactinput').prop('required', true);
+      }
+      else {
+        $('.pointofcontactother').removeClass("ng-show");
+        $('.pointofcontactother').addClass("ng-hide");
+        $('.pointofcontactinput').removeAttr('required');
+      }
+      //console.log("Hide other point of contact function");
+    };
+
+
+
     Circles.mine(function(acl) {
         $scope.availableCircles = acl.allowed;
         $scope.allDescendants = acl.descendants;

@@ -47,7 +47,7 @@
                     <ui-select-match placeholder="Select point of contact...">{{$select.selected}}
                     </ui-select-match>
                     <ui-select-choices repeat="pointofcontact in availablePointOfContacts | filter:$select.search"
-                                       name="pointofcontact">
+                                       name="pointofcontact" ng-click="hideOtherPointOfContact($select.selected)">
                         {{pointofcontact}}
                     </ui-select-choices>
                 </ui-select>
@@ -91,39 +91,45 @@
         <!--</div>-->
         <!--</div>-->
 
-        <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.contactName.$invalid }">
+        <div class="form-group pointofcontactother ng-hide"
+             ng-class="{ 'has-error' : submitted && eventForm.contactName.$invalid }">
             <label mean-token="'create-contactName'" class="col-md-3 control-label">Event Point of Contact's
                 Name</label>
             <div class="col-md-9">
-                <input name="contactName" type="text" class="form-control" data-ng-model="event.contactName"
+                <input name="contactName" type="text" class="form-control pointofcontactinput"
+                       data-ng-model="event.contactName"
                        id="contactName"
-                       placeholder="Name" required>
+                       placeholder="Name">
                 <div ng-show="submitted && eventForm.contactName.$invalid" class="help-block">
                     <p ng-show="eventForm.contactName.$error.required">Event Point of Contact's Name is required</p>
                 </div>
             </div>
         </div>
 
-        <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.contactEmail.$invalid }">
+        <div class="form-group pointofcontactother ng-hide" ng-show="event.pointofcontact == 'Other'"
+             ng-class="{ 'has-error' : submitted && eventForm.contactEmail.$invalid }">
             <label mean-token="'create-contactEmail'" class="col-md-3 control-label">Event Point of Contact's
                 Email</label>
             <div class="col-md-9">
-                <input name="contactEmail" type="text" class="form-control" data-ng-model="event.contactEmail"
+                <input name="contactEmail" type="text" class="form-control pointofcontactinput"
+                       data-ng-model="event.contactEmail"
                        id="contactEmail"
-                       placeholder="ContactEmail@fraternity.com" required>
+                       placeholder="ContactEmail@fraternity.com">
                 <div ng-show="submitted && eventForm.contactEmail.$invalid" class="help-block">
                     <p ng-show="eventForm.contactEmail.$error.required">Event Point of Contact's Email is required</p>
                 </div>
             </div>
         </div>
 
-        <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.contactPhone.$invalid }">
+        <div class="form-group pointofcontactother ng-hide"
+             ng-class="{ 'has-error' : submitted && eventForm.contactPhone.$invalid }">
             <label mean-token="'create-contactPhone'" class="col-md-3 control-label">Event Point of Contact's Phone
                 Number</label>
             <div class="col-md-9">
-                <input name="contactPhone" type="text" class="form-control" data-ng-model="event.contactPhone"
+                <input name="contactPhone" type="text" class="form-control pointofcontactinput"
+                       data-ng-model="event.contactPhone"
                        id="contactPhone"
-                       placeholder="(XXX) XXX-XXXX" required>
+                       placeholder="(XXX) XXX-XXXX">
                 <div ng-show="submitted && eventForm.contactPhone.$invalid" class="help-block">
                     <p ng-show="eventForm.contactPhone.$error.required">Event Point of Contact's Phone Number is
                         required</p>
@@ -157,7 +163,7 @@
             <label mean-token="'create-starttime'" class="col-md-3 control-label">Start Time</label>
             <div class="col-md-9">
 
-                <ui-select ng-model="event.starttime" append-to-body="'true'">
+                <ui-select required ng-model="event.starttime" append-to-body="'true'">
                     <ui-select-match placeholder="Select start time...">{{$select.selected}}
                     </ui-select-match>
                     <ui-select-choices repeat="starttime in availableStartTimes | filter:$select.search"
