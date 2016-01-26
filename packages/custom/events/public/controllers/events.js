@@ -13,6 +13,12 @@ angular.module('mean.events').controller('EventsController', ['$scope', '$stateP
 
     $scope.availableChapters = ['Kappa Sigma', 'Alpha Chi Omega'];
 
+    $scope.availablePointOfContacts = ['President', 'Social Chair', 'Risk Manager', 'Other'];
+
+    $scope.availableStartTimes = ['9:00am', '9:15am', '9:30am', '9:45am', '10:00am'];
+
+    $scope.availableEndTimes = ['9:00am', '9:15am', '9:30am', '9:45am', '10:00am'];
+
     Circles.mine(function(acl) {
         $scope.availableCircles = acl.allowed;
         $scope.allDescendants = acl.descendants;

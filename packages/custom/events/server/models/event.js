@@ -35,6 +35,31 @@ var EventSchema = new Schema({
     ref: 'User',
     required: true
   },
+  pointofcontact: {
+    type: String,
+    trim: true
+  },
+  contactName: {
+    type: String,
+    trim: true
+  },
+  contactEmail: {
+    type: String,
+    trim: true
+  },
+  contactPhone: {
+    type: String,
+    trim: true
+  },
+  date: {
+    type: Date
+  },
+  starttime: {
+    type: String
+  },
+  endtime: {
+    type: String
+  },
   permissions: {
     type: Array
   },
