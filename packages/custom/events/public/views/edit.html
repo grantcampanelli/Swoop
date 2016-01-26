@@ -1,52 +1,187 @@
 <section data-ng-controller="EventsController" data-ng-init="findOne()">
   <form name="eventForm" class="form-horizontal col-md-6" role="form" data-ng-submit="update(eventForm.$valid)" novalidate>
     <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.title.$invalid }">
-      <label mean-token="'edit-title'" for="title" class="col-md-2 control-label">Title</label>
+      <label mean-token="'edit-title'" for="title" class="col-md-2 control-label">Event Title</label>
       <div class="col-md-10">
         <input name="title" type="text" class="form-control" data-ng-model="event.title" id="title" placeholder="Title" required>
         <div ng-show="submitted && eventForm.title.$invalid" class="help-block">
-          <p ng-show="eventForm.title.$error.required">Title is required</p>
+          <p ng-show="eventForm.title.$error.required">Event Title is required</p>
         </div>
       </div>
 
     </div>
     <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.content.$invalid }">
-      <label mean-token="'edit-content'" for="content" class="col-md-2 control-label">Content</label>
+      <label mean-token="'edit-content'" for="content" class="col-md-2 control-label">Event Description</label>
       <div class="col-md-10">
         <textarea name="content" data-ng-model="event.content" id="content" cols="30" rows="10" placeholder="Content" class="form-control" required></textarea>
         <div ng-show="submitted && eventForm.content.$invalid" class="help-block">
-          <p ng-show="eventForm.content.$error.required">Content is required</p>
+          <p ng-show="eventForm.content.$error.required">Event Description is required</p>
         </div>
       </div>
     </div>
     <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.chapter.$invalid }">
-      <label mean-token="'create-chapter'" class="col-md-3 control-label">Chapter</label>
+      <label mean-token="'edit-chapter'" class="col-md-3 control-label">Your Chapter</label>
       <div class="col-md-9">
-        <input name="chapter" type="text" class="form-control" data-ng-model="event.chapter" id="chapter"
-               placeholder="Chapter" required>
-        <!--<div ng-show="submitted && eventForm.chapter.$invalid" class="help-block">-->
-        <!--<p ng-show="eventForm.chapter.$error.required">Chapter is required</p>-->
-        <!--</div>-->
-      </div>
 
-    </div>
-    <div class="form-group">
-      <label mean-token="'permissions'" for="permissions" class="col-md-2 control-label">Permissions</label>
-      <div class="col-md-10">
-         <ui-select multiple ng-model="event.permissions" on-select="selectPermission()">
-            <ui-select-match placeholder="Select permissions..." ng-click="showDescendants();">{{$item}}</ui-select-match>
-            <ui-select-choices repeat="circle in availableCircles | filter:$select.search">
-              {{circle}}
-            </ui-select-choices>
-          </ui-select>
+        <ui-select ng-model="event.chapter" append-to-body="'true'">
+          <ui-select-match placeholder="Select chapter...">{{$select.selected}}
+          </ui-select-match>
+          <ui-select-choices repeat="chapter in availableChapters | filter:$select.search" name="chapter">
+            {{chapter}}
+          </ui-select-choices>
+        </ui-select>
+        <div ng-show="submitted && eventForm.chapter.$invalid" class="help-block">
+          <p ng-show="eventForm.chapter.$error.required">Chapter is required</p>
+        </div>
       </div>
     </div>
-    <div class="form-group" ng-show="descendants.length">
-        <label mean-token="'descendants'" for="descendants" class="col-md-2 control-label">Descendants</label>
-        <div class="col-md-10">
-          <span ng-repeat="descendant in descendants">{{descendant}} <span ng-hide="$last">, </span></span>
+
+    <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.pointofcontact.$invalid }">
+      <label mean-token="'edit-pointofcontact'" class="col-md-3 control-label">Event Point of Contact</label>
+      <div class="col-md-9">
+
+        <ui-select ng-model="event.pointofcontact" append-to-body="'true'">
+          <ui-select-match placeholder="Select point of contact...">{{$select.selected}}
+          </ui-select-match>
+          <ui-select-choices repeat="pointofcontact in availablePointOfContacts | filter:$select.search"
+                             name="pointofcontact" ng-click="hideOtherPointOfContact($select.selected)">
+            {{pointofcontact}}
+          </ui-select-choices>
+        </ui-select>
+        <div ng-show="submitted && eventForm.pointofcontact.$invalid" class="help-block">
+          <p ng-show="eventForm.pointofcontact.$error.required">Point Of Contact is required</p>
         </div>
+      </div>
     </div>
+
+
+    <div class="form-group pointofcontactother ng-hide" ng-show="event.pointofcontact == 'Other'"
+         ng-class="{ 'has-error' : submitted && eventForm.contactName.$invalid }">
+      <label mean-token="'edit-contactName'" class="col-md-3 control-label">Event Point of Contact's
+        Name</label>
+      <div class="col-md-9">
+        <input name="contactName" type="text" class="form-control pointofcontactinput"
+               data-ng-model="event.contactName"
+               id="contactName"
+               placeholder="Name">
+        <div ng-show="submitted && eventForm.contactName.$invalid" class="help-block">
+          <p ng-show="eventForm.contactName.$error.required">Event Point of Contact's Name is required</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group pointofcontactother ng-hide" ng-show="event.pointofcontact == 'Other'"
+         ng-class="{ 'has-error' : submitted && eventForm.contactEmail.$invalid }">
+      <label mean-token="'edit-contactEmail'" class="col-md-3 control-label">Event Point of Contact's
+        Email</label>
+      <div class="col-md-9">
+        <input name="contactEmail" type="text" class="form-control pointofcontactinput"
+               data-ng-model="event.contactEmail"
+               id="contactEmail"
+               placeholder="ContactEmail@fraternity.com">
+        <div ng-show="submitted && eventForm.contactEmail.$invalid" class="help-block">
+          <p ng-show="eventForm.contactEmail.$error.required">Event Point of Contact's Email is required</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group pointofcontactother ng-hide" ng-show="event.pointofcontact == 'Other'"
+         ng-class="{ 'has-error' : submitted && eventForm.contactPhone.$invalid }">
+      <label mean-token="'edit-contactPhone'" class="col-md-3 control-label">Event Point of Contact's Phone
+        Number</label>
+      <div class="col-md-9">
+        <input name="contactPhone" type="text" class="form-control pointofcontactinput"
+               data-ng-model="event.contactPhone"
+               id="contactPhone"
+               placeholder="(XXX) XXX-XXXX">
+        <div ng-show="submitted && eventForm.contactPhone.$invalid" class="help-block">
+          <p ng-show="eventForm.contactPhone.$error.required">Event Point of Contact's Phone Number is
+            required</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.date.$invalid }">
+      <label mean-token="'edit-date'" class="col-md-3 control-label">Event Date</label>
+      <div class="col-md-9">
+        <pre>Selected date is: <em>{{event.date | date:'fullDate' }}</em></pre>
+        <div style="display:inline-block; min-height:290px;">
+          <uib-datepicker ng-model="event.date" min-date="minDate" show-weeks="true" class="well well-sm"
+                          custom-class="getDayClass(date, mode)"></uib-datepicker>
+        </div>
+
+        <div ng-show="submitted && eventForm.date.$invalid" class="help-block">
+          <p ng-show="eventForm.date.$error.required">Event Date is required</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.starttime.$invalid }">
+      <label mean-token="'edit-starttime'" class="col-md-3 control-label">Start Time</label>
+      <div class="col-md-9">
+
+        <ui-select required ng-model="event.starttime" append-to-body="'true'">
+          <ui-select-match placeholder="Select start time...">{{$select.selected}}
+          </ui-select-match>
+          <ui-select-choices repeat="starttime in availableStartTimes | filter:$select.search"
+                             name="starttime">
+            {{starttime}}
+          </ui-select-choices>
+        </ui-select>
+        <div ng-show="submitted && eventForm.starttime.$invalid" class="help-block">
+          <p ng-show="eventForm.starttime.$error.required">Start time is required</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.endtime.$invalid }">
+      <label mean-token="'edit-endtime'" class="col-md-3 control-label">End Time</label>
+      <div class="col-md-9">
+
+        <ui-select ng-model="event.endtime" append-to-body="'true'">
+          <ui-select-match placeholder="Select end time...">{{$select.selected}}
+          </ui-select-match>
+          <ui-select-choices repeat="endtime in availableEndTimes | filter:$select.search" name="endtime">
+            {{endtime}}
+          </ui-select-choices>
+        </ui-select>
+        <div ng-show="submitted && eventForm.endtime.$invalid" class="help-block">
+          <p ng-show="eventForm.endtime.$error.required">End time is required</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.address.$invalid }">
+      <label mean-token="'edit-address'" class="col-md-3 control-label">Event Address</label>
+      <div class="col-md-9">
+        <input name="address" type="text" class="form-control" data-ng-model="event.address"
+               id="address"
+               placeholder="Address" required>
+        <div ng-show="submitted && eventForm.address.$invalid" class="help-block">
+          <p ng-show="eventForm.address.$error.required">Event Address is
+            required</p>
+        </div>
+      </div>
+    </div>
+
+
+    <!--<div class="form-group">-->
+    <!--<label mean-token="'permissions'" for="permissions" class="col-md-2 control-label">Permissions</label>-->
+    <!--<div class="col-md-10">-->
+    <!--<ui-select multiple ng-model="event.permissions" on-select="selectPermission()">-->
+    <!--<ui-select-match placeholder="Select permissions..." ng-click="showDescendants();">{{$item}}</ui-select-match>-->
+    <!--<ui-select-choices repeat="circle in availableCircles | filter:$select.search">-->
+    <!--{{circle}}-->
+    <!--</ui-select-choices>-->
+    <!--</ui-select>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="form-group" ng-show="descendants.length">-->
+    <!--<label mean-token="'descendants'" for="descendants" class="col-md-2 control-label">Descendants</label>-->
+    <!--<div class="col-md-10">-->
+    <!--<span ng-repeat="descendant in descendants">{{descendant}} <span ng-hide="$last">, </span></span>-->
+    <!--</div>-->
+    <!--</div>-->
     <div class="form-group">
       <div class="col-md-offset-2 col-md-10">
         <button mean-token="'edit-submit'" type="submit" class="btn btn-default">Submit</button>
