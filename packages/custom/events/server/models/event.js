@@ -60,6 +60,9 @@ var EventSchema = new Schema({
   endtime: {
     type: String
   },
+  address: {
+    type: String
+  },
   permissions: {
     type: Array
   },
