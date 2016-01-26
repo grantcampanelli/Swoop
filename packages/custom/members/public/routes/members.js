@@ -11,6 +11,10 @@ angular.module('mean.members').config(['$stateProvider',
       url: '/members/allchapters',
       templateUrl: 'members/views/allchapters.html'
     })
+        .state('members kappasigma', {
+          url: '/members/kappasigma',
+          templateUrl: 'members/views/kappasigma.html'
+        })
     .state('members chapter1', {
         url: '/members/chapter1',
         templateUrl: '/members/views/chapter1.html'

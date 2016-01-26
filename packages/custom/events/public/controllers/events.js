@@ -11,6 +11,8 @@ angular.module('mean.events').controller('EventsController', ['$scope', '$stateP
 
     $scope.availableCircles = [];
 
+    $scope.availableChapters = ['Kappa Sigma', 'Alpha Chi Omega'];
+
     Circles.mine(function(acl) {
         $scope.availableCircles = acl.allowed;
         $scope.allDescendants = acl.descendants;
