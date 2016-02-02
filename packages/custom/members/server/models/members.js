@@ -7,12 +7,22 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var MemberSchema = new Schema({
+   created: {
+      type: Date,
+      default: Date.now
+   },
+   title: {
+      type: String,
+      trim: true
+   },
    firstName: {
       type: String,
+      required: true,
       trim: true
    },
    lastName: {
       type: String,
+      required: true,
       trim: true
    },
    chapter: {
@@ -27,7 +37,7 @@ var MemberSchema = new Schema({
       type: String,
       trim: true
    },
-   major: {
+   college: {
       type: String,
       trim: true
    },
@@ -54,6 +64,12 @@ var MemberSchema = new Schema({
    year: {
       type: String,
       trim: true
+   },
+   permissions: {
+      type: Array
+   },
+   updated: {
+      type: Array
    }
 });
 

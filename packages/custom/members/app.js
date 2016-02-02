@@ -17,13 +17,31 @@ Members.register(function(app, auth, database) {
   Members.routes(app, auth, database);
 
   //We are adding a link to the main menu for all authenticated users
+  //Members.menus.add({
+  //  title: 'Members',
+  //  link: 'members example page',
+  //  roles: ['authenticated'],
+  //  menu: 'main'
+  //});
+
   Members.menus.add({
-    title: 'Members',
-    link: 'members example page',
-    roles: ['authenticated'],
-    menu: 'main'
+    'roles': ['authenticated'],
+    'title': 'Members',
+    'link': 'all members'
   });
-  
+
+  Members.menus.add({
+    'roles': ['authenticated'],
+    'title': 'New Member',
+    'link': 'create member'
+  });
+
+  Members.menus.add({
+    'roles': ['authenticated'],
+    'title': 'Chapters',
+    'link': 'all chapters'
+  });
+
   Members.aggregateAsset('css', 'members.css');
 
   /**
@@ -47,6 +65,7 @@ Members.register(function(app, auth, database) {
         //you now have the settings object
     });
     */
+  //swagger.add(__dirname);
 
   return Members;
 });

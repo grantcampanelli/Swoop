@@ -22,12 +22,7 @@ var ChapterSchema = new Schema({
     },
     content: {
         type: String,
-        required: true,
-        trim: true
-    },
-    chapter: {
-        type: String,
-        required: true,
+        //required: true,
         trim: true
     },
     user: {
@@ -154,11 +149,11 @@ var GradeSchema = new Schema({
 /**
  * Statics
  */
-//EventSchema.statics.load = function(id, cb) {
-//    this.findOne({
-//        _id: id
-//    }).populate('user', 'name username').exec(cb);
-//};
+ChapterSchema.statics.load = function(id, cb) {
+    this.findOne({
+        _id: id
+    }).populate('user', 'name username').exec(cb);
+};
 
 mongoose.model('Chapter', ChapterSchema);
 mongoose.model('Grade', GradeSchema);

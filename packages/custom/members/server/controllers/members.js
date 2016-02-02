@@ -36,13 +36,13 @@ module.exports = function (Members) {
                     });
                 }
 
-                Members.members.publish({
+                Members.events.publish({
                     action: 'created',
                     user: {
                         name: req.user.name
                     },
                     url: config.hostname + '/members/' + member._id,
-                    name: member.title
+                    name: member.firstName + member.lastName
                 });
 
                 res.json(member);
@@ -64,12 +64,12 @@ module.exports = function (Members) {
                     });
                 }
 
-                Members.members.publish({
+                Members.events.publish({
                     action: 'updated',
                     user: {
                         name: req.user.name
                     },
-                    name: member.title,
+                    name: member.firstName + member.lastName,
                     url: config.hostname + '/members/' + member._id
                 });
 
@@ -90,12 +90,12 @@ module.exports = function (Members) {
                     });
                 }
 
-                Members.members.publish({
+                Members.events.publish({
                     action: 'deleted',
                     user: {
                         name: req.user.name
                     },
-                    name: member.title
+                    name: req.member.firstName + req.member.lastName
                 });
 
                 res.json(member);
@@ -106,12 +106,12 @@ module.exports = function (Members) {
          */
         show: function (req, res) {
 
-            Members.members.publish({
+            Members.events.publish({
                 action: 'viewed',
                 user: {
                     name: req.user.name
                 },
-                name: req.member.title,
+                name: req.member.firstName + req.member.lastName,
                 url: config.hostname + '/members/' + req.member._id
             });
 
