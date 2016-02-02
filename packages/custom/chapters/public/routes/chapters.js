@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mean.members').config(['$stateProvider',
+angular.module('mean.chapters').config(['$stateProvider',
     function ($stateProvider) {
         $stateProvider
             //.state('members example page', {
@@ -45,9 +45,71 @@ angular.module('mean.members').config(['$stateProvider',
             //    url: '/members/chapter6',
             //    templateUrl: 'members/views/chapter6.html'
             //})
+            //.state('all members', {
+            //    url: '/members',
+            //    templateUrl: '/members/views/list.html',
+            //    requiredCircles: {
+            //        circles: ['authenticated'],
+            //        denyState: 'auth.login'
+            //    }
+            //})
+            //.state('create member', {
+            //    url: '/members/create',
+            //    templateUrl: '/members/views/create.html',
+            //    requiredCircles: {
+            //        circles: ['can create content']
+            //    }
+            //})
+            //.state('edit member', {
+            //    url: '/members/:memberId/edit',
+            //    templateUrl: '/members/views/edit.html',
+            //    requiredCircles: {
+            //        circles: ['can edit content']
+            //    }
+            //})
+            //.state('member by id', {
+            //    url: '/members/:memberId',
+            //    templateUrl: '/members/views/view.html',
+            //    requiredCircles: {
+            //        circles: ['authenticated'],
+            //        denyState: 'auth.login'
+            //    }
+            //})
+
+
+            .state('all chapters', {
+                url: '/chapters',
+                templateUrl: '/chapters/views/list-chapters.html',
+                requiredCircles: {
+                    circles: ['authenticated'],
+                    denyState: 'auth.login'
+                }
+            })
+            .state('create chapter', {
+                url: '/chapters/create',
+                templateUrl: '/chapters/views/create-chapter.html',
+                requiredCircles: {
+                    circles: ['can create content']
+                }
+            })
+            .state('edit chapter', {
+                url: '/chapters/:chapterId/edit',
+                templateUrl: '/chapters/views/edit-chapter.html',
+                requiredCircles: {
+                    circles: ['can edit content']
+                }
+            })
+            .state('chapter by id', {
+                url: '/chapters/:chapterId',
+                templateUrl: '/chapters/views/view-chapter.html',
+                requiredCircles: {
+                    circles: ['authenticated'],
+                    denyState: 'auth.login'
+                }
+            })
             .state('all members', {
                 url: '/members',
-                templateUrl: '/members/views/list.html',
+                templateUrl: '/chapters/views/list-members.html',
                 requiredCircles: {
                     circles: ['authenticated'],
                     denyState: 'auth.login'
@@ -55,58 +117,27 @@ angular.module('mean.members').config(['$stateProvider',
             })
             .state('create member', {
                 url: '/members/create',
-                templateUrl: '/members/views/create.html',
+                templateUrl: '/chapters/views/create-member.html',
                 requiredCircles: {
                     circles: ['can create content']
                 }
             })
             .state('edit member', {
                 url: '/members/:memberId/edit',
-                templateUrl: '/members/views/edit.html',
+                templateUrl: '/chapters/views/edit-member.html',
                 requiredCircles: {
                     circles: ['can edit content']
                 }
             })
             .state('member by id', {
                 url: '/members/:memberId',
-                templateUrl: '/members/views/view.html',
+                templateUrl: '/chapters/views/view-member.html',
                 requiredCircles: {
                     circles: ['authenticated'],
                     denyState: 'auth.login'
                 }
             })
 
-            //
-            //.state('all chapters', {
-            //    url: '/chapters',
-            //    templateUrl: '/members/views/all-chapters.html',
-            //    requiredCircles: {
-            //        circles: ['authenticated'],
-            //        denyState: 'auth.login'
-            //    }
-            //})
-            //.state('create chapter', {
-            //    url: '/chapters/create',
-            //    templateUrl: '/members/views/create-chapter.html',
-            //    requiredCircles: {
-            //        circles: ['can create content']
-            //    }
-            //})
-            //.state('edit chapter', {
-            //    url: '/chapters/:chapterId/edit',
-            //    templateUrl: '/members/views/edit-chapter.html',
-            //    requiredCircles: {
-            //        circles: ['can edit content']
-            //    }
-            //})
-            //.state('chapter by id', {
-            //    url: '/chapters/:chapterId',
-            //    templateUrl: '/members/views/specific-chapter.html',
-            //    requiredCircles: {
-            //        circles: ['authenticated'],
-            //        denyState: 'auth.login'
-            //    }
-            //})
         ;
 
     }

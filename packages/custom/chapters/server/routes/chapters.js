@@ -36,4 +36,16 @@ module.exports = function(Chapters, app, auth) {
 
     // Finish with setting up the chapterId param
     app.param('chapterId', chapters.chapter);
+
+    app.route('/api/members')
+        .get(chapters.allMembers)
+        .post(chapters.createMember);
+    app.route('/api/members/:memberId')
+        .get(chapters.showMember)
+        .put(chapters.updateMember)
+        .delete(chapters.destroyMember);
+
+    // Finish with setting up the memberId param
+    app.param('memberId', chapters.member);
+
 };

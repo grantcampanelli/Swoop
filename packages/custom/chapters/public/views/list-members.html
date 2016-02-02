@@ -24,7 +24,8 @@
     <table class="table table-bordered table-striped">
 
         <thead>
-        <tr><th>View</th>
+        <tr>
+            <th>View</th>
             <th>
                 <a href="#" ng-click="orderByField='firstName'; reverseSort = !reverseSort">
                     First Name <span ng-show="orderByField == 'firstName'">
@@ -76,43 +77,6 @@
             </td>
         </tr>
         </tbody>
-        <!--<thead>-->
-        <!--<tr>-->
-        <!--<td>-->
-        <!--First Name-->
-        <!--</td>-->
-        <!--<td>-->
-        <!--Last Name-->
-        <!--</td>-->
-        <!--<td>-->
-        <!--Chapter-->
-        <!--</td>-->
-        <!--<td>-->
-        <!--Edit-->
-        <!--</td>-->
-        <!--<td>-->
-        <!--Delete-->
-        <!--</td>-->
-        <!--</tr>-->
-        <!--</thead>-->
-        <!--<tbody>-->
-        <!--<tr ng-repeat="member in members">-->
-        <!--<td>{{ member.firstName }}</td>-->
-        <!--<td>{{ member.lastName }}</td>-->
-        <!--<td>{{ member.chapter }}</td>-->
-        <!--<td>-->
-        <!--<a class="btn" href="/members/{{member._id}}/edit">-->
-        <!--<i class="glyphicon glyphicon-edit"></i>-->
-        <!--</a>-->
-        <!--</td>-->
-        <!--<td>-->
-        <!--<a class="btn" data-ng-click="remove(member);">-->
-        <!--<i class="glyphicon glyphicon-trash"></i>-->
-        <!--</a>-->
-        <!--</td>-->
-        <!--</tr>-->
-        <!--</tbody>-->
-
     </table>
     <!--<li data-ng-repeat="member in members">-->
     <!--<p>First Name: {{member.firstName}} Last Name: {{member.lastName}}-->

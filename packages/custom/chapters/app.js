@@ -7,6 +7,9 @@ var Module = require('meanio').Module;
 
 var Chapters = new Module('chapters');
 
+//var MembersModel = require('../members/server/models/members.js');
+
+
 /*
  * All MEAN packages require registration
  * Dependency injection is used to define required modules
@@ -16,6 +19,8 @@ Chapters.register(function(app, auth, database) {
   //We enable routing. By default the Package Object is passed to the routes
   Chapters.routes(app, auth, database);
 
+  //var MembersModel = database.connection.model('Member');
+  
   //We are adding a link to the main menu for all authenticated users
   //Chapters.menus.add({
   //  title: 'Chapters',
@@ -28,6 +33,18 @@ Chapters.register(function(app, auth, database) {
     'roles': ['authenticated'],
     'title': 'Chapters',
     'link': 'all chapters'
+  });
+
+  Chapters.menus.add({
+    'roles': ['authenticated'],
+    'title': 'Members',
+    'link': 'all members'
+  });
+
+  Chapters.menus.add({
+    'roles': ['authenticated'],
+    'title': 'New Member',
+    'link': 'create member'
   });
 
   Chapters.aggregateAsset('css', 'chapters.css');
