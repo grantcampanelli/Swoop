@@ -1,0 +1,140 @@
+<section data-ng-controller="ChaptersController" data-ng-init="find()">
+
+    <!--<ul class="members unstyled">-->
+    <!--<li data-ng-repeat="member in members">-->
+    <!--<span>{{member.created | date:'medium'}}</span> /-->
+    <!--<span>{{member.user.name}}</span>-->
+    <!--<h2>-->
+    <!--<a data-ng-href="/members/{{member._id}}">Member Title: {{member.title}}</a>-->
+    <!--<div>Chapter: {{member.chapter}}</div>-->
+    <!--&lt;!&ndash;<span data-ng-if="hasAuthorization(member)">&ndash;&gt;-->
+    <!--<a class="btn" href="/members/{{member._id}}/edit">-->
+    <!--<i class="glyphicon glyphicon-edit"></i>-->
+    <!--</a>-->
+    <!--<a class="btn" data-ng-click="remove(member);">-->
+    <!--<i class="glyphicon glyphicon-trash"></i>-->
+    <!--</a>-->
+    <!--&lt;!&ndash;</span>&ndash;&gt;-->
+    <!--</h2>-->
+    <!--<div>First Name: {{member.firstName}}</div>-->
+    <!--<div>Last Name: {{member.lastName}}</div>-->
+    <!--<div>{{member.content}}</div>-->
+    <!--</li>-->
+    <div><label>Search: <input ng-model="searchText"></label></div>
+    <table class="table table-bordered table-striped">
+
+        <thead>
+        <tr><th>View</th>
+            <th>
+                <a href="#" ng-click="orderByField='title'; reverseSort = !reverseSort">
+                    Chapter Name <span ng-show="orderByField == 'title'">
+          <span ng-show="!reverseSort"><i class="glyphicon glyphicon-chevron-up"></i></span>
+          <span ng-show="reverseSort"><i class="glyphicon glyphicon-chevron-down"></i></span></span>
+                </a>
+            </th>
+            <!--<th>-->
+            <!--<a href="#" ng-click="orderByField='lastName'; reverseSort = !reverseSort">-->
+            <!--Last Name <span ng-show="orderByField == 'lastName'">-->
+            <!--<span ng-show="!reverseSort"><i class="glyphicon glyphicon-chevron-up"></i></span>-->
+            <!--<span ng-show="reverseSort"><i class="glyphicon glyphicon-chevron-down"></i></span></span>-->
+            <!--</a>-->
+            <!--</th>-->
+            <!--<th>-->
+            <!--<a href="#" ng-click="orderByField='chapter'; reverseSort = !reverseSort">-->
+            <!--Chapter <span ng-show="orderByField == 'chapter'">-->
+            <!--<span ng-show="!reverseSort"><i class="glyphicon glyphicon-chevron-up"></i></span>-->
+            <!--<span ng-show="reverseSort"><i class="glyphicon glyphicon-chevron-down"></i></span></span>-->
+            <!--</span>-->
+            <!--</a>-->
+            <!--</th>-->
+            <td>
+                Edit
+            </td>
+            <td>
+                Delete
+            </td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="chapter in chapters|orderBy:orderByField:reverseSort|filter:searchText">
+            <td><a data-ng-href="/chapters/{{chapter._id}}">
+                <i class="glyphicon glyphicon-user"></i>
+            </a>
+            </td>
+            <td>{{ chapter.title }}</td>
+            <!--<td>{{ member.lastName }}</td>-->
+            <!--<td>{{ member.chapter }}</td>-->
+            <td>
+                <a class="btn" href="/chapters/{{chapter._id}}/edit">
+                    <i class="glyphicon glyphicon-edit"></i>
+                </a>
+            </td>
+            <td>
+                <a class="btn" data-ng-click="remove(chapter);">
+                    <i class="glyphicon glyphicon-trash"></i>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+        <!--<thead>-->
+        <!--<tr>-->
+        <!--<td>-->
+        <!--First Name-->
+        <!--</td>-->
+        <!--<td>-->
+        <!--Last Name-->
+        <!--</td>-->
+        <!--<td>-->
+        <!--Chapter-->
+        <!--</td>-->
+        <!--<td>-->
+        <!--Edit-->
+        <!--</td>-->
+        <!--<td>-->
+        <!--Delete-->
+        <!--</td>-->
+        <!--</tr>-->
+        <!--</thead>-->
+        <!--<tbody>-->
+        <!--<tr ng-repeat="member in members">-->
+        <!--<td>{{ member.firstName }}</td>-->
+        <!--<td>{{ member.lastName }}</td>-->
+        <!--<td>{{ member.chapter }}</td>-->
+        <!--<td>-->
+        <!--<a class="btn" href="/members/{{member._id}}/edit">-->
+        <!--<i class="glyphicon glyphicon-edit"></i>-->
+        <!--</a>-->
+        <!--</td>-->
+        <!--<td>-->
+        <!--<a class="btn" data-ng-click="remove(member);">-->
+        <!--<i class="glyphicon glyphicon-trash"></i>-->
+        <!--</a>-->
+        <!--</td>-->
+        <!--</tr>-->
+        <!--</tbody>-->
+
+    </table>
+    <div>
+        <h5><a href="/chapters/create">Click here to create a chapter!</a></h5>
+    </div>
+    <!--<li data-ng-repeat="member in members">-->
+    <!--<p>First Name: {{member.firstName}} Last Name: {{member.lastName}}-->
+    <!--<a data-ng-href="/members/{{member._id}}">Member Title: {{member.title}}</a>-->
+    <!--<div>Chapter: {{member.chapter}}</div>-->
+    <!--&lt;!&ndash;<span data-ng-if="hasAuthorization(member)">&ndash;&gt;-->
+    <!--<a class="btn" href="/members/{{member._id}}/edit">-->
+    <!--<i class="glyphicon glyphicon-edit"></i>-->
+    <!--</a>-->
+    <!--<a class="btn" data-ng-click="remove(member);">-->
+    <!--<i class="glyphicon glyphicon-trash"></i>-->
+    <!--</a>-->
+    <!--&lt;!&ndash;</span>&ndash;&gt;-->
+    <!--</p>-->
+    <!--<div>First Name: {{member.firstName}}</div>-->
+    <!--<div>Last Name: {{member.lastName}}</div>-->
+
+    <!--</li>-->
+
+    <h1 data-ng-hide="!members || members.length">No members yet. <br> Why don't you <a href="/members/create">Create
+        One</a>?</h1>
+</section>
