@@ -16,4 +16,11 @@
   <div>Member's Cal Poly Email: {{member.calpolyemail}}</div>
   <div>Member's Phone Number: {{member.phone}}</div>
   <div>Member's College: {{member.college}}</div>
+  <div>
+    <a class="btn" href="/members/{{member._id}}/edit">
+      <i class="glyphicon glyphicon-edit"></i>
+    </a>
+    <a class="btn" data-ng-click="remove(member);">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a></div>
 </section>

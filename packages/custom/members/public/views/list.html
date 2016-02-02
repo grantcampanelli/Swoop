@@ -20,7 +20,7 @@
     <!--<div>Last Name: {{member.lastName}}</div>-->
     <!--<div>{{member.content}}</div>-->
     <!--</li>-->
-
+    <label>Search: <input ng-model="searchText"></label>
     <table class="table table-bordered table-striped">
 
         <thead>
@@ -56,7 +56,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="member in members|orderBy:orderByField:reverseSort">
+        <tr ng-repeat="member in members|orderBy:orderByField:reverseSort|filter:searchText">
             <td><a data-ng-href="/members/{{member._id}}">
                 <i class="glyphicon glyphicon-user"></i>
             </a>
