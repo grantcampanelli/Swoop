@@ -26,7 +26,7 @@ Events.register(function(app, auth, database, circles, swagger) {
     'link': 'all events'
   });
   Events.menus.add({
-    'roles': ['authenticated'],
+    'roles': ['can create content'],
     'title': 'Create Event',
     'link': 'create event'
   });
