@@ -74,6 +74,12 @@ var UserSchema = new Schema({
     type: String,
     default: 'local'
   },
+  chapter: {
+    type: String
+  },
+  position: {
+    type: String
+  },
   salt: String,
   resetPasswordToken: String,
   resetPasswordExpires: Date,

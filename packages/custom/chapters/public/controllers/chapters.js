@@ -21,8 +21,8 @@ var globalAvailableColleges = ['Orfalea College of Business',
     'Liberal Arts',
     'Architecture'];
 
-angular.module('mean.chapters').controller('ChaptersController', ['$scope', '$stateParams', '$location', 'Global', 'Chapters', 'Members', 'MeanUser', 'Circles',
-    function ($scope, $stateParams, $location, Global, Chapters, Members, MeanUser, Circles) {
+angular.module('mean.chapters').controller('ChaptersController', ['$scope', '$stateParams', '$location', 'Global', 'Chapters', 'Members', 'Users', 'Circles',
+    function ($scope, $stateParams, $location, Global, Chapters, Members, Users, Circles) {
         $scope.global = Global;
 
         $scope.hasAuthorization = function(chapter) {
@@ -43,6 +43,57 @@ angular.module('mean.chapters').controller('ChaptersController', ['$scope', '$st
 
         $scope.orderByField = 'name';
         $scope.reverseSort = false;
+
+        $scope.chapterExec = [];
+
+        $scope.getChapterExec = function (chapter) {
+            var chapterName;
+            Chapters.get({
+                chapterId: $stateParams.chapterId
+            }, function (chapter) {
+                $scope.chapter = chapter;
+                if ($scope.chapter)
+                    console.log(chapter);
+                else {
+                    console.log("No chapter");
+                    return;
+                }
+                chapterName = chapter.name;
+                Users.query({}, function (users) {
+                    console.log(users);
+                    users.forEach(function (user) {
+                        if (user.chapter == chapterName) {
+                            $scope.chapterExec.push(user);
+                        }
+                    });
+                    console.log($scope.chapterExec);
+                    //$scope.users = users;
+
+                    //console.log(users);
+                });
+            });
+
+            //var chapterName = chapter.name;
+            //Users.query({}, function(users) {
+            //    console.log(users);
+            //    users.forEach(function(user){
+            //       if(user.chapter == chapterName) {
+            //           chapterExec.push(user);
+            //       }
+            //    });
+            //    console.log(chapterExec);
+            //    //$scope.users = users;
+            //
+            //    //console.log(users);
+            //});
+
+            //MeanUser.query(function (users) {
+            //    //$scope.members = members;
+            //    console.log(users);
+            //    //console.log($filter('filter')(users, {users: chapter.name}));
+            //});
+        };
+
 
         /*
          * End Custom code

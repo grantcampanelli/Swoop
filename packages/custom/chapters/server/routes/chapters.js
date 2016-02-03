@@ -52,7 +52,7 @@ module.exports = function(Chapters, app, auth) {
 
     app.route('/api/events')
         .get(chapters.allEvents)
-        .post(auth.requiresLogin, hasPermissions, chapters.createEvent);
+        .post(auth.requiresLogin, hasAuthorization, hasPermissions, chapters.createEvent);
     app.route('/api/events/:eventId')
         .get(auth.isMongoId, chapters.showEvent)
         .put(auth.isMongoId, auth.requiresLogin, hasAuthorization, hasPermissions, chapters.updateEvent)

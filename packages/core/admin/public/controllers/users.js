@@ -26,6 +26,16 @@ angular.module('mean.admin').controller('UsersController', ['$scope', 'Global', 
                 type: 'text',
                 inTable: true
             }, {
+                title: 'Chapter',
+                schemaKey: 'chapter',
+                type: 'text',
+                inTable: true
+            }, {
+                title: 'Position',
+                schemaKey: 'position',
+                type: 'text',
+                inTable: true
+            }, {
                 title: 'Roles',
                 schemaKey: 'roles',
                 type: 'select',
@@ -61,6 +71,8 @@ angular.module('mean.admin').controller('UsersController', ['$scope', 'Global', 
                 email: $scope.user.email,
                 name: $scope.user.name,
                 username: $scope.user.username,
+                chapter: $scope.user.chapter,
+                position: $scope.user.position,
                 password: $scope.user.password,
                 confirmPassword: $scope.user.confirmPassword,
                 roles: $scope.user.roles

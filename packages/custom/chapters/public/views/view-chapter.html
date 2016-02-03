@@ -1,6 +1,25 @@
 <div class="chapter" data-ng-controller="ChaptersController" data-ng-init="findOneChapter()">
   <h1>{{chapter.name}}</h1>
 
+  <div data-ng-controller="ChaptersController" data-ng-init="getChapterExec(chapter)">
+    <h3>Chapter Exec</h3>
+    <table class="table table-bordered table-striped">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Position</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="exec in chapterExec">
+        <td>{{exec.name}}</td>
+        <td>{{exec.email}}</td>
+        <td>{{exec.position}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
   <!--<div class="chapter-members" data-ng-controller="ChaptersController" data-ng-init="findMembersFromChapter(chapter.name)">-->
   <div data-ng-controller="MembersController" data-ng-init="findMembers()">
     <h3>Members</h3>

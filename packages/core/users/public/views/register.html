@@ -32,6 +32,22 @@
         </div>
 
         <div class="input-wrapper">
+            <input required id="chapter" type="text" name="chapter" placeholder="Chapter"
+                   ng-model="reg.user.chapter">
+
+            <div class="error_message">Please enter a correct info #</div>
+            <span class="pic user"></span>
+        </div>
+
+        <div class="input-wrapper">
+            <input required id="position" type="text" name="position" placeholder="Position"
+                   ng-model="reg.user.position">
+
+            <div class="error_message">Please enter a correct info #</div>
+            <span class="pic user"></span>
+        </div>
+
+        <div class="input-wrapper">
             <input required id="password_block" name="password" type="{{reg.input.type}}"
                    placeholder="{{reg.input.placeholder}}" ng-model="reg.user.password">
 
