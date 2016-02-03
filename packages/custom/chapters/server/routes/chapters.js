@@ -28,22 +28,22 @@ module.exports = function(Chapters, app, auth) {
 
     app.route('/api/chapters')
         .get(chapters.all)
-        .post(auth.requiresLogin, hasPermissions, chapters.create);
+        .post(auth.requiresLogin, chapters.create);
     app.route('/api/chapters/:chapterId')
         .get(auth.isMongoId, chapters.show)
-        .put(auth.isMongoId, auth.requiresLogin, hasAuthorization, hasPermissions, chapters.update)
-        .delete(auth.isMongoId, auth.requiresLogin, hasAuthorization, hasPermissions, chapters.destroy);
+        .put(auth.isMongoId, auth.requiresLogin, chapters.update)
+        .delete(auth.isMongoId, auth.requiresLogin, chapters.destroy);
 
     // Finish with setting up the chapterId param
     app.param('chapterId', chapters.chapter);
 
     app.route('/api/members')
         .get(chapters.allMembers)
-        .post(auth.requiresLogin, hasPermissions, chapters.createMember);
+        .post(auth.requiresLogin, chapters.createMember);
     app.route('/api/members/:memberId')
         .get(chapters.showMember)
-        .put(auth.isMongoId, auth.requiresLogin, hasPermissions, chapters.updateMember)
-        .delete(auth.isMongoId, auth.requiresLogin, hasPermissions, chapters.destroyMember);
+        .put(auth.isMongoId, auth.requiresLogin, chapters.updateMember)
+        .delete(auth.isMongoId, auth.requiresLogin, chapters.destroyMember);
 
     // Finish with setting up the memberId param
     app.param('memberId', chapters.member);
@@ -52,11 +52,11 @@ module.exports = function(Chapters, app, auth) {
 
     app.route('/api/events')
         .get(chapters.allEvents)
-        .post(auth.requiresLogin, hasAuthorization, hasPermissions, chapters.createEvent);
+        .post(auth.requiresLogin, chapters.createEvent);
     app.route('/api/events/:eventId')
         .get(auth.isMongoId, chapters.showEvent)
-        .put(auth.isMongoId, auth.requiresLogin, hasAuthorization, hasPermissions, chapters.updateEvent)
-        .delete(auth.isMongoId, auth.requiresLogin, hasAuthorization, hasPermissions, chapters.destroyEvent);
+        .put(auth.isMongoId, auth.requiresLogin, chapters.updateEvent)
+        .delete(auth.isMongoId, auth.requiresLogin, chapters.destroyEvent);
 
     // Finish with setting up the eventId param
     app.param('eventId', chapters.event);
