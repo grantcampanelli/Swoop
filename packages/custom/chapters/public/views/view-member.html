@@ -1,4 +1,4 @@
-<section data-ng-controller="MembersController" data-ng-init="findOne()">
+<section data-ng-controller="MembersController" data-ng-init="findOneMember()">
     <!--<span>{{member.created | date:'medium'}}</span> /-->
     <!--<span>{{member.user.name}}</span>-->
     <!--<h2>{{member.title}}</h2>-->
@@ -6,7 +6,7 @@
         <a class="btn" href="/members/{{member._id}}/edit">
             <i class="glyphicon glyphicon-edit"></i>
         </a>
-        <a class="btn" data-ng-click="remove(member);">
+        <a class="btn" data-ng-click="removeMember(member);">
             <i class="glyphicon glyphicon-trash"></i>
         </a>
     </div>
@@ -20,7 +20,7 @@
         <a class="btn" href="/members/{{member._id}}/edit">
             <i class="glyphicon glyphicon-edit"></i>
         </a>
-        <a class="btn" data-ng-click="remove(member);">
+        <a class="btn" data-ng-click="removeMember(member);">
             <i class="glyphicon glyphicon-trash"></i>
         </a></div>
 </section>

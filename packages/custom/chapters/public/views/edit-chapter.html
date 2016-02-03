@@ -1,14 +1,14 @@
-<section data-ng-controller="ChaptersController" data-ng-init="findOne()">
-  <form name="chapterForm" class="form-horizontal col-md-6" role="form" data-ng-submit="edit(chapterForm.$valid)"
+<section data-ng-controller="ChaptersController" data-ng-init="findOneChapter()">
+  <form name="chapterForm" class="form-horizontal col-md-6" role="form" data-ng-submit="editChapter(chapterForm.$valid)"
         novalidate>
 
-    <div class="form-group" ng-class="{ 'has-error' : submitted && chapterForm.title.$invalid }">
-      <label mean-token="'edit-title'" class="col-md-3 control-label">Chapter's Name</label>
+    <div class="form-group" ng-class="{ 'has-error' : submitted && chapterForm.name.$invalid }">
+      <label mean-token="'edit-name'" class="col-md-3 control-label">Chapter's Name</label>
       <div class="col-md-9">
-        <input name="title" type="text" class="form-control" data-ng-model="chapter.title" id="title"
+        <input name="name" type="text" class="form-control" data-ng-model="chapter.name" id="name"
                placeholder="Chapter's Name" required>
-        <div ng-show="submitted && chapterForm.title.$invalid" class="help-block">
-          <p ng-show="chapterForm.title.$error.required">Chapter Name is required</p>
+        <div ng-show="submitted && chapterForm.name.$invalid" class="help-block">
+          <p ng-show="chapterForm.name.$error.required">Chapter Name is required</p>
         </div>
       </div>
     </div>
@@ -77,13 +77,13 @@
     <!--</div>-->
     <!--</div>-->
 
-    <!--<div class="form-group" ng-class="{ 'has-error' : submitted && chapterForm.title.$invalid }">-->
-    <!--<label mean-token="'edit-title'" class="col-md-3 control-label">Chapter Title</label>-->
+    <!--<div class="form-group" ng-class="{ 'has-error' : submitted && chapterForm.name.$invalid }">-->
+    <!--<label mean-token="'edit-name'" class="col-md-3 control-label">Chapter Name</label>-->
     <!--<div class="col-md-9">-->
-    <!--<input name="title" type="text" class="form-control" data-ng-model="chapter.title" id="title"-->
-    <!--placeholder="Title" required>-->
-    <!--<div ng-show="submitted && chapterForm.title.$invalid" class="help-block">-->
-    <!--<p ng-show="chapterForm.title.$error.required">Chapter Title is required</p>-->
+    <!--<input name="name" type="text" class="form-control" data-ng-model="chapter.name" id="name"-->
+    <!--placeholder="Name" required>-->
+    <!--<div ng-show="submitted && chapterForm.name.$invalid" class="help-block">-->
+    <!--<p ng-show="chapterForm.name.$error.required">Chapter Name is required</p>-->
     <!--</div>-->
     <!--</div>-->
 

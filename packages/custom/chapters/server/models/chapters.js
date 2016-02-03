@@ -15,9 +15,13 @@ var ChapterSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    title: {
+    name: {
         type: String,
         required: true,
+        trim: true
+    },
+    council: {
+        type: String,
         trim: true
     },
     content: {
@@ -138,9 +142,9 @@ var ChapterSchema = new Schema({
 /**
  * Validations
  */
-//EventSchema.path('title').validate(function(title) {
-//    return !!title;
-//}, 'Title cannot be blank');
+//EventSchema.path('name').validate(function(name) {
+//    return !!name;
+//}, 'name cannot be blank');
 //
 //EventSchema.path('content').validate(function(content) {
 //    return !!content;

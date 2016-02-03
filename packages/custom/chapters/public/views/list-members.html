@@ -1,4 +1,4 @@
-<section data-ng-controller="MembersController" data-ng-init="find()">
+<section data-ng-controller="MembersController" data-ng-init="findMembers()">
 
     <!--<ul class="members unstyled">-->
     <!--<li data-ng-repeat="member in members">-->
@@ -71,7 +71,7 @@
                 </a>
             </td>
             <td>
-                <a class="btn" data-ng-click="remove(member);">
+                <a class="btn" data-ng-click="removeMember(member);">
                     <i class="glyphicon glyphicon-trash"></i>
                 </a>
             </td>

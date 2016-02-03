@@ -1,5 +1,6 @@
-<section data-ng-controller="MembersController" data-ng-init="findOne()">
-    <form name="memberForm" class="form-horizontal col-md-6" role="form" data-ng-submit="update(memberForm.$valid)"
+<section data-ng-controller="MembersController" data-ng-init="findOneMember()">
+    <form name="memberForm" class="form-horizontal col-md-6" role="form"
+          data-ng-submit="updateMember(memberForm.$valid)"
           novalidate>
 
         <div class="form-group" ng-class="{ 'has-error' : submitted && memberForm.firstName.$invalid }">

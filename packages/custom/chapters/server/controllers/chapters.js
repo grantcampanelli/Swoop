@@ -43,7 +43,7 @@ module.exports = function (Chapters) {
                         name: req.user.name
                     },
                     url: config.hostname + '/chapters/' + chapter._id,
-                    name: chapter.title
+                    name: chapter.name
                 });
 
                 res.json(chapter);
@@ -70,7 +70,7 @@ module.exports = function (Chapters) {
                     user: {
                         name: req.user.name
                     },
-                    name: chapter.title,
+                    name: chapter.name,
                     url: config.hostname + '/chapters/' + chapter._id
                 });
 
@@ -96,7 +96,7 @@ module.exports = function (Chapters) {
                     user: {
                         name: req.user.name
                     },
-                    name: req.chapter.title
+                    name: req.chapter.name
                 });
 
                 res.json(chapter);
@@ -112,7 +112,7 @@ module.exports = function (Chapters) {
                 user: {
                     name: req.user.name
                 },
-                name: req.chapter.title,
+                name: req.chapter.name,
                 url: config.hostname + '/chapters/' + req.chapter._id
             });
 

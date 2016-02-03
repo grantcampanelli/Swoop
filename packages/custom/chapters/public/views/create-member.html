@@ -1,5 +1,6 @@
 <section data-ng-controller="MembersController">
-    <form name="memberForm" class="form-horizontal col-md-6" role="form" data-ng-submit="create(memberForm.$valid)"
+    <form name="memberForm" class="form-horizontal col-md-6" role="form"
+          data-ng-submit="createMember(memberForm.$valid)"
           novalidate>
 
         <div class="form-group" ng-class="{ 'has-error' : submitted && memberForm.firstName.$invalid }">

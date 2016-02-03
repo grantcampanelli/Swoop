@@ -1,17 +1,34 @@
 <section data-ng-controller="ChaptersController">
-    <form name="chapterForm" class="form-horizontal col-md-6" role="form" data-ng-submit="create(chapterForm.$valid)"
+    <form name="chapterForm" class="form-horizontal col-md-6" role="form"
+          data-ng-submit="createChapter(chapterForm.$valid)"
           novalidate>
 
-        <div class="form-group" ng-class="{ 'has-error' : submitted && chapterForm.title.$invalid }">
-            <label mean-token="'create-title'" class="col-md-3 control-label">Chapter's Name</label>
+        <div class="form-group" ng-class="{ 'has-error' : submitted && chapterForm.name.$invalid }">
+            <label mean-token="'create-name'" class="col-md-3 control-label">Chapter's Name</label>
             <div class="col-md-9">
-                <input name="title" type="text" class="form-control" data-ng-model="chapter.title" id="title"
+                <input name="name" type="text" class="form-control" data-ng-model="chapter.name" id="name"
                        placeholder="Chapter's Name" required>
-                <div ng-show="submitted && chapterForm.title.$invalid" class="help-block">
-                    <p ng-show="chapterForm.title.$error.required">Chapter Name is required</p>
+                <div ng-show="submitted && chapterForm.name.$invalid" class="help-block">
+                    <p ng-show="chapterForm.name.$error.required">Chapter Name is required</p>
                 </div>
             </div>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error' : submitted && chapterForm.council.$invalid }">
+            <label mean-token="'create-council'" class="col-md-3 control-label">Chapter's Council</label>
+            <div class="col-md-9">
+
+                <ui-select ng-model="chapter.council" append-to-body="'true'">
+                    <ui-select-match placeholder="Select council...">{{$select.selected}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="council in availableCouncils | filter:$select.search" name="council">
+                        {{council}}
+                    </ui-select-choices>
+                </ui-select>
+                <div ng-show="submitted && chapterForm.council.$invalid" class="help-block">
+                    <p ng-show="chapterForm.council.$error.required">Council is required</p>
+                </div>
             </div>
+        </div>
             <!--</div>-->
             <!--<div class="form-group" ng-class="{ 'has-error' : submitted && chapterForm.lastName.$invalid }">-->
             <!--<label mean-token="'create-lastName'" class="col-md-3 control-label">Chapter's Last Name</label>-->
@@ -77,13 +94,13 @@
             <!--</div>-->
             <!--</div>-->
 
-            <!--<div class="form-group" ng-class="{ 'has-error' : submitted && chapterForm.title.$invalid }">-->
-            <!--<label mean-token="'create-title'" class="col-md-3 control-label">Chapter Title</label>-->
+        <!--<div class="form-group" ng-class="{ 'has-error' : submitted && chapterForm.name.$invalid }">-->
+        <!--<label mean-token="'create-name'" class="col-md-3 control-label">Chapter Name</label>-->
             <!--<div class="col-md-9">-->
-            <!--<input name="title" type="text" class="form-control" data-ng-model="chapter.title" id="title"-->
-            <!--placeholder="Title" required>-->
-            <!--<div ng-show="submitted && chapterForm.title.$invalid" class="help-block">-->
-            <!--<p ng-show="chapterForm.title.$error.required">Chapter Title is required</p>-->
+        <!--<input name="name" type="text" class="form-control" data-ng-model="chapter.name" id="name"-->
+        <!--placeholder="Name" required>-->
+        <!--<div ng-show="submitted && chapterForm.name.$invalid" class="help-block">-->
+        <!--<p ng-show="chapterForm.name.$error.required">Chapter Name is required</p>-->
             <!--</div>-->
             <!--</div>-->
 
