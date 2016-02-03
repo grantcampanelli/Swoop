@@ -48,4 +48,18 @@ module.exports = function(Chapters, app, auth) {
     // Finish with setting up the memberId param
     app.param('memberId', chapters.member);
 
+    /* Events */
+
+    app.route('/api/events')
+        .get(chapters.allEvents)
+        .post(auth.requiresLogin, hasPermissions, chapters.createEvent);
+    app.route('/api/events/:eventId')
+        .get(auth.isMongoId, chapters.showEvent)
+        .put(auth.isMongoId, auth.requiresLogin, hasAuthorization, hasPermissions, chapters.updateEvent)
+        .delete(auth.isMongoId, auth.requiresLogin, hasAuthorization, hasPermissions, chapters.destroyEvent);
+
+    // Finish with setting up the eventId param
+    app.param('eventId', chapters.event);
+
+
 };

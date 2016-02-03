@@ -140,6 +140,36 @@ angular.module('mean.chapters').config(['$stateProvider',
                     denyState: 'auth.login'
                 }
             })
+            .state('all events', {
+                url: '/events',
+                templateUrl: '/chapters/views/list-events.html',
+                requiredCircles: {
+                    circles: ['authenticated'],
+                    denyState: 'auth.login'
+                }
+            })
+            .state('create event', {
+                url: '/events/create',
+                templateUrl: '/chapters/views/create-event.html',
+                requiredCircles: {
+                    circles: ['can create content']
+                }
+            })
+            .state('edit event', {
+                url: '/events/:eventId/edit',
+                templateUrl: '/chapters/views/edit-event.html',
+                requiredCircles: {
+                    circles: ['can edit content']
+                }
+            })
+            .state('event by id', {
+                url: '/events/:eventId',
+                templateUrl: '/chapters/views/view-event.html',
+                requiredCircles: {
+                    circles: ['authenticated'],
+                    denyState: 'auth.login'
+                }
+            })
 
         ;
 

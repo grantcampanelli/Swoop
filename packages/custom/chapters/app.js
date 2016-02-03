@@ -43,6 +43,22 @@ Chapters.register(function(app, auth, database) {
     'menu': 'main'
   });
 
+  Chapters.menus.add({
+    'roles': ['authenticated'],
+    'title': 'Events',
+    'link': 'all events'
+  });
+  Chapters.menus.add({
+    'roles': ['can create content'],
+    'title': 'Create Event',
+    'link': 'create event'
+  });
+
+  Chapters.events.defaultData({
+    type: 'post',
+    subtype: 'event'
+  });
+
   //Chapters.menus.add({
   //  'roles': ['authenticated'],
   //  'title': 'New Member',

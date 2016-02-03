@@ -30,3 +30,15 @@ angular.module('mean.chapters').factory('Members', ['$resource',
         });
     }
 ]);
+
+angular.module('mean.chapters').factory('Events', ['$resource',
+    function ($resource) {
+        return $resource('api/events/:eventId', {
+            eventId: '@_id'
+        }, {
+            update: {
+                method: 'PUT'
+            }
+        });
+    }
+]);

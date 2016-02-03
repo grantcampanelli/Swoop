@@ -18,16 +18,12 @@ angular.module('mean.chapters').controller('MembersController', ['$scope', '$sta
 
         $scope.findAvailableChapters = function () {
             Chapters.query(function (chapters) {
-                //$scope.chapters = chapters;
-                console.log($scope.chapters);
                 chapters.forEach(function (chapter) {
                     $scope.chapterNames.push(chapter.name);
                 })
-                console.log($scope.chapterNames)
-
-                //return $scope.chapterNames;
+                $scope.chapterNames.sort();
             });
-        } //globalAvailableChapters;
+        }
 
 
         $scope.availableColleges = globalAvailableColleges;

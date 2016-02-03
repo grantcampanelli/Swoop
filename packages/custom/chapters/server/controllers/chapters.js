@@ -6,6 +6,7 @@
 var mongoose = require('mongoose'),
     Chapter = mongoose.model('Chapter'),
     Member = mongoose.model('Member'),
+    Event = mongoose.model('Event'),
     config = require('meanio').loadConfig(),
     _ = require('lodash');
 
@@ -260,7 +261,7 @@ module.exports = function (Chapters) {
 
                 res.json(members)
             });
-        }
+        },
 
         /**
          * List of all members
@@ -278,5 +279,135 @@ module.exports = function (Chapters) {
         //        res.json(members)
         //    });
         //}
+
+        /*
+         *
+         * EVENTS--------
+         *
+         */
+        /**
+         * Find event by id
+         */
+        event: function (req, res, next, id) {
+            Event.load(id, function (err, event) {
+                if (err) return next(err);
+                if (!event) return next(new Error('Failed to load event ' + id));
+                req.event = event;
+                next();
+            });
+        },
+        /**
+         * Create an event
+         */
+        createEvent: function (req, res) {
+            var event = new Event(req.body);
+            event.user = req.user;
+
+            event.save(function (err) {
+                if (err) {
+                    return res.status(500).json({
+                        error: 'Cannot save the event'
+                    });
+                }
+
+                Chapters.events.publish({
+                    action: 'created',
+                    user: {
+                        name: req.user.name
+                    },
+                    url: config.hostname + '/events/' + event._id,
+                    name: event.title
+                });
+
+                res.json(event);
+            });
+        },
+        /**
+         * Update an event
+         */
+        updateEvent: function (req, res) {
+            var event = req.event;
+
+            event = _.extend(event, req.body);
+
+
+            event.save(function (err) {
+                if (err) {
+                    return res.status(500).json({
+                        error: 'Cannot update the event'
+                    });
+                }
+
+                Chapters.events.publish({
+                    action: 'updated',
+                    user: {
+                        name: req.user.name
+                    },
+                    name: event.title,
+                    url: config.hostname + '/events/' + event._id
+                });
+
+                res.json(event);
+            });
+        },
+        /**
+         * Delete an event
+         */
+        destroyEvent: function (req, res) {
+            var event = req.event;
+
+
+            event.remove(function (err) {
+                if (err) {
+                    return res.status(500).json({
+                        error: 'Cannot delete the event'
+                    });
+                }
+
+                Chapters.events.publish({
+                    action: 'deleted',
+                    user: {
+                        name: req.user.name
+                    },
+                    name: event.title
+                });
+
+                res.json(event);
+            });
+        },
+        /**
+         * Show an event
+         */
+        showEvent: function (req, res) {
+
+            Chapters.events.publish({
+                action: 'viewed',
+                user: {
+                    name: req.user.name
+                },
+                name: req.event.title,
+                url: config.hostname + '/events/' + req.event._id
+            });
+
+            res.json(req.event);
+        },
+        /**
+         * List of Events
+         */
+        allEvents: function (req, res) {
+            var query = req.acl.query('Event');
+
+            query.find({}).sort('-created').populate('user', 'name username').exec(function (err, events) {
+                if (err) {
+                    return res.status(500).json({
+                        error: 'Cannot list the events'
+                    });
+                }
+
+                res.json(events)
+            });
+
+        }
+
     };
 }
