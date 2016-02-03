@@ -20,7 +20,10 @@
     <!--<div>Last Name: {{member.lastName}}</div>-->
     <!--<div>{{member.content}}</div>-->
     <!--</li>-->
+    <p>
     <label>Search: <input ng-model="searchText"></label>
+        <a href="/members/create">Create a member</a>
+    </p>
     <table class="table table-bordered table-striped">
 
         <thead>
@@ -98,4 +101,5 @@
 
     <h1 data-ng-hide="!members || members.length">No members yet. <br> Why don't you <a href="/members/create">Create
         One</a>?</h1>
+
 </section>

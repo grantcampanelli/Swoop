@@ -4,6 +4,8 @@
 
     <h2>Login</h2>
 
+    <p>Use the following information to login:
+        <strong>Authenticated User</strong> Username: authenticated@grantcampanelli.com Password: grantcampanelli</p>
     <form id="login_form" ng-submit="login.login()">
         <div class="input-wrapper">
             <input required id="email_block" type="email" name="email" placeholder="Email Address" ng-model="login.user.email">
@@ -26,9 +28,6 @@
             <button type="submit" class="submit_button">Login</button>
             <p>Don't have an account?</p>
             <a ui-sref='auth.register' >Sign up</a>
-        </div>
-        <div class="woman_ninja_bottom">
-            <img src="/theme/assets/img/woman_ninja.png" alt="#">
         </div>
     </form>
 </div>

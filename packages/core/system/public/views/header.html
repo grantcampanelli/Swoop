@@ -15,6 +15,17 @@
         <div class="collapse navbar-collapse" ng-class="isCollapsed && 'in'">
             <div class="left pull-left">
                 <ul class="navbar-nav nav">
+                    <!--<li data-ng-repeat="item in hdrctr.menus.main" ui-route="/{{item.link}}" data-ng-if="dropdown" class="dropdown" ng-class="{active: $uiRoute}">-->
+                    <!--<a mean-token="item.link" class="dropdown-toggle" href>{{item.title}}<b class="caret"></b></a>-->
+                    <!--<ul ng-show="item.dropdown" class="dropdown-menu">-->
+                    <!--<li ng-repeat="subitem in item.dropdown" ui-route="/{{subitem.link}}" ng-class="{active: $uiRoute, divider: subitem.divider}">-->
+                    <!--<a mean-token="subitem.link" ui-sref='{{subitem.link}}'>{{subitem.title}}</a>-->
+                    <!--</li>-->
+                    <!--</ul>-->
+                    <!--</li>-->
+                    <!--<li data-ng-repeat="item in hdrctr.menus.main" ui-route="/{{item.link}}" data-ng-if="!dropdown" class="dropdown" ng-class="{active: $uiRoute}">-->
+                    <!--<a mean-token="item.link" ui-sref="{{item.link}}">{{item.title}}</a>-->
+                    <!--</li>-->
                     <li ui-route="/{{item.link}}" ng-class="{active: $uiRoute}" ng-repeat="item in hdrctr.menus.main">
                         <a mean-token="item.link" ui-sref='{{item.link}}'>{{item.title}}</a>
                     </li>

@@ -14,7 +14,12 @@
 
 var globalAvailableChapters = ['Kappa Sigma', 'Alpha Chi Omega'];
 var globalAvailableCouncils = ['IFC', 'PHA', 'USFC'];
-var globalAvailableColleges = ['Business', 'Engineering', 'Agriculture'];
+var globalAvailableColleges = ['Orfalea College of Business',
+    'Agriculture Food & Environmental Sciences',
+    'Science and Mathematics',
+    'Engineering',
+    'Liberal Arts',
+    'Architecture'];
 
 angular.module('mean.chapters').controller('ChaptersController', ['$scope', '$stateParams', '$location', 'Global', 'Chapters', 'Members', 'MeanUser', 'Circles',
     function ($scope, $stateParams, $location, Global, Chapters, Members, MeanUser, Circles) {

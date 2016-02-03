@@ -39,11 +39,11 @@ module.exports = function(Chapters, app, auth) {
 
     app.route('/api/members')
         .get(chapters.allMembers)
-        .post(chapters.createMember);
+        .post(auth.requiresLogin, hasPermissions, chapters.createMember);
     app.route('/api/members/:memberId')
         .get(chapters.showMember)
-        .put(chapters.updateMember)
-        .delete(chapters.destroyMember);
+        .put(auth.isMongoId, auth.requiresLogin, hasPermissions, chapters.updateMember)
+        .delete(auth.isMongoId, auth.requiresLogin, hasPermissions, chapters.destroyMember);
 
     // Finish with setting up the memberId param
     app.param('memberId', chapters.member);

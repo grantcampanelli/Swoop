@@ -1,4 +1,4 @@
-<section data-ng-controller="MembersController">
+<section data-ng-controller="MembersController" data-ng-init="findAvailableChapters()">
     <form name="memberForm" class="form-horizontal col-md-6" role="form"
           data-ng-submit="createMember(memberForm.$valid)"
           novalidate>
@@ -30,7 +30,7 @@
                 <ui-select ng-model="member.chapter" append-to-body="'true'">
                     <ui-select-match placeholder="Select chapter...">{{$select.selected}}
                     </ui-select-match>
-                    <ui-select-choices repeat="chapter in availableChapters | filter:$select.search" name="chapter">
+                    <ui-select-choices repeat="chapter in chapterNames | filter:$select.search" name="chapter">
                         {{chapter}}
                     </ui-select-choices>
                 </ui-select>

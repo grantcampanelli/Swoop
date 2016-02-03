@@ -32,20 +32,23 @@ Chapters.register(function(app, auth, database) {
   Chapters.menus.add({
     'roles': ['authenticated'],
     'title': 'Chapters',
-    'link': 'all chapters'
+    'link': 'all chapters',
+    'menu': 'main'
   });
 
   Chapters.menus.add({
     'roles': ['authenticated'],
     'title': 'Members',
-    'link': 'all members'
+    'link': 'all members',
+    'menu': 'main'
   });
 
-  Chapters.menus.add({
-    'roles': ['authenticated'],
-    'title': 'New Member',
-    'link': 'create member'
-  });
+  //Chapters.menus.add({
+  //  'roles': ['authenticated'],
+  //  'title': 'New Member',
+  //  'link': 'create member',
+  //  'menu' : 'main'
+  //});
 
   Chapters.aggregateAsset('css', 'chapters.css');
 

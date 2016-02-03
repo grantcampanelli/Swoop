@@ -89,7 +89,8 @@ angular.module('mean.chapters').config(['$stateProvider',
                 url: '/chapters/create',
                 templateUrl: '/chapters/views/create-chapter.html',
                 requiredCircles: {
-                    circles: ['can create content']
+                    circles: ['can create content'],
+                    denyState: 'auth.login'
                 }
             })
             .state('edit chapter', {
@@ -119,14 +120,16 @@ angular.module('mean.chapters').config(['$stateProvider',
                 url: '/members/create',
                 templateUrl: '/chapters/views/create-member.html',
                 requiredCircles: {
-                    circles: ['can create content']
+                    circles: ['can create content'],
+                    denyState: 'auth.login'
                 }
             })
             .state('edit member', {
                 url: '/members/:memberId/edit',
                 templateUrl: '/chapters/views/edit-member.html',
                 requiredCircles: {
-                    circles: ['can edit content']
+                    circles: ['can edit content'],
+                    denyState: 'auth.login'
                 }
             })
             .state('member by id', {
