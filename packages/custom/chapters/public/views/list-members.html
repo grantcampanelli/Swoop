@@ -21,7 +21,7 @@
     <!--<div>{{member.content}}</div>-->
     <!--</li>-->
     <p>
-    <label>Search: <input ng-model="searchText"></label>
+        <label>Search: <input ng-model="searchText"></label>
         <a href="/members/create">Create a member</a>
     </p>
     <table class="table table-bordered table-striped">
@@ -48,7 +48,6 @@
                     Chapter <span ng-show="orderByField == 'chapter'">
            <span ng-show="!reverseSort"><i class="glyphicon glyphicon-chevron-up"></i></span>
           <span ng-show="reverseSort"><i class="glyphicon glyphicon-chevron-down"></i></span></span>
-                    </span>
                 </a>
             </th>
             <td>
@@ -57,6 +56,7 @@
             <td>
                 Delete
             </td>
+
         </tr>
         </thead>
         <tbody>
@@ -68,16 +68,19 @@
             <td>{{ member.firstName }}</td>
             <td>{{ member.lastName }}</td>
             <td>{{ member.chapter }}</td>
+            <span data-ng-if="hasAuthorization(member)">
             <td>
                 <a class="btn" href="/members/{{member._id}}/edit">
                     <i class="glyphicon glyphicon-edit"></i>
                 </a>
             </td>
+
             <td>
                 <a class="btn" data-ng-click="removeMember(member);">
                     <i class="glyphicon glyphicon-trash"></i>
                 </a>
             </td>
+            </span>
         </tr>
         </tbody>
     </table>

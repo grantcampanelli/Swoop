@@ -3,6 +3,7 @@ angular.module('mean.chapters').controller('MembersController', ['$scope', '$sta
         $scope.global = Global;
 
         $scope.hasAuthorization = function (member) {
+            console.log("checking authorization");
             if (!member || !member.user) return false;
             return MeanUser.isAdmin || member.user._id === MeanUser.user._id;
         };
