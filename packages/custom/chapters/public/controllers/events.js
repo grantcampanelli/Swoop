@@ -23,6 +23,10 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
 
         $scope.riskManagementTeamRequired = 1;
 
+        $scope.postGuestListRequired = 1;
+
+        $scope.thirdPartyEventManagementContractRequired = 1;
+
         $scope.riskManagementTeamPositions = function () {
             var array = [];
             array.push({'title': 'Inside 1', 'name': 'Grant Campanelli'});
