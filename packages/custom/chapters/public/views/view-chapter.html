@@ -23,6 +23,9 @@
   <!--<div class="chapter-members" data-ng-controller="ChaptersController" data-ng-init="findMembersFromChapter(chapter.name)">-->
   <div data-ng-controller="MembersController" data-ng-init="findMembers()">
     <h3>Members</h3>
+    <div ng-hide="hideMembers"><a ng-click="toggleHideMembers()">Hide Members</a></div>
+    <div ng-show="hideMembers"><a ng-click="toggleShowMembers()">Show Members</a></div>
+    <div ng-show="!hideMembers">
     <table class="table table-bordered table-striped">
 
       <thead>
@@ -42,14 +45,6 @@
           <span ng-show="reverseSort"><i class="glyphicon glyphicon-chevron-down"></i></span></span>
           </a>
         </th>
-        <!--<th>-->
-        <!--<a href="#" ng-click="orderByField='chapter'; reverseSort = !reverseSort">-->
-        <!--Chapter <span ng-show="orderByField == 'chapter'">-->
-        <!--<span ng-show="!reverseSort"><i class="glyphicon glyphicon-chevron-up"></i></span>-->
-        <!--<span ng-show="reverseSort"><i class="glyphicon glyphicon-chevron-down"></i></span></span>-->
-        <!--</span>-->
-        <!--</a>-->
-        <!--</th>-->
         <td>
           Edit
         </td>
@@ -127,6 +122,7 @@
         </tbody>
 
       </table>
+    </div>
       <h4 data-ng-hide="!(events|filter:chapter.name) || (events|filter:chapter.name).length">No events scheduled.</h4>
 
     </div>

@@ -234,6 +234,17 @@ angular.module('mean.chapters').controller('ChaptersController', ['$scope', '$st
             //$scope.members = $filter('filter')($scope.members, { chapter: chapterSpecified});
             //console.log($scope.members);
         }
+
+        $scope.hideMembers = 0;
+
+        $scope.toggleHideMembers = function () {
+            $scope.hideMembers = 1;
+        }
+
+        $scope.toggleShowMembers = function () {
+            $scope.hideMembers = 0;
+        }
     }
+
 ]);
 
