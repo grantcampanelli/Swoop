@@ -22,8 +22,8 @@
   "dependencies": {
     "assetmanager": "latest",
     "async": "latest",
-    "bower": "latest",
     "body-parser": "latest",
+    "bower": "latest",
     "compression": "latest",
     "connect-flash": "latest",
     "connect-modrewrite": "latest",
@@ -39,7 +39,7 @@
     "mongoose": "latest",
     "morgan": "latest",
     "ms": "latest",
-    "nodemailer": "latest",
+    "nodemailer": "https://registry.npmjs.org/nodemailer/-/nodemailer-1.4.0.tgz",
     "npm": "^2.1.0",
     "passport-facebook": "latest",
     "passport-github": "latest",
