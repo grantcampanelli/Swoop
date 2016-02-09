@@ -67,7 +67,7 @@ Chapters.register(function(app, auth, database) {
   //});
 
   Chapters.aggregateAsset('css', 'chapters.css');
-  Chapters.aggregateAsset('js','../../bower_compnents/angular-chart.js/dist/angular-chart.js');
+  //Chapters.aggregateAsset('js','../../bower_compnents/angular-chart.js/dist/angular-chart.js');
 
   /**
     //Uncomment to use. Requires meanio@0.3.7 or above
