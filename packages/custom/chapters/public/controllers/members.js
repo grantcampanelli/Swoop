@@ -3,7 +3,6 @@ angular.module('mean.chapters').controller('MembersController', ['$scope', '$sta
         $scope.global = Global;
 
         $scope.hasAuthorization = function (member) {
-            console.log("checking authorization");
             if (!member || !member.user) return false;
             return MeanUser.isAdmin || member.user._id === MeanUser.user._id;
         };
@@ -118,6 +117,7 @@ angular.module('mean.chapters').controller('MembersController', ['$scope', '$sta
                 //console.log(members);
                 $scope.members = members;
                 $scope.membersLoading = 0;
+                $scope.exportMembers();
             });
         };
 
@@ -128,5 +128,24 @@ angular.module('mean.chapters').controller('MembersController', ['$scope', '$sta
                 $scope.member = member;
             });
         };
+        $scope.exportArray = [];
+
+        $scope.exportMembers = function () {
+            var newMember = [];
+            Members.query(function (members) {
+                members.forEach(function (member) {
+                    newMember = [];
+                    newMember = {
+                        'firstName': member.firstName,
+                        'lastName': member.lastName,
+                        'calpolyemail': member.calpolyemail,
+                        'phone': member.phone,
+                        'chapter': member.chapter
+                    };
+                    $scope.exportArray.push(newMember);
+                });
+            });
+
+        }
     }
 ]);

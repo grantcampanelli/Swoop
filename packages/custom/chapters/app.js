@@ -67,6 +67,10 @@ Chapters.register(function(app, auth, database) {
   //});
 
   Chapters.aggregateAsset('css', 'chapters.css');
+  Chapters.angularDependencies(['ngSanitize', 'ngCsv']);
+  //Chapters.aggregateAsset('js', 'angular-sanitize/angular-sanitize.min.js');
+  //Chapters.aggregateAsset('js', 'ng-csv/build/ng-csv.min.js');
+
 
   /**
     //Uncomment to use. Requires meanio@0.3.7 or above

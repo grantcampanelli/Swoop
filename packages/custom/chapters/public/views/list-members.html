@@ -23,7 +23,9 @@
     <p>
         <label>Search: <input ng-model="searchText"></label>
         <a href="/members/create">Create a member</a>
-    </p>
+        <a ng-hide="membersLoading" style="text-decoration: none;"> | </a> <a href="" ng-hide="membersLoading"
+                                                                              type="button" ng-csv="exportArray"
+                                                                              filename="test.csv">Export Members</a></a>
     <table class="table table-bordered table-striped">
 
         <thead>
@@ -108,5 +110,6 @@
 
     <h1 data-ng-hide="!members || members.length">No members yet. <br> Why don't you <a href="/members/create">Create
         One</a>?</h1>
+
 
 </section>
