@@ -17,6 +17,23 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
          *
          */
 
+        $scope.guestListRequired = 1;
+
+        $scope.riskManagementDocumentRequired = 1;
+
+        $scope.riskManagementTeamRequired = 1;
+
+        $scope.riskManagementTeamPositions = function () {
+            var array = [];
+            array.push({'title': 'Inside 1', 'name': 'Grant Campanelli'});
+            array.push({'title': 'Inside 2', 'name': 'Grant Campanelli'});
+            array.push({'title': 'Inside 3', 'name': 'Grant Campanelli'});
+            array.push({'title': 'Inside 4', 'name': 'Grant Campanelli'});
+            console.log(array)
+            return array;
+        }();
+
+
         $scope.chapterNames = [];
 
         $scope.findAvailableChapters = function () {
@@ -164,7 +181,11 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
                 eventId: $stateParams.eventId
             }, function (event) {
                 $scope.event = event;
+                console.log('eventID' + $stateParams.eventId);
+                console.log(event);
             });
         };
+
+
     }
 ]);

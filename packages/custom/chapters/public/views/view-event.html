@@ -17,7 +17,38 @@
     <div>Event Start Time: {{event.starttime}}</div>
     <div>Event End Time: {{event.endtime}}</div>
     <div>Event Address: {{event.address}}</div>
+    <hr>
     <div>
-        <h3>Deliverables</h3>
+        <h2>Deliverables</h2>
+    </div>
+    <div id="guestList" ng-show="guestListRequired">
+        <hr>
+        <h3>Guest List</h3>
+        <a href="#">Click here to submit guest list</a>
+    </div>
+    <div id="riskManagementDocument" ng-show="riskManagementDocumentRequired">
+        <hr>
+        <h3>Risk Management Document</h3>
+        <a href="#">Click here to submit risk management document</a>
+    </div>
+    <div id="riskManagementTeam" ng-show="riskManagementTeamRequired">
+        <hr>
+        <h3>Risk Management Team</h3>
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>Responsibility</th>
+                <th>Member</th>
+                <th>Email</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="position in riskManagementTeamPositions">
+                <td>{{position.title}}</td>
+                <td>{{position.name}}</td>
+                <td>grantcampanelli@gmail.com</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </section>
