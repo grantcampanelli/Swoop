@@ -111,10 +111,13 @@ angular.module('mean.chapters').controller('MembersController', ['$scope', '$sta
             }
         };
 
+        $scope.membersLoading = 1;
+
         $scope.findMembers = function () {
             Members.query(function (members) {
                 //console.log(members);
                 $scope.members = members;
+                $scope.membersLoading = 0;
             });
         };
 

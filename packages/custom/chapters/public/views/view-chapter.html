@@ -75,6 +75,9 @@
       </tr>
       </tbody>
     </table>
+      <div ng-show="membersLoading">
+        <h3>Loading members...</h3>
+      </div>
     <h4 data-ng-hide="!(members|filter:chapter.name) || (members|filter:chapter.name).length">No members yet.</h4>
   </div>
   <hr>
@@ -122,6 +125,7 @@
         </tbody>
 
       </table>
+
     </div>
       <h4 data-ng-hide="!(events|filter:chapter.name) || (events|filter:chapter.name).length">No events scheduled.</h4>
 

@@ -1,5 +1,5 @@
 <section data-ng-controller="MembersController" data-ng-init="findMembers()">
-
+    <h1>Members</h1>
     <!--<ul class="members unstyled">-->
     <!--<li data-ng-repeat="member in members">-->
     <!--<span>{{member.created | date:'medium'}}</span> /-->
@@ -84,6 +84,10 @@
         </tr>
         </tbody>
     </table>
+
+    <div ng-show="membersLoading">
+        <h1>Loading members...</h1>
+    </div>
     <!--<li data-ng-repeat="member in members">-->
     <!--<p>First Name: {{member.firstName}} Last Name: {{member.lastName}}-->
     <!--<a data-ng-href="/members/{{member._id}}">Member Title: {{member.title}}</a>-->
