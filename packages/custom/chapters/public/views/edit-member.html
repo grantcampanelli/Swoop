@@ -25,12 +25,12 @@
         </div>
         <div class="form-group" ng-class="{ 'has-error' : submitted && memberForm.chapter.$invalid }">
             <label mean-token="'edit-chapter'" class="col-md-3 control-label">Your Chapter</label>
-            <div class="col-md-9">
+            <div class="col-md-9" data-ng-init="findAvailableChapters()">
 
                 <ui-select ng-model="member.chapter" append-to-body="'true'">
                     <ui-select-match placeholder="Select chapter...">{{$select.selected}}
                     </ui-select-match>
-                    <ui-select-choices repeat="chapter in availableChapters | filter:$select.search" name="chapter">
+                    <ui-select-choices repeat="chapter in chapterNames | filter:$select.search" name="chapter">
                         {{chapter}}
                     </ui-select-choices>
                 </ui-select>
