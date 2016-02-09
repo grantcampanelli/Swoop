@@ -22,9 +22,8 @@ angular.module('mean.chapters').controller('MembersController', ['$scope', '$sta
                     $scope.chapterNames.push(chapter.name);
                 })
                 $scope.chapterNames.sort();
-                console.log($scope.chapterNames);
             });
-        };
+        }
 
 
         $scope.availableColleges = globalAvailableColleges;
@@ -128,4 +127,3 @@ angular.module('mean.chapters').controller('MembersController', ['$scope', '$sta
         };
     }
 ]);
-

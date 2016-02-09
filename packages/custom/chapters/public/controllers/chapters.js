@@ -94,13 +94,6 @@ angular.module('mean.chapters').controller('ChaptersController', ['$scope', '$st
             //});
         };
 
-        /* paginating members */
-        //$scope.currentPage = 0;
-        //$scope.pageSize = 10;
-        //$scope.numberOfPages = function(){
-        //    return Math.ceil($scope.members.length/$scope.pageSize);
-        //};
-
 
         /*
          * End Custom code
@@ -227,9 +220,7 @@ angular.module('mean.chapters').controller('ChaptersController', ['$scope', '$st
             Members.query(function (members) {
                 $scope.members = members;
                 console.log($scope.members);
-                //$scope.numberOfPages();
             });
-
 
 
             //Members.get({}, function(member) {

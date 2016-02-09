@@ -19,15 +19,12 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
 
         $scope.chapterNames = [];
 
-
         $scope.findAvailableChapters = function () {
             Chapters.query(function (chapters) {
                 chapters.forEach(function (chapter) {
                     $scope.chapterNames.push(chapter.name);
                 })
                 $scope.chapterNames.sort();
-                console.log("Finished avaiable chapters");
-                console.log($scope.chapterNames);
             });
         };
 
@@ -159,7 +156,6 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
         $scope.findEvents = function () {
             Events.query(function (events) {
                 $scope.events = events;
-                console.log(events);
             });
         };
 
