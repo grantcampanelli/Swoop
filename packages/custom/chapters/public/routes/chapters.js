@@ -3,80 +3,6 @@
 angular.module('mean.chapters').config(['$stateProvider',
     function ($stateProvider) {
         $stateProvider
-            //.state('members example page', {
-            //    url: '/members/example',
-            //    templateUrl: 'members/views/index.html'
-            //})
-            //.state('members allchapters', {
-            //    url: '/members/allchapters',
-            //    templateUrl: 'members/views/allchapters.html'
-            //})
-            //.state('members kappasigma', {
-            //    url: '/members/kappasigma',
-            //    templateUrl: 'members/views/kappasigma.html'
-            //})
-            //.state('members chapter1', {
-            //    url: '/members/chapter1',
-            //    templateUrl: '/members/views/chapter1.html'
-            //    /*
-            //     ,
-            //     requiredCircles : {
-            //     circles: ['can create content']
-            //     }
-            //     */
-            //})
-            //.state('members chapter2', {
-            //    url: '/members/chapter2',
-            //    templateUrl: 'members/views/chapter2.html'
-            //})
-            //.state('members chapter3', {
-            //    url: '/members/chapter3',
-            //    templateUrl: 'members/views/chapter3.html'
-            //})
-            //.state('members chapter4', {
-            //    url: '/members/chapter4',
-            //    templateUrl: 'members/views/chapter4.html'
-            //})
-            //.state('members chapter5', {
-            //    url: '/members/chapter5',
-            //    templateUrl: 'members/views/chapter5.html'
-            //})
-            //.state('members chapter6', {
-            //    url: '/members/chapter6',
-            //    templateUrl: 'members/views/chapter6.html'
-            //})
-            //.state('all members', {
-            //    url: '/members',
-            //    templateUrl: '/members/views/list.html',
-            //    requiredCircles: {
-            //        circles: ['authenticated'],
-            //        denyState: 'auth.login'
-            //    }
-            //})
-            //.state('create member', {
-            //    url: '/members/create',
-            //    templateUrl: '/members/views/create.html',
-            //    requiredCircles: {
-            //        circles: ['can create content']
-            //    }
-            //})
-            //.state('edit member', {
-            //    url: '/members/:memberId/edit',
-            //    templateUrl: '/members/views/edit.html',
-            //    requiredCircles: {
-            //        circles: ['can edit content']
-            //    }
-            //})
-            //.state('member by id', {
-            //    url: '/members/:memberId',
-            //    templateUrl: '/members/views/view.html',
-            //    requiredCircles: {
-            //        circles: ['authenticated'],
-            //        denyState: 'auth.login'
-            //    }
-            //})
-
-
             .state('all chapters', {
                 url: '/chapters',
                 templateUrl: '/chapters/views/list-chapters.html',
@@ -89,16 +15,24 @@ angular.module('mean.chapters').config(['$stateProvider',
                 url: '/chapters/create',
                 templateUrl: '/chapters/views/create-chapter.html',
                 requiredCircles: {
-                    circles: ['can create content'],
+                    circles: ['authenticated'],
                     denyState: 'auth.login'
                 }
+                //{
+                //    circles: ['can create content'],
+                //    denyState: 'auth.login'
+                //}
             })
             .state('edit chapter', {
                 url: '/chapters/:chapterId/edit',
                 templateUrl: '/chapters/views/edit-chapter.html',
                 requiredCircles: {
-                    circles: ['can edit content']
+                    circles: ['authenticated'],
+                    denyState: 'auth.login'
                 }
+                //{
+                //    circles: ['can edit content']
+                //}
             })
             .state('chapter by id', {
                 url: '/chapters/:chapterId',
@@ -120,17 +54,25 @@ angular.module('mean.chapters').config(['$stateProvider',
                 url: '/members/create',
                 templateUrl: '/chapters/views/create-member.html',
                 requiredCircles: {
-                    circles: ['can create content'],
+                    circles: ['authenticated'],
                     denyState: 'auth.login'
                 }
+                //{
+                //    circles: ['can create content'],
+                //    denyState: 'auth.login'
+                //}
             })
             .state('edit member', {
                 url: '/members/:memberId/edit',
                 templateUrl: '/chapters/views/edit-member.html',
                 requiredCircles: {
-                    circles: ['can edit content'],
+                    circles: ['authenticated'],
                     denyState: 'auth.login'
                 }
+                //{
+                //    circles: ['can edit content'],
+                //    denyState: 'auth.login'
+                //}
             })
             .state('member by id', {
                 url: '/members/:memberId',
@@ -152,15 +94,23 @@ angular.module('mean.chapters').config(['$stateProvider',
                 url: '/events/create',
                 templateUrl: '/chapters/views/create-event.html',
                 requiredCircles: {
-                    circles: ['can create content']
+                    circles: ['authenticated'],
+                    denyState: 'auth.login'
                 }
+                //{
+                //    circles: ['can create content']
+                //}
             })
             .state('edit event', {
                 url: '/events/:eventId/edit',
                 templateUrl: '/chapters/views/edit-event.html',
                 requiredCircles: {
-                    circles: ['can edit content']
-                }
+                    circles: ['authenticated'],
+                    denyState: 'auth.login'
+                    //}
+                    //{
+                    //    circles: ['can edit content']
+                    //}
             })
             .state('event by id', {
                 url: '/events/:eventId',
