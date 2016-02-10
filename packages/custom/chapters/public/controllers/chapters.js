@@ -235,7 +235,7 @@ angular.module('mean.chapters').controller('ChaptersController', ['$scope', '$st
             //console.log($scope.members);
         }
 
-        $scope.hideMembers = 0;
+        $scope.hideMembers = 1;
 
         $scope.toggleHideMembers = function () {
             $scope.hideMembers = 1;

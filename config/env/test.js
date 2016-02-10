@@ -13,7 +13,7 @@ module.exports = {
     format: 'common'
   },
   app: {
-    name: 'SWOOP'
+    name: 'LEGACY'
   },
   strategies: {
     local: {

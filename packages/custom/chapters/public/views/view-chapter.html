@@ -75,8 +75,16 @@
   <!--<div class="chapter-members" data-ng-controller="ChaptersController" data-ng-init="findMembersFromChapter(chapter.name)">-->
   <div data-ng-controller="MembersController" data-ng-init="findMembers()">
     <h3>Members</h3>
-    <div ng-hide="hideMembers"><a ng-click="toggleHideMembers()">Hide Members</a></div>
-    <div ng-show="hideMembers"><a ng-click="toggleShowMembers()">Show Members</a></div>
+    <div style="padding-bottom: 5px;">
+      <button class="btn btn-small" ng-hide="hideMembers" ng-click="toggleHideMembers()">
+        <i class="glyphicon glyphicon-user"></i>
+        Hide Members
+      </button>
+      <button class="btn btn-small" ng-show="hideMembers" ng-click="toggleShowMembers()">
+        <i class="glyphicon glyphicon-user"></i>
+        Show Members
+      </button>
+    </div>
     <div ng-show="!hideMembers">
     <table class="table table-bordered table-striped">
 

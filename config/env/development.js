@@ -13,7 +13,7 @@ module.exports = {
   },
   hostname: 'http://localhost:3000',
   app: {
-    name: 'SWOOP'
+    name: 'LEGACY'
   },
   strategies: {
     local: {
