@@ -107,6 +107,7 @@ angular.module('mean.chapters').config(['$stateProvider',
                 requiredCircles: {
                     circles: ['authenticated'],
                     denyState: 'auth.login'
+                }
                     //}
                     //{
                     //    circles: ['can edit content']
