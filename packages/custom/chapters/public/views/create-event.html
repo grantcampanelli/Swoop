@@ -229,7 +229,7 @@
 
 
         <!-- TODO add validation -->
-        <div class="form-group">
+        <div class="form-group" ng-show="event.alcoholPresent">
             <label mean-token="'create-verifyDrinkingAgeID'" class="col-md-3">
                 To verify that guests are of legal drinking age, please select at least one
                 form of ID that you will accept
@@ -246,7 +246,8 @@
             </div>
         </div>
 
-        <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.verifyAgeWhileServing.$invalid }">
+        <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.verifyAgeWhileServing.$invalid }"
+             ng-show="event.alcoholPresent">
             <label mean-token="'create-verifyAgeWhileServing'" class="col-md-3">
                 How will those serving or providing alcoholic beverages identify persons of legal drinking age?
             </label>
