@@ -20,6 +20,57 @@
       </tbody>
     </table>
   </div>
+
+  <hr>
+  <div>
+    <h3>Events</h3>
+    <div data-ng-controller="EventsController" data-ng-init="findEvents()">
+      <!--<div><label>Search: <input ng-model="searchText"></label></div>-->
+      <table class="table table-bordered table-striped">
+
+        <thead>
+        <tr>
+          <th>
+            <a href="#" ng-click="orderByField='chapter'; reverseSort = !reverseSort">
+              Chapter <span ng-show="orderByField == 'chapter'">
+          <span ng-show="!reverseSort"><i class="glyphicon glyphicon-chevron-up"></i></span>
+          <span ng-show="reverseSort"><i class="glyphicon glyphicon-chevron-down"></i></span></span>
+            </a>
+          </th>
+          <th>
+            <a href="#" ng-click="orderByField='title'; reverseSort = !reverseSort">
+              Event Title <span ng-show="orderByField == 'title'">
+          <span ng-show="!reverseSort"><i class="glyphicon glyphicon-chevron-up"></i></span>
+          <span ng-show="reverseSort"><i class="glyphicon glyphicon-chevron-down"></i></span></span>
+            </a>
+          </th>
+          <th>
+            <a href="#" ng-click="orderByField='created'; reverseSort = !reverseSort">
+              Date Submitted <span ng-show="orderByField == 'created'">
+          <span ng-show="!reverseSort"><i class="glyphicon glyphicon-chevron-up"></i></span>
+          <span ng-show="reverseSort"><i class="glyphicon glyphicon-chevron-down"></i></span></span>
+            </a>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="event in events|orderBy:orderByField:reverseSort|filter:chapter.name">
+
+          <td>{{ event.chapter }}</td>
+          <td><a data-ng-href="/events/{{event._id}}">{{ event.title }}</a></td>
+          <td>
+            <span>{{event.created | date:'medium'}}</span>
+          </td>
+
+        </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+    <h4 data-ng-hide="!(events|filter:chapter.name) || (events|filter:chapter.name).length">No events scheduled.</h4>
+
+  </div>
   <hr>
   <!--<div class="chapter-members" data-ng-controller="ChaptersController" data-ng-init="findMembersFromChapter(chapter.name)">-->
   <div data-ng-controller="MembersController" data-ng-init="findMembers()">
@@ -81,58 +132,9 @@
       </div>
     <h4 data-ng-hide="!(members|filter:chapter.name) || (members|filter:chapter.name).length">No members yet.</h4>
   </div>
-  <hr>
-  <div>
-    <h3>Events</h3>
-    <div data-ng-controller="EventsController" data-ng-init="findEvents()">
-      <!--<div><label>Search: <input ng-model="searchText"></label></div>-->
-      <table class="table table-bordered table-striped">
-
-        <thead>
-        <tr>
-          <th>
-            <a href="#" ng-click="orderByField='chapter'; reverseSort = !reverseSort">
-              Chapter <span ng-show="orderByField == 'chapter'">
-          <span ng-show="!reverseSort"><i class="glyphicon glyphicon-chevron-up"></i></span>
-          <span ng-show="reverseSort"><i class="glyphicon glyphicon-chevron-down"></i></span></span>
-            </a>
-          </th>
-          <th>
-            <a href="#" ng-click="orderByField='title'; reverseSort = !reverseSort">
-              Event Title <span ng-show="orderByField == 'title'">
-          <span ng-show="!reverseSort"><i class="glyphicon glyphicon-chevron-up"></i></span>
-          <span ng-show="reverseSort"><i class="glyphicon glyphicon-chevron-down"></i></span></span>
-            </a>
-          </th>
-          <th>
-            <a href="#" ng-click="orderByField='created'; reverseSort = !reverseSort">
-              Date Submitted <span ng-show="orderByField == 'created'">
-          <span ng-show="!reverseSort"><i class="glyphicon glyphicon-chevron-up"></i></span>
-          <span ng-show="reverseSort"><i class="glyphicon glyphicon-chevron-down"></i></span></span>
-            </a>
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="event in events|orderBy:orderByField:reverseSort|filter:chapter.name">
-
-          <td>{{ event.chapter }}</td>
-          <td><a data-ng-href="/events/{{event._id}}">{{ event.title }}</a></td>
-          <td>
-            <span>{{event.created | date:'medium'}}</span>
-          </td>
-
-        </tr>
-        </tbody>
-
-      </table>
-
-    </div>
-      <h4 data-ng-hide="!(events|filter:chapter.name) || (events|filter:chapter.name).length">No events scheduled.</h4>
-
-    </div>
   </div>
   <hr>
+
   <div>
     <h3>Grades</h3>
     <p>Not Implemented Yet</p>

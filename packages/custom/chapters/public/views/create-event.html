@@ -39,6 +39,33 @@
             </div>
         </div>
 
+        <!-- TODO add validation -->
+        <div class="form-group">
+            <label mean-token="'create-eventType'" class="col-md-3 control-label">Event Type</label>
+            <div class="col-md-9">
+                <ui-select ng-model="event.eventType" append-to-body="'true'">
+                    <ui-select-match placeholder="Select event type...">{{$select.selected}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="eventType in eventTypes | filter:$select.search" name="eventType">
+                        {{eventType}}
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.attendance.$invalid }">
+            <label mean-token="'create-attendance'" class="col-md-3 control-label">Event Attendance</label>
+            <div class="col-md-9">
+                <input name="attendance" type="number" class="form-control" data-ng-model="event.attendance"
+                       id="attendance"
+                       placeholder="#" required>
+                <div ng-show="submitted && eventForm.attendance.$invalid" class="help-block">
+                    <p ng-show="eventForm.attendance.$error.required">Event Attendance is
+                        required</p>
+                </div>
+            </div>
+        </div>
+
         <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.pointofcontact.$invalid }">
             <label mean-token="'create-pointofcontact'" class="col-md-3 control-label">Event Point of Contact</label>
             <div class="col-md-9">
@@ -56,40 +83,6 @@
                 </div>
             </div>
         </div>
-        <!--<div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.president.$invalid }">-->
-        <!--<label mean-token="'create-president'" class="col-md-3 control-label">President's Email</label>-->
-        <!--<div class="col-md-9">-->
-        <!--<input name="president" type="text" class="form-control" data-ng-model="event.president" id="president"-->
-        <!--placeholder="President@fraternity.com" required>-->
-        <!--<div ng-show="submitted && eventForm.president.$invalid" class="help-block">-->
-        <!--<p ng-show="eventForm.president.$error.required">President's Email is required</p>-->
-        <!--</div>-->
-        <!--</div>-->
-
-        <!--</div>-->
-
-        <!--<div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.socialchair.$invalid }">-->
-        <!--<label mean-token="'create-socialchair'" class="col-md-3 control-label">Social Chair's Email</label>-->
-        <!--<div class="col-md-9">-->
-        <!--<input name="socialchair" type="text" class="form-control" data-ng-model="event.socialchair" id="socialchair"-->
-        <!--placeholder="SocialChair@fraternity.com" required>-->
-        <!--<div ng-show="submitted && eventForm.socialchair.$invalid" class="help-block">-->
-        <!--<p ng-show="eventForm.socialchair.$error.required">Social Chair's Email is required</p>-->
-        <!--</div>-->
-        <!--</div>-->
-
-        <!--</div>-->
-
-        <!--<div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.riskmanager.$invalid }">-->
-        <!--<label mean-token="'create-riskmanager'" class="col-md-3 control-label">Risk Manager's Email</label>-->
-        <!--<div class="col-md-9">-->
-        <!--<input name="riskmanager" type="text" class="form-control" data-ng-model="event.riskmanager" id="riskmanager"-->
-        <!--placeholder="RiskManager@fraternity.com" required>-->
-        <!--<div ng-show="submitted && eventForm.riskmanager.$invalid" class="help-block">-->
-        <!--<p ng-show="eventForm.riskmanager.$error.required">Risk Manager's Email is required</p>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
 
         <div class="form-group pointofcontactother ng-hide"
              ng-class="{ 'has-error' : submitted && eventForm.contactName.$invalid }">
@@ -207,38 +200,162 @@
             </div>
         </div>
 
-        <!--<div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.address.$invalid }">-->
-        <!--<label mean-token="'create-address'" class="col-md-3 control-label">Event Address</label>-->
-        <!--<div class="col-md-9">-->
-        <!--<input name="address" type="text" class="form-control" data-ng-model="event.address"-->
-        <!--id="address"-->
-        <!--placeholder="Address" required>-->
-        <!--<div ng-show="submitted && eventForm.address.$invalid" class="help-block">-->
-        <!--<p ng-show="eventForm.address.$error.required">Event Address is-->
-        <!--required</p>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
 
+        <!-- TODO add validation -->
         <div class="form-group">
-            <label mean-token="'permissions'" for="permissions" class="col-md-3 control-label">Permissions</label>
+            <label mean-token="'create-coHosts'" class="col-md-3 control-label">Other Chapters Co-Hosting Event</label>
             <div class="col-md-9">
-                <ui-select multiple ng-model="event.permissions" append-to-body="'true'" on-select="selectPermission()">
-                    <ui-select-match placeholder="Select permissions..." ng-click="showDescendants();">{{$item}}
+                <ui-select multiple ng-model="event.coHosts" append-to-body="'true'">
+                    <ui-select-match placeholder="Select chapters...">{{$item}}
                     </ui-select-match>
-                    <ui-select-choices repeat="circle in availableCircles | filter:$select.search" name="permissions">
-                        {{circle}}
+                    <ui-select-choices repeat="coHost in chapterNames | filter:$select.search" name="coHosts">
+                        {{coHost}}
                     </ui-select-choices>
                 </ui-select>
             </div>
         </div>
 
-        <div class="form-group" ng-show="descendants.length">
-            <label mean-token="'descendants'" for="descendants" class="col-md-3 control-label">Descendants</label>
-            <div class="col-md-9">
-                <span ng-repeat="descendant in descendants">{{descendant}} <span ng-hide="$last">, </span></span>
+
+        <!-- TODO add validation -->
+        <div class="form-group">
+            <label mean-token="'create-alcoholPresent'" class="col-md-3">
+                Will alcohol be present during this event?
+            </label>
+            <div class="col-md-9 radio">
+                <label><input type="radio" ng-model="event.alcoholPresent" ng-value="true">Yes</label>
+                <label><input type="radio" ng-model="event.alcoholPresent" ng-value="false">No</label>
             </div>
         </div>
+
+
+        <!-- TODO add validation -->
+        <div class="form-group">
+            <label mean-token="'create-verifyDrinkingAgeID'" class="col-md-3">
+                To verify that guests are of legal drinking age, please select at least one
+                form of ID that you will accept
+            </label>
+            <div class="col-md-9">
+                <ui-select multiple ng-model="event.verifyDrinkingAgeID" append-to-body="'true'">
+                    <ui-select-match placeholder="Select forms of verification...">{{$item}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="identification in identifications | filter:$select.search"
+                                       name="verifyDrinkingAgeID">
+                        {{identification}}
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.verifyAgeWhileServing.$invalid }">
+            <label mean-token="'create-verifyAgeWhileServing'" class="col-md-3">
+                How will those serving or providing alcoholic beverages identify persons of legal drinking age?
+            </label>
+            <div class="col-md-9">
+                <input name="verifyAgeWhileServing" type="text" class="form-control"
+                       data-ng-model="event.verifyAgeWhileServing"
+                       id="verifyAgeWhileServing"
+                       placeholder="Ways to verify..." required>
+                <div ng-show="submitted && eventForm.verifyAgeWhileServing.$invalid" class="help-block">
+                    <p ng-show="eventForm.verifyAgeWhileServing.$error.required">Verification
+                        required</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TODO add validation -->
+        <div class="form-group">
+            <label mean-token="'create-security'" class="col-md-3">
+                Will a security service be hired for this event?
+            </label>
+            <div class="col-md-9 radio">
+                <label><input type="radio" ng-model="event.security" ng-value="true">Yes</label>
+                <label><input type="radio" ng-model="event.security" ng-value="false">No</label>
+            </div>
+        </div>
+
+        <!-- TODO add validation -->
+        <div class="form-group">
+            <label mean-token="'create-thirdPartyEventManagement'" class="col-md-3">
+                Will you be hiring a 3rd party event management company (for example, Obsession Entertainment)?
+            </label>
+            <div class="col-md-9 radio">
+                <label><input type="radio" ng-model="event.thirdPartyEventManagement" ng-value="true">Yes</label>
+                <label><input type="radio" ng-model="event.thirdPartyEventManagement" ng-value="false">No</label>
+            </div>
+        </div>
+
+        <!-- TODO add validation -->
+        <div class="form-group">
+            <label mean-token="'create-entertainmentServices'" class="col-md-3">
+                Will any entertainment services be hired for this event? (ex: band, DJ, etc.)
+            </label>
+            <div class="col-md-9 radio">
+                <label><input type="radio" ng-model="event.entertainmentServices" ng-value="true">Yes</label>
+                <label><input type="radio" ng-model="event.entertainmentServices" ng-value="false">No</label>
+            </div>
+        </div>
+
+        <!-- TODO add validation -->
+        <div class="form-group">
+            <label mean-token="'create-awareOfLaws'" class="col-md-3">
+                I am aware that all fraternity and sorority functions are subject to applicable governmental laws
+                and regulations, and the rules, regulations and policies set forth by Cal Poly, the CSU Board of
+                Trustees and national policies regarding social events and alcohol of sponsoring organizations.
+            </label>
+            <div class="col-md-9 radio">
+                <label><input type="radio" ng-model="event.awareOfLaws" ng-value="true">Yes</label>
+                <label><input type="radio" ng-model="event.awareOfLaws" ng-value="false">No</label>
+            </div>
+        </div>
+
+        <!-- TODO add validation -->
+        <div class="form-group">
+            <label mean-token="'create-confirmAccuracy'" class="col-md-3">
+                I confirm the information on this form is accurate and I am a qualified representative of my
+                organization. I understand this is not an approval of my event and it is subject to change after
+                being reviewed by university staff. Any issues that may arise from this event will be investigated
+                by the university. In those cases, I understand my organization has the right to a fair
+                investigation and judicial hearing.
+            </label>
+            <div class="col-md-9 radio">
+                <label><input type="radio" ng-model="event.confirmAccuracy" ng-value="true">Yes</label>
+                <label><input type="radio" ng-model="event.confirmAccuracy" ng-value="false">No</label>
+            </div>
+        </div>
+
+        <!-- TODO add validation -->
+        <div class="form-group">
+            <label mean-token="'create-confAddRequirements'" class="col-md-3">
+                A list of additional requirements has been automatically generated and added to your event
+                dashboard. Please submit all necessary contracts, agreements, and other requirements by the due
+                date specified. You may review these requirements at any time by logging into your VeriSky account.
+                I agree to complete all additional requirements by the specified due date.
+            </label>
+            <div class="col-md-9 radio">
+                <label><input type="radio" ng-model="event.confAddRequirements" ng-value="true">Yes</label>
+                <label><input type="radio" ng-model="event.confAddRequirements" ng-value="false">No</label>
+            </div>
+        </div>
+
+        <!--<div class="form-group">-->
+        <!--<label mean-token="'permissions'" for="permissions" class="col-md-3 control-label">Permissions</label>-->
+        <!--<div class="col-md-9">-->
+        <!--<ui-select multiple ng-model="event.permissions" append-to-body="'true'" on-select="selectPermission()">-->
+        <!--<ui-select-match placeholder="Select permissions..." ng-click="showDescendants();">{{$item}}-->
+        <!--</ui-select-match>-->
+        <!--<ui-select-choices repeat="circle in availableCircles | filter:$select.search" name="permissions">-->
+        <!--{{circle}}-->
+        <!--</ui-select-choices>-->
+        <!--</ui-select>-->
+        <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="form-group" ng-show="descendants.length">-->
+        <!--<label mean-token="'descendants'" for="descendants" class="col-md-3 control-label">Descendants</label>-->
+        <!--<div class="col-md-9">-->
+        <!--<span ng-repeat="descendant in descendants">{{descendant}} <span ng-hide="$last">, </span></span>-->
+        <!--</div>-->
+        <!--</div>-->
 
         <div class="form-group">
             <div class="col-md-offset-3 col-md-9">

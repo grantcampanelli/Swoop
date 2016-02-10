@@ -63,6 +63,48 @@ var EventSchema = new Schema({
     address: {
         type: String
     },
+    eventType: {
+        type: String
+    },
+    coHosts: {
+        type: Array
+    },
+    thirdPartyEventManagement: {
+        type: Boolean
+    },
+    attendance: {
+        type: Number
+    },
+    alcoholPresent: {
+        type: Boolean
+    },
+    verifyDrinkingAgeID: {
+        type: Array
+    },
+    verifyAgeWhileServing: {
+        type: String
+    },
+    howAlcoholProvided: {
+        type: String
+    },
+    transportation: {
+        type: String
+    },
+    security: {
+        type: Boolean
+    },
+    entertainmentServices: {
+        type: Boolean
+    },
+    awareOfLaws: {
+        type: Boolean
+    },
+    confirmAccuracy: {
+        type: Boolean
+    },
+    confAddRequirements: {
+        type: Boolean
+    },
     permissions: {
         type: Array
     },

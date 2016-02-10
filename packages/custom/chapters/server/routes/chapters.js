@@ -61,5 +61,4 @@ module.exports = function(Chapters, app, auth) {
     // Finish with setting up the eventId param
     app.param('eventId', chapters.event);
 
-
 };

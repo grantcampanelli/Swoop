@@ -1,22 +1,23 @@
 <section data-ng-controller="EventsController" data-ng-init="findOneEvent()">
-    <span>{{event.created | date:'medium'}}</span> /
+    <span>{{event.created | date:'mediumDate'}}</span> /
     <span>{{event.user.name}}</span>
-    <h2>{{event.title}}</h2>
+    <h2>{{event.chapter}} | {{event.title}}</h2>
+    <div>
+        <h4>{{event.eventType}}</h4>
+        <p>Event Description: {{event.content}}</p>
+        <p>Event Point of Contact: {{event.pointofcontact}}</p>
+        <p>Date: {{event.date | date: 'mediumDate'}}</p>
+        <p>Time: {{event.starttime}} - {{event.endtime}}</p>
+        <p>Address: {{event.address}}</p>
+    </div>
     <div data-ng-if="hasAuthorization(event)">
-        <a class="btn" href="/events/{{event._id}}/edit">
-            <i class="glyphicon glyphicon-edit"></i>
-        </a>
+        <!--<a class="btn" href="/events/{{event._id}}/edit">-->
+        <!--<i class="glyphicon glyphicon-edit">Edit </i>-->
+        <!--</a>-->
         <a class="btn" data-ng-click="remove(event);">
-            <i class="glyphicon glyphicon-trash"></i>
+            <i class="glyphicon glyphicon-trash">Delete</i>
         </a>
     </div>
-    <div>Event Description: {{event.content}}</div>
-    <div>Chapter: {{event.chapter}}</div>
-    <div>Event Point of Contact: {{event.pointofcontact}}</div>
-    <div>Event Date: {{event.date}}</div>
-    <div>Event Start Time: {{event.starttime}}</div>
-    <div>Event End Time: {{event.endtime}}</div>
-    <div>Event Address: {{event.address}}</div>
     <hr>
     <div>
         <h2>Deliverables</h2>

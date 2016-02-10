@@ -302,6 +302,7 @@ module.exports = function (Chapters) {
         createEvent: function (req, res) {
             var event = new Event(req.body);
             event.user = req.user;
+            event.permissions.push('authenticated');
 
             event.save(function (err) {
                 if (err) {

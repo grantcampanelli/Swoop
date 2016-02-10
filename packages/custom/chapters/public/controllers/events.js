@@ -17,6 +17,16 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
          *
          */
 
+        $scope.eventTypes =
+            ['Chapter House Event',
+                'Satellite House Event',
+                'Third Party Venue Event'];
+
+        $scope.identifications =
+            ['Drivers License',
+                'Government Issued ID',
+                'Military ID'];
+
         $scope.guestListRequired = 1;
 
         $scope.riskManagementDocumentRequired = 1;
@@ -33,7 +43,6 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
             array.push({'title': 'Inside 2', 'name': 'Grant Campanelli'});
             array.push({'title': 'Inside 3', 'name': 'Grant Campanelli'});
             array.push({'title': 'Inside 4', 'name': 'Grant Campanelli'});
-            console.log(array)
             return array;
         }();
 
@@ -46,6 +55,7 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
                     $scope.chapterNames.push(chapter.name);
                 })
                 $scope.chapterNames.sort();
+                console.log($scope.chapterNames);
             });
         };
 
