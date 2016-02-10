@@ -1,9 +1,10 @@
 <section data-ng-controller="EventsController" data-ng-init="findAvailableChapters()">
-    <form name="eventForm" class="form-horizontal col-md-6" role="form" data-ng-submit="createEvent(eventForm.$valid)"
+    <form name="eventForm" class="form-horizontal col-md-8 col-md-offset-2" role="form"
+          data-ng-submit="createEvent(eventForm.$valid)"
           novalidate>
         <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.title.$invalid }">
-            <label mean-token="'create-title'" class="col-md-3 control-label">Event Title</label>
-            <div class="col-md-9">
+            <label mean-token="'create-title'" class="col-md-12">Event Title</label>
+            <div class="col-md-12">
                 <input name="title" type="text" class="form-control" data-ng-model="event.title" id="title"
                        placeholder="Title" required>
                 <div ng-show="submitted && eventForm.title.$invalid" class="help-block">
@@ -13,8 +14,8 @@
 
         </div>
         <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.content.$invalid }">
-            <label mean-token="'create-content'" for="content" class="col-md-3 control-label">Event Description</label>
-            <div class="col-md-9">
+            <label mean-token="'create-content'" for="content" class="col-md-12">Event Description</label>
+            <div class="col-md-12">
                 <textarea name="content" data-ng-model="event.content" id="content" cols="30" rows="10"
                           placeholder="Event Description" class="form-control" required></textarea>
                 <div ng-show="submitted && eventForm.content.$invalid" class="help-block">
@@ -23,8 +24,8 @@
             </div>
         </div>
         <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.chapter.$invalid }">
-            <label mean-token="'create-chapter'" class="col-md-3 control-label">Your Chapter</label>
-            <div class="col-md-9">
+            <label mean-token="'create-chapter'" class="col-md-12">Your Chapter</label>
+            <div class="col-md-12">
 
                 <ui-select ng-model="event.chapter" append-to-body="'true'">
                     <ui-select-match placeholder="Select chapter...">{{$select.selected}}
@@ -41,8 +42,8 @@
 
         <!-- TODO add validation -->
         <div class="form-group">
-            <label mean-token="'create-eventType'" class="col-md-3 control-label">Event Type</label>
-            <div class="col-md-9">
+            <label mean-token="'create-eventType'" class="col-md-12">Event Type</label>
+            <div class="col-md-12">
                 <ui-select ng-model="event.eventType" append-to-body="'true'">
                     <ui-select-match placeholder="Select event type...">{{$select.selected}}
                     </ui-select-match>
@@ -54,8 +55,8 @@
         </div>
 
         <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.attendance.$invalid }">
-            <label mean-token="'create-attendance'" class="col-md-3 control-label">Event Attendance</label>
-            <div class="col-md-9">
+            <label mean-token="'create-attendance'" class="col-md-12">Event Attendance</label>
+            <div class="col-md-12">
                 <input name="attendance" type="number" class="form-control" data-ng-model="event.attendance"
                        id="attendance"
                        placeholder="#" required>
@@ -67,8 +68,8 @@
         </div>
 
         <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.pointofcontact.$invalid }">
-            <label mean-token="'create-pointofcontact'" class="col-md-3 control-label">Event Point of Contact</label>
-            <div class="col-md-9">
+            <label mean-token="'create-pointofcontact'" class="col-md-12">Event Point of Contact</label>
+            <div class="col-md-12">
 
                 <ui-select ng-model="event.pointofcontact" append-to-body="'true'">
                     <ui-select-match placeholder="Select point of contact...">{{$select.selected}}
@@ -86,9 +87,9 @@
 
         <div class="form-group pointofcontactother ng-hide"
              ng-class="{ 'has-error' : submitted && eventForm.contactName.$invalid }">
-            <label mean-token="'create-contactName'" class="col-md-3 control-label">Event Point of Contact's
+            <label mean-token="'create-contactName'" class="col-md-12">Event Point of Contact's
                 Name</label>
-            <div class="col-md-9">
+            <div class="col-md-12">
                 <input name="contactName" type="text" class="form-control pointofcontactinput"
                        data-ng-model="event.contactName"
                        id="contactName"
@@ -101,9 +102,9 @@
 
         <div class="form-group pointofcontactother ng-hide" ng-show="event.pointofcontact == 'Other'"
              ng-class="{ 'has-error' : submitted && eventForm.contactEmail.$invalid }">
-            <label mean-token="'create-contactEmail'" class="col-md-3 control-label">Event Point of Contact's
+            <label mean-token="'create-contactEmail'" class="col-md-12">Event Point of Contact's
                 Email</label>
-            <div class="col-md-9">
+            <div class="col-md-12">
                 <input name="contactEmail" type="text" class="form-control pointofcontactinput"
                        data-ng-model="event.contactEmail"
                        id="contactEmail"
@@ -116,9 +117,9 @@
 
         <div class="form-group pointofcontactother ng-hide"
              ng-class="{ 'has-error' : submitted && eventForm.contactPhone.$invalid }">
-            <label mean-token="'create-contactPhone'" class="col-md-3 control-label">Event Point of Contact's Phone
+            <label mean-token="'create-contactPhone'" class="col-md-12">Event Point of Contact's Phone
                 Number</label>
-            <div class="col-md-9">
+            <div class="col-md-12">
                 <input name="contactPhone" type="text" class="form-control pointofcontactinput"
                        data-ng-model="event.contactPhone"
                        id="contactPhone"
@@ -131,8 +132,8 @@
         </div>
 
         <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.date.$invalid }">
-            <label mean-token="'create-date'" class="col-md-3 control-label">Event Date</label>
-            <div class="col-md-9">
+            <label mean-token="'create-date'" class="col-md-12">Event Date</label>
+            <div class="col-md-12">
                 <!--<input uib-datepicker="date" name="date" class="form-control" ng-model="event.date" id="date" required>
                 -->
                 <!--<input ui-date>-->
@@ -153,8 +154,8 @@
         </div>
 
         <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.starttime.$invalid }">
-            <label mean-token="'create-starttime'" class="col-md-3 control-label">Start Time</label>
-            <div class="col-md-9">
+            <label mean-token="'create-starttime'" class="col-md-12">Start Time</label>
+            <div class="col-md-12">
 
                 <ui-select required ng-model="event.starttime" append-to-body="'true'">
                     <ui-select-match placeholder="Select start time...">{{$select.selected}}
@@ -171,8 +172,8 @@
         </div>
 
         <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.endtime.$invalid }">
-            <label mean-token="'create-endtime'" class="col-md-3 control-label">End Time</label>
-            <div class="col-md-9">
+            <label mean-token="'create-endtime'" class="col-md-12">End Time</label>
+            <div class="col-md-12">
 
                 <ui-select ng-model="event.endtime" append-to-body="'true'">
                     <ui-select-match placeholder="Select end time...">{{$select.selected}}
@@ -188,8 +189,8 @@
         </div>
 
         <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.address.$invalid }">
-            <label mean-token="'create-address'" class="col-md-3 control-label">Event Address</label>
-            <div class="col-md-9">
+            <label mean-token="'create-address'" class="col-md-12">Event Address</label>
+            <div class="col-md-12">
                 <input name="address" type="text" class="form-control" data-ng-model="event.address"
                        id="address"
                        placeholder="Address" required>
@@ -203,8 +204,8 @@
 
         <!-- TODO add validation -->
         <div class="form-group">
-            <label mean-token="'create-coHosts'" class="col-md-3 control-label">Other Chapters Co-Hosting Event</label>
-            <div class="col-md-9">
+            <label mean-token="'create-coHosts'" class="col-md-12">Other Chapters Co-Hosting Event</label>
+            <div class="col-md-12">
                 <ui-select multiple ng-model="event.coHosts" append-to-body="'true'">
                     <ui-select-match placeholder="Select chapters...">{{$item}}
                     </ui-select-match>
@@ -218,10 +219,10 @@
 
         <!-- TODO add validation -->
         <div class="form-group">
-            <label mean-token="'create-alcoholPresent'" class="col-md-3">
+            <label mean-token="'create-alcoholPresent'" class="col-md-12">
                 Will alcohol be present during this event?
             </label>
-            <div class="col-md-9 radio">
+            <div class="col-md-12 radio">
                 <label><input type="radio" ng-model="event.alcoholPresent" ng-value="true">Yes</label>
                 <label><input type="radio" ng-model="event.alcoholPresent" ng-value="false">No</label>
             </div>
@@ -230,11 +231,11 @@
 
         <!-- TODO add validation -->
         <div class="form-group" ng-show="event.alcoholPresent">
-            <label mean-token="'create-verifyDrinkingAgeID'" class="col-md-3">
+            <label mean-token="'create-verifyDrinkingAgeID'" class="col-md-12">
                 To verify that guests are of legal drinking age, please select at least one
                 form of ID that you will accept
             </label>
-            <div class="col-md-9">
+            <div class="col-md-12">
                 <ui-select multiple ng-model="event.verifyDrinkingAgeID" append-to-body="'true'">
                     <ui-select-match placeholder="Select forms of verification...">{{$item}}
                     </ui-select-match>
@@ -248,10 +249,10 @@
 
         <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.verifyAgeWhileServing.$invalid }"
              ng-show="event.alcoholPresent">
-            <label mean-token="'create-verifyAgeWhileServing'" class="col-md-3">
+            <label mean-token="'create-verifyAgeWhileServing'" class="col-md-12">
                 How will those serving or providing alcoholic beverages identify persons of legal drinking age?
             </label>
-            <div class="col-md-9">
+            <div class="col-md-12">
                 <input name="verifyAgeWhileServing" type="text" class="form-control"
                        data-ng-model="event.verifyAgeWhileServing"
                        id="verifyAgeWhileServing"
@@ -265,10 +266,10 @@
 
         <!-- TODO add validation -->
         <div class="form-group">
-            <label mean-token="'create-security'" class="col-md-3">
+            <label mean-token="'create-security'" class="col-md-12">
                 Will a security service be hired for this event?
             </label>
-            <div class="col-md-9 radio">
+            <div class="col-md-12 radio">
                 <label><input type="radio" ng-model="event.security" ng-value="true">Yes</label>
                 <label><input type="radio" ng-model="event.security" ng-value="false">No</label>
             </div>
@@ -276,10 +277,10 @@
 
         <!-- TODO add validation -->
         <div class="form-group">
-            <label mean-token="'create-thirdPartyEventManagement'" class="col-md-3">
+            <label mean-token="'create-thirdPartyEventManagement'" class="col-md-12">
                 Will you be hiring a 3rd party event management company (for example, Obsession Entertainment)?
             </label>
-            <div class="col-md-9 radio">
+            <div class="col-md-12 radio">
                 <label><input type="radio" ng-model="event.thirdPartyEventManagement" ng-value="true">Yes</label>
                 <label><input type="radio" ng-model="event.thirdPartyEventManagement" ng-value="false">No</label>
             </div>
@@ -287,10 +288,10 @@
 
         <!-- TODO add validation -->
         <div class="form-group">
-            <label mean-token="'create-entertainmentServices'" class="col-md-3">
+            <label mean-token="'create-entertainmentServices'" class="col-md-12">
                 Will any entertainment services be hired for this event? (ex: band, DJ, etc.)
             </label>
-            <div class="col-md-9 radio">
+            <div class="col-md-12 radio">
                 <label><input type="radio" ng-model="event.entertainmentServices" ng-value="true">Yes</label>
                 <label><input type="radio" ng-model="event.entertainmentServices" ng-value="false">No</label>
             </div>
@@ -298,12 +299,12 @@
 
         <!-- TODO add validation -->
         <div class="form-group">
-            <label mean-token="'create-awareOfLaws'" class="col-md-3">
+            <label mean-token="'create-awareOfLaws'" class="col-md-12">
                 I am aware that all fraternity and sorority functions are subject to applicable governmental laws
                 and regulations, and the rules, regulations and policies set forth by Cal Poly, the CSU Board of
                 Trustees and national policies regarding social events and alcohol of sponsoring organizations.
             </label>
-            <div class="col-md-9 radio">
+            <div class="col-md-12 radio">
                 <label><input type="radio" ng-model="event.awareOfLaws" ng-value="true">Yes</label>
                 <label><input type="radio" ng-model="event.awareOfLaws" ng-value="false">No</label>
             </div>
@@ -311,14 +312,14 @@
 
         <!-- TODO add validation -->
         <div class="form-group">
-            <label mean-token="'create-confirmAccuracy'" class="col-md-3">
+            <label mean-token="'create-confirmAccuracy'" class="col-md-12">
                 I confirm the information on this form is accurate and I am a qualified representative of my
                 organization. I understand this is not an approval of my event and it is subject to change after
                 being reviewed by university staff. Any issues that may arise from this event will be investigated
                 by the university. In those cases, I understand my organization has the right to a fair
                 investigation and judicial hearing.
             </label>
-            <div class="col-md-9 radio">
+            <div class="col-md-12 radio">
                 <label><input type="radio" ng-model="event.confirmAccuracy" ng-value="true">Yes</label>
                 <label><input type="radio" ng-model="event.confirmAccuracy" ng-value="false">No</label>
             </div>
@@ -326,21 +327,21 @@
 
         <!-- TODO add validation -->
         <div class="form-group">
-            <label mean-token="'create-confAddRequirements'" class="col-md-3">
+            <label mean-token="'create-confAddRequirements'" class="col-md-12">
                 A list of additional requirements has been automatically generated and added to your event
                 dashboard. Please submit all necessary contracts, agreements, and other requirements by the due
                 date specified. You may review these requirements at any time by logging into your VeriSky account.
                 I agree to complete all additional requirements by the specified due date.
             </label>
-            <div class="col-md-9 radio">
+            <div class="col-md-12 radio">
                 <label><input type="radio" ng-model="event.confAddRequirements" ng-value="true">Yes</label>
                 <label><input type="radio" ng-model="event.confAddRequirements" ng-value="false">No</label>
             </div>
         </div>
 
         <!--<div class="form-group">-->
-        <!--<label mean-token="'permissions'" for="permissions" class="col-md-3 control-label">Permissions</label>-->
-        <!--<div class="col-md-9">-->
+        <!--<label mean-token="'permissions'" for="permissions" class="col-md-12">Permissions</label>-->
+        <!--<div class="col-md-12">-->
         <!--<ui-select multiple ng-model="event.permissions" append-to-body="'true'" on-select="selectPermission()">-->
         <!--<ui-select-match placeholder="Select permissions..." ng-click="showDescendants();">{{$item}}-->
         <!--</ui-select-match>-->
@@ -352,14 +353,14 @@
         <!--</div>-->
 
         <!--<div class="form-group" ng-show="descendants.length">-->
-        <!--<label mean-token="'descendants'" for="descendants" class="col-md-3 control-label">Descendants</label>-->
-        <!--<div class="col-md-9">-->
+        <!--<label mean-token="'descendants'" for="descendants" class="col-md-12">Descendants</label>-->
+        <!--<div class="col-md-12">-->
         <!--<span ng-repeat="descendant in descendants">{{descendant}} <span ng-hide="$last">, </span></span>-->
         <!--</div>-->
         <!--</div>-->
 
         <div class="form-group">
-            <div class="col-md-offset-3 col-md-9">
+            <div class="col-md-12">
                 <button mean-token="'create-submit'" type="submit" class="btn btn-info">Submit</button>
             </div>
         </div>

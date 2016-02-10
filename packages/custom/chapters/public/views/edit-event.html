@@ -40,6 +40,19 @@
             </div>
         </div>
 
+        <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.attendance.$invalid }">
+            <label mean-token="'edit-attendance'" class="col-md-12">Event Attendance</label>
+            <div class="col-md-12">
+                <input name="attendance" type="number" class="form-control" data-ng-model="event.attendance"
+                       id="attendance"
+                       placeholder="#" required>
+                <div ng-show="submitted && eventForm.attendance.$invalid" class="help-block">
+                    <p ng-show="eventForm.attendance.$error.required">Event Attendance is
+                        required</p>
+                </div>
+            </div>
+        </div>
+
         <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.pointofcontact.$invalid }">
             <label mean-token="'edit-pointofcontact'" class="col-md-3 control-label">Event Point of Contact</label>
             <div class="col-md-9">

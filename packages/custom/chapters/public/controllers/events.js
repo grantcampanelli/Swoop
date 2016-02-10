@@ -33,18 +33,31 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
 
         $scope.riskManagementTeamRequired = 1;
 
+        $scope.generateRiskManagementTeamTable = function (attendance) {
+            var array = [];
+            $scope.minSoberMonitors = Math.ceil(attendance / 30);
+            console.log("min sober monitors: " + $scope.minSoberMonitors);
+            array.push({'title': 'Sober Exec', 'name': 'Grant Campanelli'});
+            for (var i = 1; i < $scope.minSoberMonitors; i++) {
+                array.push({'title': 'Monitor ' + i, 'name': 'Grant Campanelli'});
+            }
+            console.log("Attendance: " + event.attendance);
+            $scope.riskManagementTeamPositions = array;
+        };
+
         $scope.postGuestListRequired = 1;
 
         $scope.thirdPartyEventManagementContractRequired = 1;
 
-        $scope.riskManagementTeamPositions = function () {
-            var array = [];
-            array.push({'title': 'Inside 1', 'name': 'Grant Campanelli'});
-            array.push({'title': 'Inside 2', 'name': 'Grant Campanelli'});
-            array.push({'title': 'Inside 3', 'name': 'Grant Campanelli'});
-            array.push({'title': 'Inside 4', 'name': 'Grant Campanelli'});
-            return array;
-        }();
+        $scope.riskManagementTeamPositions = [];
+        //    = function () {
+        //    var array = [];
+        //    array.push({'title': 'Inside 1', 'name': 'Grant Campanelli'});
+        //    array.push({'title': 'Inside 2', 'name': 'Grant Campanelli'});
+        //    array.push({'title': 'Inside 3', 'name': 'Grant Campanelli'});
+        //    array.push({'title': 'Inside 4', 'name': 'Grant Campanelli'});
+        //    return array;
+        //}();
 
 
         $scope.chapterNames = [];
@@ -197,6 +210,7 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
                 $scope.event = event;
                 console.log('eventID' + $stateParams.eventId);
                 console.log(event);
+                $scope.generateRiskManagementTeamTable(event.attendance);
             });
         };
 
