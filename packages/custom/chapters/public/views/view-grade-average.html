@@ -9,22 +9,239 @@
         <a class="btn btn-info" href="/gradeaverages">See All GPAs</a>
         <a class="btn btn-warning" href="/gradeaverages/{{gradeaverage._id}}/edit">Edit GPA</a>
         <a class="btn btn-danger" data-ng-click="removeGradeAverage(gradeaverage);">Delete GPA</a>
-        <div data-ng-init="showChapterGPAs()">
+        <div data-ng-init="findAvailableChapters()">
             <h3>View Chapters GPA's</h3>
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>Chapter</th>
+                    <th>Chapter Name</th>
                     <th>GPA</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="chapterGPA in chapterGPAs">
-                    <td>{{chapterGPA.chapterName}}</td>
-                    <td>{{chapterGPA.gpa}}</td>
+                <!--<tr ng-repeat="chapters in databaseGPANames">-->
+                <!--<td>{{chapters.name}}</td>-->
+                <!--<td>-->
+                <!--<input type="number">-->
+                <!--</td>-->
+                <!--</tr>-->
+                <tr>
+                    <td>
+                        Alpha Chi Omega
+                    </td>
+                    <td>
+                        {{gradeaverage.alphachiomega}}
+                    </td>
                 </tr>
+                <tr>
+                    <td>
+                        Alpha Epsilon Phi
+                    </td>
+                    <td>
+                        {{gradeaverage.alphaepsilonphi}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Alpha Epsilon Pi
+                    </td>
+                    <td>
+                        {{gradeaverage.alphaepsilonpi}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Alpha Gamma Delta
+                    </td>
+                    <td>
+                        {{gradeaverage.alphagammadelta}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Alpha Gamma Rho
+                    </td>
+                    <td>
+                        {{gradeaverage.alphagammarho}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Alpha Omicron Pi
+                    </td>
+                    <td>
+                        {{gradeaverage.alphaomicronpi}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Alpha Phi
+                    </td>
+                    <td>
+                        {{gradeaverage.alphaphi}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Beta Theta Pi
+                    </td>
+                    <td>
+                        {{gradeaverage.betathetapi}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Chi Omega
+                    </td>
+                    <td>
+                        {{gradeaverage.chiomega}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Delta Chi
+                    </td>
+                    <td>
+                        {{gradeaverage.deltachi}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Delta Tau Delta
+                    </td>
+                    <td>
+                        {{gradeaverage.deltataudelta}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Delta Upsilon
+                    </td>
+                    <td>
+                        {{gradeaverage.deltaupsilon}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Gamma Phi Beta
+                    </td>
+                    <td>
+                        {{gradeaverage.gammaphibeta}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Kappa Alpha Theta
+                    </td>
+                    <td>
+                        {{gradeaverage.kappaalphatheta}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Kappa Kappa Gamma
+                    </td>
+                    <td>
+                        {{gradeaverage.kappakappagamma}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Kappa Sigma
+                    </td>
+                    <td>
+                        {{gradeaverage.kappasigma}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Lambda Chi Alpha
+                    </td>
+                    <td>
+                        {{gradeaverage.lambdachialpha}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Nu Alpha Kappa
+                    </td>
+                    <td>
+                        {{gradeaverage.nualphakappa}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Phi Kappa Psi
+                    </td>
+                    <td>
+                        {{gradeaverage.phikappapsi}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Sigma Kappa
+                    </td>
+                    <td>
+                        {{gradeaverage.sigmakappa}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Sigma Nu
+                    </td>
+                    <td>
+                        {{gradeaverage.sigmanu}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Sigma Pi
+                    </td>
+                    <td>
+                        {{gradeaverage.sigmapi}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Tau Kappa Epsilon
+                    </td>
+                    <td>
+                        {{gradeaverage.taukappaepsilon}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Theta chi
+                    </td>
+                    <td>
+                        {{gradeaverage.thetachi}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Zeta Beta Tau
+                    </td>
+                    <td>
+                        {{gradeaverage.zetabetatau}}
+                    </td>
+                </tr>
+
                 </tbody>
             </table>
+            <!--<table class="table table-bordered table-striped">-->
+            <!--<thead>-->
+            <!--<tr>-->
+            <!--<th>Chapter</th>-->
+            <!--<th>GPA</th>-->
+            <!--</tr>-->
+            <!--</thead>-->
+            <!--<tbody>-->
+            <!--<tr ng-repeat="chapterGPA in databaseGPANames">-->
+            <!--<td>{{chapterGPA.name}}</td>-->
+            <!--<td>{{chapterGPA['model']}}</td>-->
+            <!--</tr>-->
+            <!--</tbody>-->
+            <!--</table>-->
         </div>
         <!--<div>-->
         <!--<table class="table table-striped table-bordered table-hover editable-table" data-ng-show="chapterNames.length">-->
