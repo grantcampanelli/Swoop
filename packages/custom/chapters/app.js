@@ -54,6 +54,12 @@ Chapters.register(function(app, auth, database) {
     'link': 'create event'
   });
 
+  Chapters.menus.add({
+    'roles': ['authenticated'],
+    'title': 'GPA',
+    'link': 'all gradeaverages'
+  });
+
   Chapters.events.defaultData({
     type: 'post',
     subtype: 'event'
@@ -67,7 +73,7 @@ Chapters.register(function(app, auth, database) {
   //});
 
   Chapters.aggregateAsset('css', 'chapters.css');
-  Chapters.angularDependencies(['ngSanitize', 'ngCsv', 'ngFileUpload']);
+  Chapters.angularDependencies(['ngSanitize', 'ngCsv', 'ngFileUpload', 'chart.js', 'xeditable']);
 
 
   /**

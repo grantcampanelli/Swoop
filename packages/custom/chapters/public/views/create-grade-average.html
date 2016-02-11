@@ -1,0 +1,121 @@
+<section data-ng-controller="GradeAveragesController" data-ng-init="findAvailableChapters()">
+    <form name="gradeAverageForm" class="form-horizontal col-md-8 col-md-offset-2" role="form"
+          data-ng-submit="createGradeAverage(gradeAverageForm.$valid)"
+          novalidate>
+
+        <!-- TODO add validation -->
+        <div class="form-group" ng-class="{ 'has-error' : submitted && gradeAverageForm.year.$invalid }">
+            <label mean-token="'create-year'" class="col-md-12">Year</label>
+            <div class="col-md-12">
+                <input name="year" type="number" class="col-md-12" data-ng-model="gradeaverage.year"
+                       id="year" placeholder="2016">
+            </div>
+            <!--<div class="col-md-12">-->
+            <!--<ui-select ng-model="gradeaverage.gradeYear" ui-select-required>-->
+            <!--<ui-select-match placeholder="Choose year...">{{$select.selected}}-->
+            <!--</ui-select-match>-->
+            <!--<ui-select-choices repeat="year in years | filter:$select.search" name="gradeYear">-->
+            <!--{{year}}-->
+            <!--</ui-select-choices>-->
+            <!--</ui-select>-->
+            <!--</div>-->
+            <div ng-show="submitted && gradeAverageForm.gradeYear.$invalid" class="help-block">
+                <p ng-show="gradeAverageForm.gradeYear.$error.required">Year is required</p>
+            </div>
+        </div>
+
+        <!-- TODO add validation -->
+        <div class="form-group" ng-class="{ 'has-error' : submitted && gradeAverageForm.gradeQuarter.$invalid }">
+            <label mean-token="'create-gradeQuarter'" class="col-md-12">Quarter</label>
+            <div class="col-md-12">
+                <input name="quarter" type="text" class="col-md-12" data-ng-model="gradeaverage.quarter"
+                       id="quarter" placeholder="Winter">
+            </div>
+            <!--<div class="col-md-12">-->
+            <!--<ui-select ng-model="gradeaverage.gradeQuarter" ui-select-required>-->
+            <!--<ui-select-match placeholder="Choose quarter...">{{$select.selected}}-->
+            <!--</ui-select-match>-->
+            <!--<ui-select-choices repeat="quarter in quarters | filter:$select.search" name="gradeQuarter">-->
+            <!--{{quarter}}-->
+            <!--</ui-select-choices>-->
+            <!--</ui-select>-->
+            <!--</div>-->
+            <div ng-show="submitted && gradeAverageForm.gradeQuarter.$invalid" class="help-block">
+                <p ng-show="gradeAverageForm.gradeQuarter.$error.required">Quarter is required</p>
+            </div>
+        </div>
+
+        <!-- TODO add validation -->
+        <div class="form-group" ng-class="{ 'has-error' : submitted && gradeAverageForm.calpolymensgpa.$invalid }">
+            <label mean-token="'create-calpolymensgpa'" class="col-md-12">Cal Poly Men's GPA</label>
+            <div class="col-md-12">
+                <input name="calpolymensgpa" type="number" class="col-md-12" data-ng-model="gradeaverage.calpolymensgpa"
+                       id="calpolymensgpa" placeholder="4.0">
+            </div>
+            <div ng-show="submitted && gradeAverageForm.calpolymensgpa.$invalid" class="help-block">
+                <p ng-show="gradeAverageForm.calpolymensgpa.$error.required">Cal Poly Men's GPA is required</p>
+            </div>
+        </div>
+
+        <!-- TODO add validation -->
+        <div class="form-group">
+            <label mean-token="'create-calpolywomensgpa'" class="col-md-12">Cal Poly Women's GPA</label>
+            <div class="col-md-12">
+                <input name="calpolywomensgpa" type="number" class="col-md-12"
+                       data-ng-model="gradeaverage.calpolywomensgpa"
+                       id="calpolywomensgpa" placeholder="4.0">
+            </div>
+        </div>
+
+        <!-- TODO add validation -->
+        <div class="form-group">
+            <label mean-token="'create-ifcgpa'" class="col-md-12">Cal Poly IFC's GPA</label>
+            <div class="col-md-12">
+                <input name="ifcgpa" type="number" class="col-md-12" data-ng-model="gradeaverage.ifcgpa"
+                       id="ifcgpa" placeholder="4.0">
+            </div>
+        </div>
+
+        <!-- TODO add validation -->
+        <div class="form-group">
+            <label mean-token="'create-phagpa'" class="col-md-12">Cal Poly PHA's GPA</label>
+            <div class="col-md-12">
+                <input name="phagpa" type="number" class="col-md-12" data-ng-model="gradeaverage.phagpa"
+                       id="phagpa" placeholder="4.0">
+            </div>
+        </div>
+
+        <!-- TODO add validation -->
+        <div class="form-group">
+            <label mean-token="'create-usfcgpa'" class="col-md-12">Cal Poly USFC's GPA</label>
+            <div class="col-md-12">
+                <input name="usfcgpa" type="number" class="col-md-12" data-ng-model="gradeaverage.usfcgpa"
+                       id="usfcgpa" placeholder="4.0">
+            </div>
+        </div>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>Chapter Name</th>
+                <th>GPA</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="chapters in databaseGPANames">
+                <td>{{chapters.name}}</td>
+                <td>
+                    <input type="number">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <button mean-token="'create-submit'" type="submit" class="btn btn-info">Submit</button>
+            </div>
+        </div>
+    </form>
+</section>

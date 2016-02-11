@@ -42,102 +42,7 @@ var ChapterSchema = new Schema({
     }
 });
 
-/**
- * Grade Average Schema
- */
-//var GradeAverageSchema = new Schema({
-//    created: {
-//        type: Date,
-//        default: Date.now
-//    },
-//    quarter: {
-//        type: String,
-//        required: true,
-//        trim: true
-//    },
-//    year: {
-//        type: String,
-//        required: true,
-//        trim: true
-//    },
-//    calpolymensgpa: {
-//        type: String,
-//        required: true,
-//        trim: true
-//    },
-//    calpolywomensgpa: {
-//        type: String,
-//        required: true,
-//        trim: true
-//    },
-//    ifcgpa: {
-//        type: String,
-//        required: true,
-//        trim: true
-//    },
-//    phagpa: {
-//        type: String,
-//        required: true,
-//        trim: true
-//    },
-//    usfcgpa: {
-//        type: String,
-//        required: true,
-//        trim: true
-//    },
-//    user: {
-//        type: Schema.ObjectId,
-//        ref: 'User',
-//        required: true
-//    },
-//    permissions: {
-//        type: Array
-//    },
-//    updated: {
-//        type: Array
-//    }
-//});
 
-/**
- * Grade Schema
- */
-//var GradeSchema = new Schema({
-//    created: {
-//        type: Date,
-//        default: Date.now
-//    },
-//    quarter: {
-//        type: String,
-//        required: true,
-//        trim: true
-//    },
-//    year: {
-//        type: String,
-//        required: true,
-//        trim: true
-//    },
-//    chapter: {
-//        type: String,
-//        required: true,
-//        trim: true
-//    },
-//    gpa: {
-//        type: String,
-//        required: true,
-//        trim: true
-//    },
-//    user: {
-//        type: Schema.ObjectId,
-//        ref: 'User',
-//        required: true
-//    },
-//    permissions: {
-//        type: Array
-//    },
-//    updated: {
-//        type: Array
-//    }
-//});
 
 /**
  * Validations
@@ -160,5 +65,3 @@ ChapterSchema.statics.load = function(id, cb) {
 };
 
 mongoose.model('Chapter', ChapterSchema);
-//mongoose.model('Grade', GradeSchema);
-//mongoose.model('GradeAverage', GradeAverageSchema);

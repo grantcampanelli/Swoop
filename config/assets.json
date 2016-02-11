@@ -3,7 +3,9 @@
     "css": {
       "bower_components/build/css/dist.min.css": [
         "bower_components/angular/angular-csp.css",
-        "bower_components/angular-ui-select/dist/select.min.css"
+        "bower_components/angular-ui-select/dist/select.min.css",
+        "bower_components/angular-chart.js/dist/angular-chart.css",
+        "bower_components/angular-xeditable/dist/css/xeditable.css"
 
       ]
     },
@@ -22,7 +24,10 @@
         "bower_components/web-bootstrap/index.js",
         "bower_components/ng-csv/build/ng-csv.js",
         "bower_components/ng-file-upload/ng-file-upload.min.js",
-        "bower_components/ng-file-upload/ng-file-upload-shim.min.js"
+        "bower_components/ng-file-upload/ng-file-upload-shim.min.js",
+        "bower_components/Chart.js/Chart.min.js",
+        "bower_components/angular-chart.js/dist/angular-chart.js",
+        "bower_components/angular-xeditable/dist/js/xeditable.js"
       ]
     }
   }

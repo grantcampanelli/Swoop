@@ -1,0 +1,75 @@
+<section data-ng-controller="GradeAveragesController" data-ng-init="findGradeAverages()">
+    <div class="col-md-12">
+        <table class="table table-bordered table-striped">
+
+            <thead>
+            <tr>
+                <th>View</th>
+                <th>
+                    <!--<a href="#" ng-click="orderByField='firstName'; reverseSort = !reverseSort">-->
+                    <!--First Name <span ng-show="orderByField == 'firstName'">-->
+                    <!--<span ng-show="!reverseSort"><i class="glyphicon glyphicon-chevron-up"></i></span>-->
+                    <!--<span ng-show="reverseSort"><i class="glyphicon glyphicon-chevron-down"></i></span></span>-->
+                    <!--</a>-->
+                    Year
+                </th>
+                <th>
+                    <!--<a href="#" ng-click="orderByField='lastName'; reverseSort = !reverseSort">-->
+                    <!--Last Name <span ng-show="orderByField == 'lastName'">-->
+                    <!--<span ng-show="!reverseSort"><i class="glyphicon glyphicon-chevron-up"></i></span>-->
+                    <!--<span ng-show="reverseSort"><i class="glyphicon glyphicon-chevron-down"></i></span></span>-->
+                    <!--</a>-->
+                    Quarter
+                </th>
+                <th>
+                    <!--<a href="#" ng-click="orderByField='chapter'; reverseSort = !reverseSort">-->
+                    <!--Chapter <span ng-show="orderByField == 'chapter'">-->
+                    <!--<span ng-show="!reverseSort"><i class="glyphicon glyphicon-chevron-up"></i></span>-->
+                    <!--<span ng-show="reverseSort"><i class="glyphicon glyphicon-chevron-down"></i></span></span>-->
+                    <!--</a>-->
+                    CP Mens GPA
+                </th>
+                <th>CP Womens GPA</th>
+                <th>IFC GPA</th>
+                <th>PHA GPA</th>
+                <th>USFC GPA</th>
+             <span data-ng-if="hasAuthorization(gradeaverage)">
+            <th>
+                Edit
+            </th>
+                 </span>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="gradeaverage in gradeaverages|orderBy:orderByField:reverseSort|filter:searchText">
+                <td><a data-ng-href="/gradeaverages/{{gradeaverage._id}}">
+                    <i class="glyphicon glyphicon-user"></i>
+                </a>
+                </td>
+                <td>{{ gradeaverage.year }}</td>
+                <td>{{ gradeaverage.quarter }}</td>
+                <td>{{ gradeaverage.calpolymensgpa }}</td>
+                <td>{{ gradeaverage.calpolywomensgpa }}</td>
+                <td>{{ gradeaverage.ifcgpa }}</td>
+                <td>{{ gradeaverage.phagpa }}</td>
+                <td>{{ gradeaverage.usfcgpa }}</td>
+            <span data-ng-if="hasAuthorization(gradeaverage)">
+            <td>
+                <a class="btn" href="/gradeaverages/{{gradeaverage._id}}/edit">
+                    <i class="glyphicon glyphicon-edit"></i>
+                </a>
+            </td>
+
+                <!--<td>-->
+                <!--<a class="btn" data-ng-click="removeGradeAverage(gradeaverage);">-->
+                <!--<i class="glyphicon glyphicon-trash"></i>-->
+                <!--</a>-->
+                <!--</td>-->
+            </span>
+            </tr>
+            </tbody>
+        </table>
+        <a class="btn btn-info" href="/gradeaverages/create">Create New GPA</a>
+    </div>
+</section>

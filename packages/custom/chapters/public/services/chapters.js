@@ -42,3 +42,15 @@ angular.module('mean.chapters').factory('Events', ['$resource',
         });
     }
 ]);
+
+angular.module('mean.chapters').factory('GradeAverages', ['$resource',
+    function ($resource) {
+        return $resource('api/gradeaverages/:gradeaverageId', {
+            gradeaverageId: '@_id'
+        }, {
+            update: {
+                method: 'PUT'
+            }
+        });
+    }
+]);

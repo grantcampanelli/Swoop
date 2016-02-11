@@ -61,4 +61,29 @@ module.exports = function(Chapters, app, auth) {
     // Finish with setting up the eventId param
     app.param('eventId', chapters.event);
 
+
+    ///* Chapter Grades */
+    //app.route('/api/grades')
+    //    .get(chapters.allGrades)
+    //    .post(auth.requiresLogin, chapters.createGrades);
+    //app.route('/api/grades/:gradesId')
+    //    .get(auth.isMongoId, chapters.showGrades)
+    //    .put(auth.isMongoId, auth.requiresLogin, chapters.updateGrades)
+    //    .delete(auth.isMongoId, auth.requiresLogin, chapters.destroyGrades);
+    //
+    //// Finish with setting up the gradesId param
+    //app.param('gradesId', chapters.grades);
+
+    /* Greek Grades */
+    app.route('/api/gradeaverages')
+        .get(chapters.allGradeAverages)
+        .post(auth.requiresLogin, chapters.createGradeAverage);
+    app.route('/api/gradeaverages/:gradeaverageId')
+        .get(auth.isMongoId, chapters.showGradeAverage)
+        .put(auth.isMongoId, auth.requiresLogin, chapters.updateGradeAverage)
+        .delete(auth.isMongoId, auth.requiresLogin, chapters.destroyGradeAverage);
+
+    // Finish with setting up the gradesId param
+    app.param('gradeaverageId', chapters.gradeAverage);
+
 };

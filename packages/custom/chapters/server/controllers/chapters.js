@@ -7,6 +7,8 @@ var mongoose = require('mongoose'),
     Chapter = mongoose.model('Chapter'),
     Member = mongoose.model('Member'),
     Event = mongoose.model('Event'),
+    GradeAverage = mongoose.model('GradeAverage'),
+//Grades = mongoose.model('Grades')
     config = require('meanio').loadConfig(),
     _ = require('lodash');
 
@@ -406,6 +408,138 @@ module.exports = function (Chapters) {
                 }
 
                 res.json(events)
+            });
+
+        },
+
+        /*
+         *
+         * Grade Averages--------
+         *
+         */
+        /**
+         * Find gradeaverages by id
+         */
+        gradeAverage: function (req, res, next, id) {
+            GradeAverage.load(id, function (err, gradeaverage) {
+                if (err) return next(err);
+                if (!gradeaverage) return next(new Error('Failed to load gradeaverage ' + id));
+                req.gradeaverage = gradeaverage;
+                next();
+            });
+        },
+        /**
+         * Create an gradeAverage
+         */
+        createGradeAverage: function (req, res) {
+            console.log("in create grade average");
+            var gradeaverage = new GradeAverage(req.body);
+            gradeaverage.user = req.user;
+            //gradeaverage.permissions.push('authenticated');
+            console.log(gradeaverage);
+
+            gradeaverage.save(function (err) {
+                if (err) {
+                    return res.status(500).json({
+                        error: 'Cannot save the grade average'
+                    });
+                }
+
+                Chapters.events.publish({
+                    action: 'created',
+                    user: {
+                        name: req.user.name
+                    },
+                    url: config.hostname + '/gradeaverages/' + gradeaverage._id,
+                    name: gradeaverage.gradeQuarter + gradeaverage.gradeYear
+                });
+
+                res.json(gradeaverage);
+            });
+        },
+        /**
+         * Update a gradeaverage
+         */
+        updateGradeAverage: function (req, res) {
+            var gradeaverage = req.gradeaverage;
+
+            gradeaverage = _.extend(gradeaverage, req.body);
+
+
+            gradeaverage.save(function (err) {
+                if (err) {
+                    return res.status(500).json({
+                        error: 'Cannot update the grade average'
+                    });
+                }
+
+                Chapters.events.publish({
+                    action: 'updated',
+                    user: {
+                        name: req.user.name
+                    },
+                    name: gradeaverage.gradeQuarter + gradeaverage.gradeYear,
+                    url: config.hostname + '/gradeaverages/' + gradeaverage._id
+                });
+
+                res.json(gradeaverage);
+            });
+        },
+        /**
+         * Delete one gradeaverage
+         */
+        destroyGradeAverage: function (req, res) {
+            var gradeaverage = req.gradeaverage;
+
+
+            gradeaverage.remove(function (err) {
+                if (err) {
+                    return res.status(500).json({
+                        error: 'Cannot delete the grade average'
+                    });
+                }
+
+                Chapters.events.publish({
+                    action: 'deleted',
+                    user: {
+                        name: req.user.name
+                    },
+                    name: gradeaverage.gradeQuarter + gradeaverage.gradeYear
+                });
+
+                res.json(gradeaverage);
+            });
+        },
+        /**
+         * Show a grade average
+         */
+        showGradeAverage: function (req, res) {
+
+            Chapters.events.publish({
+                action: 'viewed',
+                user: {
+                    name: req.user.name
+                },
+                name: req.gradeaverage.gradeQuarter + req.gradeaverage.gradeYear,
+                url: config.hostname + '/gradeaverages/' + req.gradeaverage._id
+            });
+
+            res.json(req.gradeaverage);
+        },
+        /**
+         * List of Grade Averages
+         */
+        allGradeAverages: function (req, res) {
+            var query = req.acl.query('GradeAverage');
+
+            query.find({}).sort('-created').populate('user', 'name username').exec(function (err, gradeaverages) {
+                if (err) {
+                    return res.status(500).json({
+                        error: 'Cannot list the grade averages'
+                    });
+                }
+
+                res.json(gradeaverages)
             });
 
         }

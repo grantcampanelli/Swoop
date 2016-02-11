@@ -202,48 +202,38 @@ angular.module('mean.chapters').controller('ChaptersController', ['$scope', '$st
                 $scope.members = members;
                 console.log($scope.members);
             });
-            Chapters.get({
-                chapterId: $stateParams.chapterId
-            }, function (chapter) {
-                console.log(chapter);
-                console.log("members in the get");
-                console.log($filter('filter')($scope.members, {chapter: chapter.name}));
-            });
-            //console.log("chapter: "+specifiedChapter);
-            //console.log("chapter: "+chapterName);
-            //console.log("chapter: "+$scope.chapter);
-
-
-            //Members.query(function(members) {
-            //    $scope.members = members;
+            //Chapters.get({
+            //    chapterId: $stateParams.chapterId
+            //}, function (chapter) {
+            //    console.log(chapter);
+            //    console.log("members in the get");
+            //    console.log($filter('filter')($scope.members, {chapter: chapter.name}));
             //});
             Members.query(function (members) {
                 $scope.members = members;
                 console.log($scope.members);
             });
-
-
-            //Members.get({}, function(member) {
-            //    console.log(member);
-            //});
-            /// console.log($scope.members);
-
-            //Members.query(function(members) {
-            //    $scope.members = members;
-            //});
-            //$scope.members = $filter('filter')($scope.members, { chapter: chapterSpecified});
-            //console.log($scope.members);
-        }
+        };
 
         $scope.hideMembers = 1;
 
         $scope.toggleHideMembers = function () {
             $scope.hideMembers = 1;
-        }
+        };
 
         $scope.toggleShowMembers = function () {
             $scope.hideMembers = 0;
-        }
+        };
+
+        $scope.gradeLabels = ["January", "February", "March", "April", "May", "June", "July"];
+        $scope.gradeSeries = ['Series A', 'Series B'];
+        $scope.gradeData = [
+            [65, 59, 80, 81, 56, 55, 40],
+            [28, 48, 40, 19, 86, 27, 90]
+        ];
+        //$scope.onClick = function (points, evt) {
+        //    console.log(points, evt);
+        //};
     }
 
 ]);
