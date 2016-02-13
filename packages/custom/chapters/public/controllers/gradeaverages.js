@@ -57,6 +57,68 @@ angular.module('mean.chapters').controller('GradeAveragesController', ['$scope',
         };
 
 
+        $scope.allGradeLabels = [];//["January", "February", "March", "April", "May", "June", "July"];
+        $scope.allGradeSeries = [];//['Series A', 'Series B'];
+        $scope.allGradeData = [];
+
+        $scope.buildAllChaptersGPAGraph = function () {
+            console.log("build graph gpa data");
+            //$scope.findOneChapter();
+            //$scope.findChapters();
+            Chapters.query(function (chapters) {
+                $scope.chapters = chapters;
+                console.log($scope.chapters);
+
+
+                GradeAverages.query(function (gradeaverages) {
+                    console.log(gradeaverages);
+
+                    //var chapterModelPath = $scope.chapter.name.toLowerCase();
+                    //chapterModelPath = chapterModelPath.replace(/\s/g, '');
+                    //console.log('Model path: '+chapterModelPath);
+                    console.log("inside Grade Average query")
+
+                    var allChapterData = [];
+                    var allCalPolyMensGPAs = [];
+                    var allifcGPAs = [];
+                    var allCalPolyWomensGPAs = [];
+                    var allphaGPAs = [];
+
+                    $scope.allGradeSeries.push("CP Mens GPA");
+                    $scope.allGradeSeries.push("IFC GPA");
+                    $scope.allGradeSeries.push("CP Womens GPA");
+                    $scope.allGradeSeries.push("PHA GPA");
+
+                    $scope.chapters.forEach(function (ch) {
+                        $scope.allGradeSeries.push(ch.name);
+                    });
+                    //$scope.gradeSeries.push($scope.chapter.name);
+                    // Build Labels
+                    gradeaverages.reverse();
+                    gradeaverages.forEach(function (gpa) {
+                        $scope.allGradeLabels.push(gpa.quarter + ' ' + gpa.year);
+                        //chapterData.push(gpa[chapterModelPath]);
+                        allCalPolyMensGPAs.push(gpa['calpolymensgpa']);
+                        allCalPolyWomensGPAs.push(gpa['calpolywomensgpa']);
+                        allifcGPAs.push(gpa['ifcgpa']);
+                        allphaGPAs.push(gpa['phagpa']);
+
+                    });
+
+
+                    $scope.allGradeData.push(allCalPolyMensGPAs);
+                    $scope.allGradeData.push(allifcGPAs);
+                    $scope.allGradeData.push(allCalPolyWomensGPAs);
+                    $scope.allGradeData.push(allphaGPAs);
+
+                    console.log($scope.allGradeData);
+                    console.log($scope.allGradeLabels);
+                    //$scope.gradeData.push(chapterData);
+                });
+            });
+        };
+
+
         /*
          * End Custom code
          */

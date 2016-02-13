@@ -21,8 +21,8 @@ var globalAvailableColleges = ['Orfalea College of Business',
     'Liberal Arts',
     'Architecture'];
 
-angular.module('mean.chapters').controller('ChaptersController', ['$scope', '$stateParams', '$location', 'Global', 'Chapters', 'Members', 'Users', 'Circles',
-    function ($scope, $stateParams, $location, Global, Chapters, Members, Users, Circles) {
+angular.module('mean.chapters').controller('ChaptersController', ['$scope', '$stateParams', '$location', 'Global', 'Chapters', 'Members', 'Users', 'GradeAverages', 'Circles',
+    function ($scope, $stateParams, $location, Global, Chapters, Members, Users, GradeAverages, Circles) {
         $scope.global = Global;
 
         $scope.hasAuthorization = function(chapter) {
@@ -225,12 +225,68 @@ angular.module('mean.chapters').controller('ChaptersController', ['$scope', '$st
             $scope.hideMembers = 0;
         };
 
-        $scope.gradeLabels = ["January", "February", "March", "April", "May", "June", "July"];
-        $scope.gradeSeries = ['Series A', 'Series B'];
-        $scope.gradeData = [
-            [65, 59, 80, 81, 56, 55, 40],
-            [28, 48, 40, 19, 86, 27, 90]
-        ];
+
+        $scope.gradeLabels = [];//["January", "February", "March", "April", "May", "June", "July"];
+        $scope.gradeSeries = [];//['Series A', 'Series B'];
+        $scope.gradeData = [];
+        //[65, 59, 80, 81, 56, 55, 40],
+        //[28, 48, 40, 19, 86, 27, 90]
+        //[65, 59],
+        //[28, 48]
+        //];
+
+        $scope.buildChapterGPAGraph = function () {
+            $scope.findOneChapter();
+            GradeAverages.query(function (gradeaverages) {
+                console.log(gradeaverages);
+
+                var chapterModelPath = $scope.chapter.name.toLowerCase();
+                chapterModelPath = chapterModelPath.replace(/\s/g, '');
+                console.log('Model path: ' + chapterModelPath);
+
+
+                var chapterData = [];
+                var calPolyMensGPAs = [];
+                var ifcGPAs = [];
+                var calPolyWomensGPAs = [];
+                var phaGPAs = [];
+                if ($scope.chapter.council == 'IFC') {
+                    $scope.gradeSeries.push("CP Mens GPA");
+                    $scope.gradeSeries.push("IFC GPA");
+                }
+                else if ($scope.chapter.council == 'PHA') {
+                    $scope.gradeSeries.push("CP Womens GPA");
+                    $scope.gradeSeries.push("PHA GPA");
+                }
+
+                $scope.gradeSeries.push($scope.chapter.name);
+                // Build Labels
+                gradeaverages.reverse();
+                gradeaverages.forEach(function (gpa) {
+                    $scope.gradeLabels.push(gpa.quarter + ' ' + gpa.year);
+                    chapterData.push(gpa[chapterModelPath]);
+                    calPolyMensGPAs.push(gpa['calpolymensgpa']);
+                    calPolyWomensGPAs.push(gpa['calpolywomensgpa']);
+                    ifcGPAs.push(gpa['ifcgpa']);
+                    phaGPAs.push(gpa['phagpa']);
+
+                });
+
+
+                if ($scope.chapter.council == 'IFC') {
+                    $scope.gradeData.push(calPolyMensGPAs);
+                    $scope.gradeData.push(ifcGPAs);
+                }
+                else if ($scope.chapter.council == 'PHA') {
+                    $scope.gradeData.push(calPolyWomensGPAs);
+                    $scope.gradeData.push(phaGPAs);
+                }
+
+                $scope.gradeData.push(chapterData);
+            });
+        };
+
+
         //$scope.onClick = function (points, evt) {
         //    console.log(points, evt);
         //};

@@ -1,5 +1,13 @@
 <section data-ng-controller="GradeAveragesController" data-ng-init="findGradeAverages()">
     <div class="col-md-12">
+        <div data-ng-init="buildAllChaptersGPAGraph()">
+            <h3>Grades</h3>
+            <canvas id="line" class="chart chart-line" chart-data="allGradeData"
+                    chart-labels="allGradeLabels" chart-legend="true" chart-series="allGradeSeries">
+            </canvas>
+        </div>
+    </div>
+    <div class="col-md-12">
         <table class="table table-bordered table-striped">
 
             <thead>
