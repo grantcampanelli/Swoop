@@ -2,8 +2,9 @@
     <div class="col-md-12">
         <div data-ng-init="buildAllChaptersGPAGraph()">
             <h3>Grades</h3>
-            <canvas id="line" class="chart chart-line" chart-data="allGradeData"
-                    chart-labels="allGradeLabels" chart-legend="true" chart-series="allGradeSeries">
+            <canvas style="width: 100%" id="line" class="chart chart-line" chart-data="allGradeData"
+                    chart-labels="allGradeLabels" chart-legend="true" chart-series="allGradeSeries"
+                    chart-colours="allGradeColours">
             </canvas>
         </div>
     </div>

@@ -221,6 +221,7 @@ angular.module('mean.chapters').controller('GradeAveragesController', ['$scope',
             });
         };
 
+
         $scope.findOneGradeAverage = function () {
             GradeAverages.get({
                 gradeaverageId: $stateParams.gradeaverageId
@@ -247,5 +248,21 @@ angular.module('mean.chapters').controller('GradeAveragesController', ['$scope',
             });
 
         }
+
+        $scope.allGradeColours = ['#ff3300', '#0033cc', '#00cc00', '#ffff99'];
+
+        //[
+        //    {fillColor: "rgba(220,220,220,0)", strokeColor: '#ff3300'},
+        //    {fillColor: "rgba(220,220,220,0)", strokeColor: '#0033cc'},
+        //    {fillColor: "rgba(220,220,220,0)", strokeColor: '#00cc00'},
+        //    {fillColor: "rgba(220,220,220,0)", strokeColor: '#ffff99'}];
+        //    [{
+        //    "fillColor": "#fff",
+        //    "strokeColor": "rgba(207,100,103,1)",
+        //    "pointColor": "rgba(220,220,220,1)",
+        //    "pointStrokeColor": "#fff",
+        //    "pointHighlightFill": "#fff",
+        //    "pointHighlightStroke": "rgba(151,187,205,0.8)"
+        //}];
     }
 ]);

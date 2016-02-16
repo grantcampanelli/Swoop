@@ -286,6 +286,8 @@ angular.module('mean.chapters').controller('ChaptersController', ['$scope', '$st
             });
         };
 
+        $scope.gradeColours = ['#ff3300', '#0033cc', '#00cc00'];
+
 
         //$scope.onClick = function (points, evt) {
         //    console.log(points, evt);
