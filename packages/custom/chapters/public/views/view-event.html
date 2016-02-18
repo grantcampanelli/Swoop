@@ -1,73 +1,161 @@
 <section data-ng-controller="EventsController" data-ng-init="findOneEvent()">
     <div class="col-md-8 col-md-offset-2">
-    <span>{{event.created | date:'mediumDate'}}</span> /
-    <span>{{event.user.name}}</span>
-    <h2>{{event.chapter}} | {{event.title}}</h2>
-    <div>
-        <h4>{{event.eventType}}</h4>
-        <p>Attendance: {{event.attendance}}</p>
-        <p>Event Description: {{event.content}}</p>
-        <p>Event Point of Contact: {{event.pointofcontact}}</p>
-        <p>Date: {{event.date | date: 'mediumDate'}}</p>
-        <p>Time: {{event.starttime}} - {{event.endtime}}</p>
-        <p>Address: {{event.address}}</p>
-    </div>
-    <div data-ng-if="hasAuthorization(event)">
-        <a class="btn" href="/events/{{event._id}}/edit">
-            <i class="glyphicon glyphicon-edit">Edit </i>
-        </a>
-        <a class="btn" data-ng-click="remove(event);">
-            <i class="glyphicon glyphicon-trash">Delete</i>
-        </a>
-    </div>
-    <hr>
-    <div>
-        <h2>Deliverables</h2>
-    </div>
+        <span>{{event.created | date:'mediumDate'}}</span> /
+        <span>{{event.user.name}}</span>
+        <h2>{{event.chapter}} | {{event.title}}</h2>
+        <div>
+            <h4>{{event.eventType}}</h4>
+            <p>Attendance: {{event.attendance}}</p>
+            <p>Event Description: {{event.content}}</p>
+            <p>Event Point of Contact: {{event.pointofcontact}}</p>
+            <p>Date: {{event.date | date: 'mediumDate'}}</p>
+            <p>Time: {{event.starttime}} - {{event.endtime}}</p>
+            <p>Address: {{event.address}}</p>
+        </div>
+        <div data-ng-if="hasAuthorization(event)">
+            <a class="btn" href="/events/{{event._id}}/edit">
+                <i class="glyphicon glyphicon-edit">Edit </i>
+            </a>
+            <a class="btn" data-ng-click="remove(event);">
+                <i class="glyphicon glyphicon-trash">Delete</i>
+            </a>
+        </div>
+        <hr>
+        <div>
+            <h2>Deliverables</h2>
+        </div>
+        <div class="panel-group" id="accordion">
+            <div class="panel panel-default" ng-show="riskManagementDocumentRequired" id="riskManagementDocument">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Chapter Risk Management
+                            Plan</a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <p><a href="#">Click here to submit risk management document</a></p>
+                    </div>
+                </div>
+            </div>
 
-    <div id="riskManagementDocument" ng-show="riskManagementDocumentRequired">
-        <hr>
-        <h3>Chapter Risk Management Plan </h3>
-        <a href="#">Click here to submit risk management document</a>
-    </div>
-    <div id="riskManagementTeam" ng-show="riskManagementTeamRequired">
-        <hr>
-        <h3>Risk Management Team</h3>
-        <p>You must have 1 sober monitor for every 30 guests in attendance. At least one
-            sober monitor must be a member of your executive board.</p>
-        <table class="table table-bordered table-striped">
-            <thead>
-            <tr>
-                <th>Responsibility</th>
-                <th>Member</th>
-                <th>Email</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="position in riskManagementTeamPositions">
-                <td>{{position.title}}</td>
-                <td>{{position.name}}</td>
-                <td>grantcampanelli@gmail.com</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div id="guestList" ng-show="guestListRequired">
-        <hr>
-        <h3>Guest List</h3>
-        <a href="#">Click here to submit guest list</a>
-    </div>
-    <div id="thirdPartyEventManagementContract"
-         ng-show="thirdPartyEventManagementContractRequired">
-        <hr>
-        <h3>Third Party Event Management Contract</h3>
-        <a href="#">Click here to submit third party event management contract</a>
-    </div>
-    <div id="postGuestList" ng-show="postGuestListRequired">
-        <hr>
-        <h3>Post Event Guest List</h3>
-        <a href="#">Click here to submit post event guest list</a>
-    </div>
-    <hr>
+            <!--<div id="riskManagementDocument" ng-show="riskManagementDocumentRequired">-->
+            <!--<hr>-->
+            <!--<h3>Chapter Risk Management Plan </h3>-->
+            <!--<a href="#">Click here to submit risk management document</a>-->
+            <!--</div>-->
+            <div class="panel panel-default" id="riskManagementTeam" ng-show="riskManagementTeamRequired">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Risk Management Team</a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <p>You must have 1 sober monitor for every 30 guests in attendance. At least one
+                            sober monitor must be a member of your executive board.</p>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>Responsibility</th>
+                                <th>Member</th>
+                                <th>Email</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="position in riskManagementTeamPositions">
+                                <td>{{position.title}}</td>
+                                <td>{{position.name}}</td>
+                                <td>grantcampanelli@gmail.com</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default" id="thirdPartyEventManagementContract"
+                 ng-show="thirdPartyEventManagementContractRequired">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">Third Party Event
+                            Management Contract</a>
+                    </h4>
+                </div>
+                <div id="collapseFour" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <a href="#">Click here to submit third party event management contract</a>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default" id="guestList" ng-show="guestListRequired">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Pre Event Guest
+                            List</a>
+                    </h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <p><a href="#">Click here to submit guest list</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default" id="postGuestList" ng-show="postGuestListRequired">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">Post Event Guest
+                            List</a>
+                    </h4>
+                </div>
+                <div id="collapseFive" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <a href="#">Click here to submit post event guest list</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="event !== undefined" ng-include="'comments/views/index.html'"
+             data-ng-controller="CommentsController" data-ng-init="findComments(event, 2)"/>
+        <!-- Voila, you are done. Were you expecting some more steps? :-) -->
+        <!--<div id="riskManagementTeam" ng-show="riskManagementTeamRequired">-->
+        <!--<hr>-->
+        <!--<h3>Risk Management Team</h3>-->
+        <!--<p>You must have 1 sober monitor for every 30 guests in attendance. At least one-->
+        <!--sober monitor must be a member of your executive board.</p>-->
+        <!--<table class="table table-bordered table-striped">-->
+        <!--<thead>-->
+        <!--<tr>-->
+        <!--<th>Responsibility</th>-->
+        <!--<th>Member</th>-->
+        <!--<th>Email</th>-->
+        <!--</tr>-->
+        <!--</thead>-->
+        <!--<tbody>-->
+        <!--<tr ng-repeat="position in riskManagementTeamPositions">-->
+        <!--<td>{{position.title}}</td>-->
+        <!--<td>{{position.name}}</td>-->
+        <!--<td>grantcampanelli@gmail.com</td>-->
+        <!--</tr>-->
+        <!--</tbody>-->
+        <!--</table>-->
+        <!--</div>-->
+        <!--<div id="guestList" ng-show="guestListRequired">-->
+        <!--<hr>-->
+        <!--<h3>Guest List</h3>-->
+        <!--<a href="#">Click here to submit guest list</a>-->
+        <!--</div>-->
+        <!--<div id="thirdPartyEventManagementContract"-->
+        <!--ng-show="thirdPartyEventManagementContractRequired">-->
+        <!--<hr>-->
+        <!--<h3>Third Party Event Management Contract</h3>-->
+        <!--<a href="#">Click here to submit third party event management contract</a>-->
+        <!--</div>-->
+        <!--<div id="postGuestList" ng-show="postGuestListRequired">-->
+        <!--<hr>-->
+        <!--<h3>Post Event Guest List</h3>-->
+        <!--<a href="#">Click here to submit post event guest list</a>-->
+        <!--</div>-->
+        <!--<hr>-->
     </div>
 </section>

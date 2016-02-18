@@ -22,19 +22,19 @@ Articles.register(function(app, auth, database, circles, swagger) {
   //We are adding a link to the main menu for all authenticated users
   //Articles.menus.add({
   //  'roles': ['authenticated'],
-  //  'title': 'Events',
+  //  'title': 'Articles',
   //  'link': 'all articles'
   //});
   //Articles.menus.add({
   //  'roles': ['authenticated'],
-  //  'title': 'Create New Event',
+  //  'title': 'Create New Article',
   //  'link': 'create article'
   //});
-  //
-  //Articles.events.defaultData({
-  //  type: 'post',
-  //  subtype: 'article'
-  //});
+
+  Articles.events.defaultData({
+    type: 'post',
+    subtype: 'article'
+  });
 
 
   /*

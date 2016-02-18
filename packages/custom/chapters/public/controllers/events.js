@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('mean.chapters').controller('EventsController', ['$scope', '$stateParams', '$location', 'Global', 'Events', 'Chapters', 'MeanUser', 'Circles',
-    function ($scope, $stateParams, $location, Global, Events, Chapters, MeanUser, Circles) {
+angular.module('mean.chapters').controller('EventsController', ['$scope', '$stateParams', '$location', 'Global', 'Events', 'Chapters', 'MeanUser', 'Circles', 'Comments',
+    function ($scope, $stateParams, $location, Global, Events, Chapters, MeanUser, Circles, Comments) {
         $scope.global = Global;
 
         $scope.hasAuthorization = function (event) {

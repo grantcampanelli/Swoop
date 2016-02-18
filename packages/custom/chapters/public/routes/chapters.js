@@ -164,6 +164,15 @@ angular.module('mean.chapters').config(['$stateProvider',
                 }
             })
 
+            .state('all services', {
+                url: '/services/',
+                templateUrl: '/chapters/views/list-services.html',
+                requiredCircles: {
+                    circles: ['authenticated'],
+                    denyState: 'auth.login'
+                }
+            })
+
         ;
 
     }

@@ -48,16 +48,22 @@ Chapters.register(function(app, auth, database) {
     'title': 'Events',
     'link': 'all events'
   });
-  Chapters.menus.add({
-    'roles': ['can create content'],
-    'title': 'Create Event',
-    'link': 'create event'
-  });
+  //Chapters.menus.add({
+  //  'roles': ['can create content'],
+  //  'title': 'Create Event',
+  //  'link': 'create event'
+  //});
 
   Chapters.menus.add({
     'roles': ['authenticated'],
     'title': 'GPA',
     'link': 'all gradeaverages'
+  });
+
+  Chapters.menus.add({
+    'roles': ['authenticated'],
+    'title': 'Service',
+    'link': 'all services'
   });
 
   Chapters.events.defaultData({
@@ -73,7 +79,7 @@ Chapters.register(function(app, auth, database) {
   //});
 
   Chapters.aggregateAsset('css', 'chapters.css');
-  Chapters.angularDependencies(['ngSanitize', 'ngCsv', 'ngFileUpload', 'chart.js', 'xeditable']);
+  Chapters.angularDependencies(['ngSanitize', 'ngCsv', 'chart.js', 'xeditable']);
 
 
   /**

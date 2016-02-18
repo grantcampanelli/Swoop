@@ -110,6 +110,12 @@ var EventSchema = new Schema({
     },
     updated: {
         type: Array
+    },
+    riskManagementPlan: {
+        type: String
+    },
+    riskManagementTeam: {
+        type: Array
     }
 });
 
