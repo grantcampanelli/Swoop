@@ -153,7 +153,8 @@ angular.module('mean.users').factory('MeanUser', [ '$rootScope', '$http', '$loca
       };
 
     MeanUserKlass.prototype.forgotpassword = function(user) {
-        $http.post('/api/forgot-password', {
+      console.log("forgot password services/meanuser.js")
+      $http.post('/api/forgot-password', {
           text: user.email
         })
           .success(function(response) {

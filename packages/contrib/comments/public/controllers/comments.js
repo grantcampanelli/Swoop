@@ -80,6 +80,8 @@ angular.module('mean.comments').controller('CommentsController', ['$scope', '$ht
         };
       }
 
+      console.log("query params: ");
+      console.log(queryParams);
       FetchComments.query(queryParams)
         .$promise.then(function(comments) {
           comments.forEach(function(comment) {
@@ -136,6 +138,7 @@ angular.module('mean.comments').controller('CommentsController', ['$scope', '$ht
     };
 
     $scope.create = function(body, parent, tagged_users) {
+      console.log("create comment!");
       var comment = new Comments({
         body: body,
         parent: parent._id,

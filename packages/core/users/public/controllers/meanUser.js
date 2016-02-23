@@ -90,10 +90,12 @@ angular.module('mean.users')
   ])
   .controller('ForgotPasswordCtrl', ['MeanUser', '$rootScope',
     function(MeanUser, $rootScope) {
+      console.log("Forgot Password in public controller")
       var vm = this;
       vm.user = {};      
       vm.registerForm = MeanUser.registerForm = false;
       vm.forgotpassword = function() {
+        console.log("inside forgot password public/controllers")
         MeanUser.forgotpassword(this.user);
       };
       $rootScope.$on('forgotmailsent', function(event, args){

@@ -19,9 +19,14 @@ var mongoose = require('mongoose'),
  * Send reset password email
  */
 function sendMail(mailOptions) {
+    console.log("Sending mail...");
     var transport = nodemailer.createTransport(config.mailer);
+    console.log(transport);
     transport.sendMail(mailOptions, function(err, response) {
-        if (err) return err;
+        if (err) {
+            console.log("err")
+            return err;
+        }
         return response;
     });
 }
@@ -257,6 +262,7 @@ module.exports = function(MeanUser) {
          * Callback for forgot password link
          */
         forgotpassword: function(req, res, next) {
+            console.log("Forgot password!! server controller");
             async.waterfall([
 
                 function(done) {

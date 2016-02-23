@@ -51,12 +51,12 @@ module.exports = {
       enabled: false
     }
   },
-  emailFrom: 'SENDER EMAIL ADDRESS', // sender address like ABC <abc@example.com>
+  emailFrom: 'Grant Camapnelli <grant@grantcampanelli.com>', // sender address like ABC <abc@example.com>
   mailer: {
-    service: 'SERVICE_PROVIDER', // Gmail, SMTP
+    service: 'GMAIL', // Gmail, SMTP
     auth: {
-      user: 'EMAIL_ID',
-      pass: 'PASSWORD'
+      user: 'grantcampanelli@gmail.com',
+      pass: '#Mad57Pai'
     }
   }, 
   secret: 'SOME_TOKEN_SECRET'
