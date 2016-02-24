@@ -542,7 +542,153 @@ module.exports = function (Chapters) {
                 res.json(gradeaverages)
             });
 
-        }
+        },
+
+        /*
+         *
+         * Deliverables -------
+         *
+         */
+        /**
+         * Find deliverables by id
+         */
+        deliverable: function (req, res, next, id) {
+            Deliverable.load(id, function (err, deliverable) {
+                if (err) return next(err);
+                if (!deliverable) return next(new Error('Failed to load deliverable ' + id));
+                req.deliverable = deliverable;
+                next();
+            });
+        },
+        /**
+         * Create an deliverable
+         */
+        createDeliverable: function (req, res) {
+            console.log("in create grade average");
+            var deliverable = new Deliverable(req.body);
+            deliverable.user = req.user;
+            //deliverable.permissions.push('authenticated');
+            console.log(deliverable);
+
+            deliverable.save(function (err) {
+                if (err) {
+                    return res.status(500).json({
+                        error: 'Cannot save the grade average'
+                    });
+                }
+
+                Chapters.events.publish({
+                    action: 'created',
+                    user: {
+                        name: req.user.name
+                    },
+                    url: config.hostname + '/deliverables/' + deliverable._id,
+                    name: deliverable.name
+                });
+
+                res.json(deliverable);
+            });
+        },
+        /**
+         * Update a deliverable
+         */
+        updateDeliverable: function (req, res) {
+            var deliverable = req.deliverable;
+
+            deliverable = _.extend(deliverable, req.body);
+
+
+            deliverable.save(function (err) {
+                if (err) {
+                    return res.status(500).json({
+                        error: 'Cannot update the grade average'
+                    });
+                }
+
+                Chapters.events.publish({
+                    action: 'updated',
+                    user: {
+                        name: req.user.name
+                    },
+                    name: deliverable.name,
+                    url: config.hostname + '/deliverables/' + deliverable._id
+                });
+
+                res.json(deliverable);
+            });
+        },
+        /**
+         * Delete one deliverable
+         */
+        destroyDeliverable: function (req, res) {
+            var deliverable = req.deliverable;
+
+
+            deliverable.remove(function (err) {
+                if (err) {
+                    return res.status(500).json({
+                        error: 'Cannot delete the grade average'
+                    });
+                }
+
+                Chapters.events.publish({
+                    action: 'deleted',
+                    user: {
+                        name: req.user.name
+                    },
+                    name: deliverable.name
+                });
+
+                res.json(deliverable);
+            });
+        },
+        /**
+         * Show a grade average
+         */
+        showDeliverable: function (req, res) {
+
+            Chapters.events.publish({
+                action: 'viewed',
+                user: {
+                    name: req.user.name
+                },
+                name: req.deliverable.name,
+                url: config.hostname + '/deliverables/' + req.deliverable._id
+            });
+
+            res.json(req.deliverable);
+        },
+        /**
+         * List of Grade Averages
+         */
+        allDeliverables: function (req, res) {
+            var query = req.acl.query('Deliverable');
+
+            query.find({}).sort('-created').populate('user', 'name username').exec(function (err, deliverables) {
+                if (err) {
+                    return res.status(500).json({
+                        error: 'Cannot list the grade averages'
+                    });
+                }
+
+                res.json(deliverables)
+            });
+
+        },
+
+        /**
+         * RISK MANAGEMENT TEAM
+         */
+        riskmanagementteam: function (req, res, next, id) {
+            RiskManagementTeams.load(id, function (err, riskmanagementteam) {
+                if (err) return next(err);
+                if (!riskmanagementteam) return next(new Error('Failed to load deliverable ' + id));
+                req.riskmanagementteam = riskmanagementteam;
+                next();
+            });
+        },
+
+
 
     };
 }

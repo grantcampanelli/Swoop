@@ -1,7 +1,8 @@
 'use strict';
 
-angular.module('mean.chapters').controller('EventsController', ['$scope', '$stateParams', '$location', 'Global', 'Events', 'Chapters', 'MeanUser', 'Circles', 'Comments',
-    function ($scope, $stateParams, $location, Global, Events, Chapters, MeanUser, Circles, Comments) {
+
+angular.module('mean.chapters').controller('EventsController', ['$scope', '$stateParams', '$location', 'Global', 'Events', 'Chapters', 'MeanUser', 'Circles', 'Comments', 'Deliverables', 'RiskManagementTeams', 'Members',
+    function ($scope, $stateParams, $location, Global, Events, Chapters, MeanUser, Circles, Comments, Deliverables, RiskManagementTeams, Members) {
         $scope.global = Global;
 
         $scope.hasAuthorization = function (event) {
@@ -10,6 +11,11 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
         };
 
         $scope.availableCircles = [];
+        $scope.rmAvailablePositions = [
+            {id: 1, text: 'Inside Sober Monitor'},
+            {id: 2, text: 'Outside Sober Monitor'},
+            {id: 3, text: 'Bartender'},
+            {id: 4, text: 'Sober Exec'}];
 
         /*
          *
@@ -28,6 +34,10 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
                 'Military ID'];
 
         $scope.guestListRequired = 1;
+
+        $scope.deliverables = [];
+
+        $scope.riskManagementTeam = [];
 
         $scope.riskManagementDocumentRequired = 1;
 
@@ -148,11 +158,115 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
             $scope.descendants = [];
         };
 
+        /* generate delivarables */
+        $scope.generateDeliverables = function (event) {
+            //var numHosts = 1;
+            //var deliverables = [];
+            var d;
+            event.deliverables = [];
+
+            //if(event.coHosts)
+            //    numHosts+ event.coHosts.length;
+
+            //console.log("Hosts: " +numHosts);
+
+            // Add Risk Management Plan
+            d = new Deliverables({
+                type: "String",
+                name: "Risk Management Plan",
+                status: "New",
+            });
+            event.deliverables.push(d);
+
+            var arr = []
+            $scope.minSoberMonitors = Math.ceil(event.attendance / 30);
+            console.log("This is the right number: " + $scope.minSoberMonitors);
+            // Add Risk Management Team
+            var rm = new RiskManagementTeams({
+                position: "Sober Exec",
+                member: null
+            });
+            arr.push(rm);
+            for (var i = 0; i < $scope.minSoberMonitors; i++) {
+                rm = new RiskManagementTeams({
+                    position: "Sober Monitor " + i,
+                    member: null
+                });
+                arr.push(rm);
+            }
+            d = new Deliverables({
+                type: "Array",
+                name: "Risk Management Team",
+                status: "New",
+                rmArray: arr
+            });
+            event.deliverables.push(d);
+
+            if (event.howAlcoholProvided != "BYOB") {
+                d = new Deliverables({
+                    type: "File",
+                    name: "Third Party Liquor License",
+                    status: "New"
+                });
+                event.deliverables.push(d);
+            }
+            if (event.thirdPartyEventManagement == true) {
+                d = new Deliverables({
+                    type: "File",
+                    name: "Third Party Event Management Contract",
+                    status: "New"
+                });
+                event.deliverables.push(d);
+            }
+
+            if (event.transportation == true) {
+                d = new Deliverables({
+                    type: "File",
+                    name: "Third Party Transportation Contract",
+                    status: "New"
+                });
+                event.deliverables.push(d);
+            }
+
+            d = new Deliverables({
+                type: "File",
+                name: "Pre Event Guest List",
+                status: "New"
+            });
+            event.deliverables.push(d);
+
+            d = new Deliverables({
+                type: "File",
+                name: "Post Event Guest List",
+                status: "New"
+            });
+            event.deliverables.push(d);
+
+            d = new Deliverables({
+                type: "String",
+                name: "Post Event Review",
+                status: "New"
+            });
+            event.deliverables.push(d);
+
+            return event;
+
+            //console.log($scope.event);
+
+
+            //
+            //if(event.coHosts.length) {
+            //    numHosts +=
+            //}
+        };
+
         $scope.createEvent = function (isValid) {
             if (isValid) {
                 // $scope.event.permissions.push('test test');
-                var event = new Events($scope.event);
 
+                //$scope.generateDeliverables();
+                var event = new Events($scope.event);
+                event = $scope.generateDeliverables(event);
                 event.$save(function (response) {
                     $location.path('events/' + response._id);
                 });
@@ -197,6 +311,29 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
             }
         };
 
+        $scope.updateDeliverableContent = function (deliverable) {
+            $scope.event.deliverables = $scope.deliverables;
+            console.log("Updated deliverables");
+            console.log($scope.event);
+            //if (isValid) {
+            //
+            //    $scope.event.deliverables = $scope.deliverables;
+
+            //
+            //var event = $scope.event;
+            //if (!event.updated) {
+            //    event.updated = [];
+            //}
+            //event.updated.push(new Date().getTime());
+            //
+            //event.$update(function () {
+            //    $location.path('events/' + event._id);
+            //});
+            //} else {
+            //    $scope.submitted = true;
+            //}
+        };
+
         $scope.findEvents = function () {
             Events.query(function (events) {
                 $scope.events = events;
@@ -208,11 +345,56 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
                 eventId: $stateParams.eventId
             }, function (event) {
                 $scope.event = event;
+                $scope.deliverables = event.deliverables;
+                //$scope.riskManagementTeam = event.arrContent;
                 console.log('eventID' + $stateParams.eventId);
-                console.log(event);
+                console.log(event.deliverables[0]);
+                //$scope.deliverables = [];
+                //$scope.generateDeliverables(event);
+                console.log($scope.event);
+
                 $scope.generateRiskManagementTeamTable(event.attendance);
             });
         };
+
+        $scope.members;
+
+        //$scope.loadMembers = function() {
+        //    return $scope.members.length ? null : $scope.members;
+        //};
+
+        $scope.findMembers = function () {
+            if (!$scope.members) {
+                $scope.members = [];
+                Members.query(function (members) {
+                    //console.log(members);
+                    //members;
+                    //$scope.membersLoading = 0;
+                    //$scope.exportMembers();
+                    $scope.members = []
+                    members.forEach(function (member) {
+                        if (member.chapter == $scope.event.chapter)
+                            $scope.members.push(member);
+                    });
+                    //console.log($scope.members);
+                });
+            }
+            //.then(function(members) {
+            //console.log(members);
+            //
+            //$scope.members
+            //});
+        };
+
+        $scope.updateRMTeam = function (risk, member) {
+            risk.member = new Members();
+
+            //console.log(risk.position + " " + member.firstName)
+            risk.member = member;
+            console.log("Updated RM?");
+        }
+
+
 
 
     }

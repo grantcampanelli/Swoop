@@ -86,4 +86,18 @@ module.exports = function(Chapters, app, auth) {
     // Finish with setting up the gradesId param
     app.param('gradeaverageId', chapters.gradeAverage);
 
+    app.route('/api/deliverables')
+        .get(chapters.allDeliverables)
+        .post(auth.requiresLogin, chapters.createDeliverable);
+    app.route('/api/deliverables/:deliverableId')
+        .get(auth.isMongoId, chapters.showDeliverable)
+        .put(auth.isMongoId, auth.requiresLogin, chapters.updateDeliverable)
+        .delete(auth.isMongoId, auth.requiresLogin, chapters.destroyDeliverable);
+
+    // Finish with setting up the gradesId param
+    app.param('deliverableId', chapters.deliverable);
+
+    // Finish with setting up the gradesId param
+    app.param('riskmanagementteamId', chapters.riskmanagementteam);
+
 };

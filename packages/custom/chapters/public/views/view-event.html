@@ -25,98 +25,145 @@
             <h2>Deliverables</h2>
         </div>
         <div class="panel-group" id="accordion">
-            <div class="panel panel-default" ng-show="riskManagementDocumentRequired" id="riskManagementDocument">
+            <div ng-repeat="deliverable in deliverables" class="panel panel-default">
                 <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Chapter Risk Management
-                            Plan</a>
-                    </h4>
+                    <h4 class="panel-title">{{deliverable.name}}</h4>
                 </div>
-                <div id="collapseOne" class="panel-collapse collapse in">
-                    <div class="panel-body">
-                        <p><a href="#">Click here to submit risk management document</a></p>
+                <div class="panel-body">
+                    <div ng-show="deliverable.type == 'File'">
+                        <p>File</p>
                     </div>
-                </div>
-            </div>
-
-            <!--<div id="riskManagementDocument" ng-show="riskManagementDocumentRequired">-->
-            <!--<hr>-->
-            <!--<h3>Chapter Risk Management Plan </h3>-->
-            <!--<a href="#">Click here to submit risk management document</a>-->
-            <!--</div>-->
-            <div class="panel panel-default" id="riskManagementTeam" ng-show="riskManagementTeamRequired">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Risk Management Team</a>
-                    </h4>
-                </div>
-                <div id="collapseTwo" class="panel-collapse collapse in">
-                    <div class="panel-body">
-                        <p>You must have 1 sober monitor for every 30 guests in attendance. At least one
-                            sober monitor must be a member of your executive board.</p>
+                    <div ng-show="deliverable.type == 'Array'">
+                        <p>array</p>
                         <table class="table table-bordered table-striped">
                             <thead>
                             <tr>
                                 <th>Responsibility</th>
                                 <th>Member</th>
-                                <th>Email</th>
+                                <!--<th>Email</th>-->
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="position in riskManagementTeamPositions">
-                                <td>{{position.title}}</td>
-                                <td>{{position.name}}</td>
-                                <td>grantcampanelli@gmail.com</td>
+                            <tr ng-repeat="risk in deliverable.rmArray" data-ng-init="findMembers()">
+                                <td><a href="#" editable-select="risk.position" e-ng-model="risk.position"
+                                       onaftersave="updateEvent(true)"
+                                       e-ng-options="rm.value as rm.text for rm in rmAvailablePositions">
+                                    {{ risk.position || 'Not Set' }}
+                                </a></td>
+                                <td>
+                                    <a href="#" editable-select="risk.member" e-ng-model="risk.member"
+                                       onbeforesave="updateRMTeam(risk)" onaftersave="updateEvent(true)"
+                                       e-ng-options="m.id as (m.firstName + ' ' + m.lastName) for m in members | orderBy: 'firstName'">
+                                        {{ risk.member || 'Not Set' }}
+                                    </a>
+                                </td>
+                                <!--<td>{{risk.member.name || 'Select Member'}}</td>-->
+                                <!--<td>{{risk.member.calpolyemail || 'Select Member'}}</td>-->
                             </tr>
                             </tbody>
                         </table>
                     </div>
-                </div>
-            </div>
-            <div class="panel panel-default" id="thirdPartyEventManagementContract"
-                 ng-show="thirdPartyEventManagementContractRequired">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">Third Party Event
-                            Management Contract</a>
-                    </h4>
-                </div>
-                <div id="collapseFour" class="panel-collapse collapse in">
-                    <div class="panel-body">
-                        <a href="#">Click here to submit third party event management contract</a>
+                    <div ng-show="deliverable.type == 'String'">
+                        <a href="#" editable-textarea="deliverable.strContent" onbeforesave="updateDeliverables()"
+                           onaftersave="updateEvent(true)" e-rows="7" e-cols="40">
+                            <pre>{{deliverable.strContent || 'Please click in this box to proceed...' }}</pre>
+                        </a>
                     </div>
-                </div>
-            </div>
-            <div class="panel panel-default" id="guestList" ng-show="guestListRequired">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Pre Event Guest
-                            List</a>
-                    </h4>
-                </div>
-                <div id="collapseThree" class="panel-collapse collapse in">
-                    <div class="panel-body">
-                        <p><a href="#">Click here to submit guest list</a></p>
-                    </div>
-                </div>
-            </div>
 
-            <div class="panel panel-default" id="postGuestList" ng-show="postGuestListRequired">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">Post Event Guest
-                            List</a>
-                    </h4>
-                </div>
-                <div id="collapseFive" class="panel-collapse collapse in">
-                    <div class="panel-body">
-                        <a href="#">Click here to submit post event guest list</a>
-                    </div>
                 </div>
             </div>
+            <!--<div class="panel panel-default" ng-show="riskManagementDocumentRequired" id="riskManagementDocument">-->
+            <!--<div class="panel-heading">-->
+            <!--<h4 class="panel-title">-->
+            <!--<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Chapter Risk Management-->
+            <!--Plan</a>-->
+            <!--</h4>-->
+            <!--</div>-->
+            <!--<div id="collapseOne" class="panel-collapse collapse in">-->
+            <!--<div class="panel-body">-->
+            <!--<p><a href="#">Click here to submit risk management document</a></p>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+
+            <!--&lt;!&ndash;<div id="riskManagementDocument" ng-show="riskManagementDocumentRequired">&ndash;&gt;-->
+            <!--&lt;!&ndash;<hr>&ndash;&gt;-->
+            <!--&lt;!&ndash;<h3>Chapter Risk Management Plan </h3>&ndash;&gt;-->
+            <!--&lt;!&ndash;<a href="#">Click here to submit risk management document</a>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--<div class="panel panel-default" id="riskManagementTeam" ng-show="riskManagementTeamRequired">-->
+            <!--<div class="panel-heading">-->
+            <!--<h4 class="panel-title">-->
+            <!--<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Risk Management Team</a>-->
+            <!--</h4>-->
+            <!--</div>-->
+            <!--<div id="collapseTwo" class="panel-collapse collapse in">-->
+            <!--<div class="panel-body">-->
+            <!--<p>You must have 1 sober monitor for every 30 guests in attendance. At least one-->
+            <!--sober monitor must be a member of your executive board.</p>-->
+            <!--<table class="table table-bordered table-striped">-->
+            <!--<thead>-->
+            <!--<tr>-->
+            <!--<th>Responsibility</th>-->
+            <!--<th>Member</th>-->
+            <!--<th>Email</th>-->
+            <!--</tr>-->
+            <!--</thead>-->
+            <!--<tbody>-->
+            <!--<tr ng-repeat="position in riskManagementTeamPositions">-->
+            <!--<td>{{position.title}}</td>-->
+            <!--<td>{{position.name}}</td>-->
+            <!--<td>grantcampanelli@gmail.com</td>-->
+            <!--</tr>-->
+            <!--</tbody>-->
+            <!--</table>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div class="panel panel-default" id="thirdPartyEventManagementContract"-->
+            <!--ng-show="thirdPartyEventManagementContractRequired">-->
+            <!--<div class="panel-heading">-->
+            <!--<h4 class="panel-title">-->
+            <!--<a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">Third Party Event-->
+            <!--Management Contract</a>-->
+            <!--</h4>-->
+            <!--</div>-->
+            <!--<div id="collapseFour" class="panel-collapse collapse in">-->
+            <!--<div class="panel-body">-->
+            <!--<a href="#">Click here to submit third party event management contract</a>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div class="panel panel-default" id="guestList" ng-show="guestListRequired">-->
+            <!--<div class="panel-heading">-->
+            <!--<h4 class="panel-title">-->
+            <!--<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Pre Event Guest-->
+            <!--List</a>-->
+            <!--</h4>-->
+            <!--</div>-->
+            <!--<div id="collapseThree" class="panel-collapse collapse in">-->
+            <!--<div class="panel-body">-->
+            <!--<p><a href="#">Click here to submit guest list</a></p>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+
+            <!--<div class="panel panel-default" id="postGuestList" ng-show="postGuestListRequired">-->
+            <!--<div class="panel-heading">-->
+            <!--<h4 class="panel-title">-->
+            <!--<a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">Post Event Guest-->
+            <!--List</a>-->
+            <!--</h4>-->
+            <!--</div>-->
+            <!--<div id="collapseFive" class="panel-collapse collapse in">-->
+            <!--<div class="panel-body">-->
+            <!--<a href="#">Click here to submit post event guest list</a>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
         </div>
-        <div ng-if="event !== undefined" ng-include="'comments/views/index.html'"
-             data-ng-controller="CommentsController" data-ng-init="findComments(event, 2)"/>
+        <!--<div ng-if="event !== undefined" ng-include="'comments/views/index.html'"-->
+        <!--data-ng-controller="CommentsController" data-ng-init="findComments(event, 2)"/>-->
         <!-- Voila, you are done. Were you expecting some more steps? :-) -->
         <!--<div id="riskManagementTeam" ng-show="riskManagementTeamRequired">-->
         <!--<hr>-->

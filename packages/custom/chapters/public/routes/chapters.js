@@ -164,6 +164,48 @@ angular.module('mean.chapters').config(['$stateProvider',
                 }
             })
 
+            /* Grade Averages */
+
+            .state('all deliverables', {
+                url: '/deliverables',
+                templateUrl: '/chapters/views/list-grade-averages.html',
+                requiredCircles: {
+                    circles: ['authenticated'],
+                    denyState: 'auth.login'
+                }
+            })
+            .state('create deliverable', {
+                url: '/deliverables/create',
+                templateUrl: '/chapters/views/create-grade-average.html',
+                requiredCircles: {
+                    circles: ['authenticated'],
+                    denyState: 'auth.login'
+                }
+                //{
+                //    circles: ['can create content']
+                //}
+            })
+            .state('edit deliverable', {
+                url: '/deliverables/:deliverableId/edit',
+                templateUrl: '/chapters/views/edit-grade-average.html',
+                requiredCircles: {
+                    circles: ['authenticated'],
+                    denyState: 'auth.login'
+                }
+                //}
+                //{
+                //    circles: ['can edit content']
+                //}
+            })
+            .state('deliverable by id', {
+                url: '/deliverables/:deliverableId',
+                templateUrl: '/chapters/views/view-grade-average.html',
+                requiredCircles: {
+                    circles: ['authenticated'],
+                    denyState: 'auth.login'
+                }
+            })
+
             .state('all services', {
                 url: '/services/',
                 templateUrl: '/chapters/views/list-services.html',

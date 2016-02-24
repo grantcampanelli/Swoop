@@ -54,3 +54,28 @@ angular.module('mean.chapters').factory('GradeAverages', ['$resource',
         });
     }
 ]);
+
+angular.module('mean.chapters').factory('Deliverables', ['$resource',
+    function ($resource) {
+        return $resource('api/deliverables/:deliverableId', {
+            deliverableId: '@_id'
+        }, {
+            update: {
+                method: 'PUT'
+            }
+        });
+    }
+]);
+
+
+angular.module('mean.chapters').factory('RiskManagementTeams', ['$resource',
+    function ($resource) {
+        return $resource('api/riskmanagementteams/:riskmanagementteamId', {
+            deliverableId: '@_id'
+        }, {
+            update: {
+                method: 'PUT'
+            }
+        });
+    }
+]);
