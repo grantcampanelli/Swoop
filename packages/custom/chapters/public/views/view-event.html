@@ -25,9 +25,10 @@
             <h2>Deliverables</h2>
         </div>
         <div class="panel-group" id="accordion">
-            <div ng-repeat="deliverable in deliverables" class="panel panel-default">
+            <div ng-repeat="deliverable in deliverables" class="panel panel-danger">
                 <div class="panel-heading">
                     <h4 class="panel-title">{{deliverable.name}}</h4>
+                    <p>Status: {{deliverable.status}}</p>
                 </div>
                 <div class="panel-body">
                     <div ng-show="deliverable.type == 'File'">
@@ -71,6 +72,14 @@
                     </div>
 
                 </div>
+                <div class="panel-footer" style="background-color: #f2f2f2;">
+                    <a class="btn btn-info">Comment</a>
+                    <a class="btn btn-success" ng-show="isAppAdmin(event)">Verify</a>
+                    <a class="btn btn-warning" ng-show="isAppAdmin(event)">In Review</a>
+                    <a class="btn btn-danger" ng-show="isAppAdmin(event)">Deny</a>
+                    <a class="btn btn-success" ng-show="isChapterAdmin(event)">Submit</a>
+                </div>
+
             </div>
             <!--<div class="panel panel-default" ng-show="riskManagementDocumentRequired" id="riskManagementDocument">-->
             <!--<div class="panel-heading">-->

@@ -10,6 +10,19 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
             return MeanUser.isAdmin || event.user._id === MeanUser.user._id;
         };
 
+        $scope.isAppAdmin = function (event) {
+            if (!event || !event.user) return false;
+            return MeanUser.isAdmin;
+        };
+
+        $scope.isChapterAdmin = function (event) {
+            if (!event || !event.user) return false;
+            console.log("user chapter: " + MeanUser.getChapter);
+            console.log("event chapter: " + event.chapter);
+            //console.log(MeanUser);
+            return MeanUser.user.chapter == event.chapter;
+        };
+
         $scope.availableCircles = [];
         $scope.rmAvailablePositions = [
             {id: 1, text: 'Inside Sober Monitor'},
@@ -76,7 +89,7 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
             Chapters.query(function (chapters) {
                 chapters.forEach(function (chapter) {
                     $scope.chapterNames.push(chapter.name);
-                })
+                });
                 $scope.chapterNames.sort();
                 console.log($scope.chapterNames);
             });
@@ -174,11 +187,11 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
             d = new Deliverables({
                 type: "String",
                 name: "Risk Management Plan",
-                status: "New",
+                status: "Waiting on you"
             });
             event.deliverables.push(d);
 
-            var arr = []
+            var arr = [];
             $scope.minSoberMonitors = Math.ceil(event.attendance / 30);
             console.log("This is the right number: " + $scope.minSoberMonitors);
             // Add Risk Management Team
@@ -197,7 +210,7 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
             d = new Deliverables({
                 type: "Array",
                 name: "Risk Management Team",
-                status: "New",
+                status: "Waiting on you",
                 rmArray: arr
             });
             event.deliverables.push(d);
@@ -206,7 +219,7 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
                 d = new Deliverables({
                     type: "File",
                     name: "Third Party Liquor License",
-                    status: "New"
+                    status: "Waiting on you"
                 });
                 event.deliverables.push(d);
             }
@@ -214,7 +227,7 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
                 d = new Deliverables({
                     type: "File",
                     name: "Third Party Event Management Contract",
-                    status: "New"
+                    status: "Waiting on you"
                 });
                 event.deliverables.push(d);
             }
@@ -223,7 +236,7 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
                 d = new Deliverables({
                     type: "File",
                     name: "Third Party Transportation Contract",
-                    status: "New"
+                    status: "Waiting on you"
                 });
                 event.deliverables.push(d);
             }
@@ -231,21 +244,21 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
             d = new Deliverables({
                 type: "File",
                 name: "Pre Event Guest List",
-                status: "New"
+                status: "Waiting on you"
             });
             event.deliverables.push(d);
 
             d = new Deliverables({
                 type: "File",
                 name: "Post Event Guest List",
-                status: "New"
+                status: "Waiting on you"
             });
             event.deliverables.push(d);
 
             d = new Deliverables({
                 type: "String",
                 name: "Post Event Review",
-                status: "New"
+                status: "Waiting on you"
             });
             event.deliverables.push(d);
 
