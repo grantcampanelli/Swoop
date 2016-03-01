@@ -32,7 +32,9 @@
                 </div>
                 <div class="panel-body">
                     <div ng-show="deliverable.type == 'File'">
-                        <p>File</p>
+                        <p>Description for file to submit: ...</p>
+                        <mean-upload file-dest="'/events/'" upload-callback="uploadFinished(files)" upload-file-callback="uploadFileCallback(file,deliverable,event)"></mean-upload>
+                        <input type="text" id="commentStr">
                     </div>
                     <div ng-show="deliverable.type == 'Array'">
                         <p>array</p>
@@ -70,14 +72,15 @@
                             <pre>{{deliverable.strContent || 'Please click in this box to proceed...' }}</pre>
                         </a>
                     </div>
-
+                    <a class="btn btn-info">Comment</a>
+                    <a class="btn btn-success" ng-show="isChapterAdmin(event)">Submit</a>
                 </div>
                 <div class="panel-footer" style="background-color: #f2f2f2;">
                     <a class="btn btn-info">Comment</a>
                     <a class="btn btn-success" ng-show="isAppAdmin(event)">Verify</a>
                     <a class="btn btn-warning" ng-show="isAppAdmin(event)">In Review</a>
                     <a class="btn btn-danger" ng-show="isAppAdmin(event)">Deny</a>
-                    <a class="btn btn-success" ng-show="isChapterAdmin(event)">Submit</a>
+
                 </div>
 
             </div>

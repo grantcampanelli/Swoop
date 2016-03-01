@@ -56,7 +56,7 @@ module.exports = {
     service: 'GMAIL', // Gmail, SMTP
     auth: {
       user: 'grantcampanelli@gmail.com',
-      pass: '#Mad57Pai'
+      pass: '#'
     }
   }, 
   secret: 'SOME_TOKEN_SECRET'

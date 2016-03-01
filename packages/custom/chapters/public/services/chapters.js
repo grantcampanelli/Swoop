@@ -67,6 +67,18 @@ angular.module('mean.chapters').factory('Deliverables', ['$resource',
     }
 ]);
 
+angular.module('mean.chapters').factory('Comments', ['$resource',
+    function ($resource) {
+        return $resource('api/comments/:commentId', {
+            deliverableId: '@_id'
+        }, {
+            update: {
+                method: 'PUT'
+            }
+        });
+    }
+]);
+
 
 angular.module('mean.chapters').factory('RiskManagementTeams', ['$resource',
     function ($resource) {

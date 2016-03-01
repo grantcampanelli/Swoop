@@ -59,12 +59,12 @@ Chapters.register(function(app, auth, database) {
     'title': 'GPA',
     'link': 'all gradeaverages'
   });
-
-  Chapters.menus.add({
-    'roles': ['authenticated'],
-    'title': 'Service',
-    'link': 'all services'
-  });
+  //
+  //Chapters.menus.add({
+  //  'roles': ['authenticated'],
+  //  'title': 'Service',
+  //  'link': 'all services'
+  //});
 
   Chapters.events.defaultData({
     type: 'post',

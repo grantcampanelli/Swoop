@@ -333,6 +333,8 @@ module.exports = function (Chapters) {
 
             event = _.extend(event, req.body);
 
+            console.log("in updateEvent via server");
+            console.log(event);
 
             event.save(function (err) {
                 if (err) {
@@ -674,6 +676,136 @@ module.exports = function (Chapters) {
                 res.json(deliverables)
             });
 
+        },/*
+         *
+         * Comments -------
+         *
+         */
+        /**
+         * Find comments by id
+         */
+        comment: function (req, res, next, id) {
+            Comment.load(id, function (err, comment) {
+                if (err) return next(err);
+                if (!comment) return next(new Error('Failed to load comment ' + id));
+                req.comment = comment;
+                next();
+            });
+        },
+        /**
+         * Create an comment
+         */
+        createComment: function (req, res) {
+            console.log("in create grade average");
+            var comment = new Comment(req.body);
+            comment.user = req.user;
+            //comment.permissions.push('authenticated');
+            console.log(comment);
+
+            comment.save(function (err) {
+                if (err) {
+                    return res.status(500).json({
+                        error: 'Cannot save the grade average'
+                    });
+                }
+
+                Chapters.events.publish({
+                    action: 'created',
+                    user: {
+                        name: req.user.name
+                    },
+                    url: config.hostname + '/comments/' + comment._id,
+                    name: comment.name
+                });
+
+                res.json(comment);
+            });
+        },
+        /**
+         * Update a comment
+         */
+        updateComment: function (req, res) {
+            var comment = req.comment;
+
+            comment = _.extend(comment, req.body);
+
+
+            comment.save(function (err) {
+                if (err) {
+                    return res.status(500).json({
+                        error: 'Cannot update the grade average'
+                    });
+                }
+
+                Chapters.events.publish({
+                    action: 'updated',
+                    user: {
+                        name: req.user.name
+                    },
+                    name: comment.name,
+                    url: config.hostname + '/comments/' + comment._id
+                });
+
+                res.json(comment);
+            });
+        },
+        /**
+         * Delete one comment
+         */
+        destroyComment: function (req, res) {
+            var comment = req.comment;
+
+
+            comment.remove(function (err) {
+                if (err) {
+                    return res.status(500).json({
+                        error: 'Cannot delete the grade average'
+                    });
+                }
+
+                Chapters.events.publish({
+                    action: 'deleted',
+                    user: {
+                        name: req.user.name
+                    },
+                    name: comment.name
+                });
+
+                res.json(comment);
+            });
+        },
+        /**
+         * Show a grade average
+         */
+        showComment: function (req, res) {
+
+            Chapters.events.publish({
+                action: 'viewed',
+                user: {
+                    name: req.user.name
+                },
+                name: req.comment.name,
+                url: config.hostname + '/comments/' + req.comment._id
+            });
+
+            res.json(req.comment);
+        },
+        /**
+         * List of Grade Averages
+         */
+        allComments: function (req, res) {
+            var query = req.acl.query('Comment');
+
+            query.find({}).sort('-created').populate('user', 'name username').exec(function (err, comments) {
+                if (err) {
+                    return res.status(500).json({
+                        error: 'Cannot list the grade averages'
+                    });
+                }
+
+                res.json(comments)
+            });
+
         },
 
         /**
@@ -686,7 +818,7 @@ module.exports = function (Chapters) {
                 req.riskmanagementteam = riskmanagementteam;
                 next();
             });
-        },
+        }
 
 
 

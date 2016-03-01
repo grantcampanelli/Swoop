@@ -141,7 +141,7 @@ var RiskManagementTeamSchema = new Schema({
 mongoose.model('RiskManagementTeams', RiskManagementTeamSchema);
 
 
-var CommentSubmissionSchema = new Schema({
+var CommentSchema = new Schema({
     created: {
         type: Date,
         default: Date.now
@@ -153,10 +153,11 @@ var CommentSubmissionSchema = new Schema({
     },
     strContent: String,
     arrContent: Array,
-    fileContent: Object,
+    fileURL: String,
     comment: String
 });
-mongoose.model('EditSubmissions', CommentSubmissionSchema);
+
+//mongoose.model('CommentSubmission', CommentSubmissionSchema);
 /**
  * Deliverable Schema
  */
@@ -171,13 +172,13 @@ var DeliverableSchema = new Schema({
     rmArray: [RiskManagementTeamSchema],
     fileContent: String,
     //fs : [FileSubmissionSchema],
-    comments: [CommentSubmissionSchema]
+    comments: [CommentSchema]
     //as: [ArraySubmissionSchema],
     //ss: [StringSubmissionSchema]
 });
 
 
-mongoose.model('Deliverables', DeliverableSchema);
+//mongoose.model('Deliverables', DeliverableSchema);
 
 
 /**

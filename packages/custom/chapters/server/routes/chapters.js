@@ -97,6 +97,17 @@ module.exports = function(Chapters, app, auth) {
     // Finish with setting up the gradesId param
     app.param('deliverableId', chapters.deliverable);
 
+    app.route('/api/comments')
+        .get(chapters.allComments)
+        .post(auth.requiresLogin, chapters.createComment);
+    app.route('/api/comments/:commentId')
+        .get(auth.isMongoId, chapters.showComment)
+        .put(auth.isMongoId, auth.requiresLogin, chapters.updateComment)
+        .delete(auth.isMongoId, auth.requiresLogin, chapters.destroyComment);
+
+    // Finish with setting up the gradesId param
+    app.param('commentId', chapters.deliverable);
+
     // Finish with setting up the gradesId param
     app.param('riskmanagementteamId', chapters.riskmanagementteam);
 

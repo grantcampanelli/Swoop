@@ -1,9 +1,12 @@
 'use strict';
 
+//var mongoose = require('mongoose');
 
-angular.module('mean.chapters').controller('EventsController', ['$scope', '$stateParams', '$location', 'Global', 'Events', 'Chapters', 'MeanUser', 'Circles', 'Comments', 'Deliverables', 'RiskManagementTeams', 'Members',
-    function ($scope, $stateParams, $location, Global, Events, Chapters, MeanUser, Circles, Comments, Deliverables, RiskManagementTeams, Members) {
+angular.module('mean.chapters').controller('EventsController', ['$scope', '$stateParams', '$location', 'Global', 'Events', 'Chapters', 'MeanUser', 'Circles', 'Deliverables', 'RiskManagementTeams', 'Members', 'Comments',
+    function ($scope, $stateParams, $location, Global, Events, Chapters, MeanUser, Circles, Deliverables, RiskManagementTeams, Members, Comments) {
         $scope.global = Global;
+
+        //$scope.CommentSubmission = mongoose.model('CommentSubmission');
 
         $scope.hasAuthorization = function (event) {
             if (!event || !event.user) return false;
@@ -17,8 +20,8 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
 
         $scope.isChapterAdmin = function (event) {
             if (!event || !event.user) return false;
-            console.log("user chapter: " + MeanUser.getChapter);
-            console.log("event chapter: " + event.chapter);
+            //console.log("user chapter: " + MeanUser.getChapter);
+            //console.log("event chapter: " + event.chapter);
             //console.log(MeanUser);
             return MeanUser.user.chapter == event.chapter;
         };
@@ -187,7 +190,8 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
             d = new Deliverables({
                 type: "String",
                 name: "Risk Management Plan",
-                status: "Waiting on you"
+                status: "Waiting on you",
+                comments: []
             });
             event.deliverables.push(d);
 
@@ -211,7 +215,8 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
                 type: "Array",
                 name: "Risk Management Team",
                 status: "Waiting on you",
-                rmArray: arr
+                rmArray: arr,
+                comments: []
             });
             event.deliverables.push(d);
 
@@ -219,7 +224,8 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
                 d = new Deliverables({
                     type: "File",
                     name: "Third Party Liquor License",
-                    status: "Waiting on you"
+                    status: "Waiting on you",
+                    comments: []
                 });
                 event.deliverables.push(d);
             }
@@ -227,7 +233,8 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
                 d = new Deliverables({
                     type: "File",
                     name: "Third Party Event Management Contract",
-                    status: "Waiting on you"
+                    status: "Waiting on you",
+                    comments: []
                 });
                 event.deliverables.push(d);
             }
@@ -236,7 +243,8 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
                 d = new Deliverables({
                     type: "File",
                     name: "Third Party Transportation Contract",
-                    status: "Waiting on you"
+                    status: "Waiting on you",
+                    comments: []
                 });
                 event.deliverables.push(d);
             }
@@ -244,21 +252,24 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
             d = new Deliverables({
                 type: "File",
                 name: "Pre Event Guest List",
-                status: "Waiting on you"
+                status: "Waiting on you",
+                comments: []
             });
             event.deliverables.push(d);
 
             d = new Deliverables({
                 type: "File",
                 name: "Post Event Guest List",
-                status: "Waiting on you"
+                status: "Waiting on you",
+                comments: []
             });
             event.deliverables.push(d);
 
             d = new Deliverables({
                 type: "String",
                 name: "Post Event Review",
-                status: "Waiting on you"
+                status: "Waiting on you",
+                comments: []
             });
             event.deliverables.push(d);
 
@@ -372,10 +383,6 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
 
         $scope.members;
 
-        //$scope.loadMembers = function() {
-        //    return $scope.members.length ? null : $scope.members;
-        //};
-
         $scope.findMembers = function () {
             if (!$scope.members) {
                 $scope.members = [];
@@ -392,11 +399,6 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
                     //console.log($scope.members);
                 });
             }
-            //.then(function(members) {
-            //console.log(members);
-            //
-            //$scope.members
-            //});
         };
 
         $scope.updateRMTeam = function (risk, member) {
@@ -405,9 +407,56 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
             //console.log(risk.position + " " + member.firstName)
             risk.member = member;
             console.log("Updated RM?");
-        }
+        };
 
 
+        /* Event File Submission */
+
+        $scope.uploadFileCallback = function(file, deliverable, event) {
+           console.log("---- uploadFileCallback --- ");
+            console.log(file);
+            console.log(deliverable);
+
+            var comment = new Comments();
+            comment.comment =  "This is the first comment";
+            comment.fileURL =  file.src;
+            deliverable.comments.push(comment);
+            console.log("--- Deliverable:");
+            console.log(deliverable);
+            console.log("event before setting equal");
+            console.log(event);
+            console.log("event after setting equal");
+            $scope.event = event;
+            console.log(event);
+            console.log('update the event');
+            $scope.event = event;
+
+            //event.save(function(err) {
+            //    console.log("saving event...");
+            //}).then(function() {
+            //    console.log("event saved!");
+            //});
+
+            //$scope.updateEvent(true);
+            event.$update(function () {
+                $location.path('events/' + event._id);
+            });
+            console.log('updating event...');
+            //var comment = new CommentSubmissions();
+            //console.log(comment);
+
+            //if (file.type.indexOf('image') !== -1){
+            //    $scope.images.push(file);
+            //    $scope.addSlide(file.src);
+            //}
+            //else{
+            //    $scope.files.push(file);
+            //}
+        };
+
+        $scope.uploadFinished = function(files) {
+            console.log(files);
+        };
 
 
     }

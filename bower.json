@@ -17,6 +17,7 @@
     "ng-csv": "~0.3.6",
     "ng-file-upload": "^11.2.3",
     "angular-chart.js": "^0.8.8",
-    "angular-xeditable": "^0.1.9"
+    "angular-xeditable": "^0.1.9",
+    "angular-random-string": "^0.1.0"
   }
 }
