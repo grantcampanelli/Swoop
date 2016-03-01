@@ -31,12 +31,12 @@ Upload.register(function(app, auth, database) {
     Upload.angularDependencies(['angularFileUpload', 'angularRandomString']);
 
     //We are adding a link to the main menu for all authenticated users
-    Upload.menus.add({
-        title: 'Upload',
-        link: 'Mean upload help page',
-        roles: ['authenticated'],
-        menu: 'main'
-    });
+    //Upload.menus.add({
+    //    title: 'Upload',
+    //    link: 'Mean upload help page',
+    //    roles: ['authenticated'],
+    //    menu: 'main'
+    //});
 
     if (Upload.events.defaultData)
         Upload.events.defaultData({
