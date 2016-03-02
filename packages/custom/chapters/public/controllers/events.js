@@ -1,9 +1,9 @@
 'use strict';
 
-//var mongoose = require('mongoose');
-
-angular.module('mean.chapters').controller('EventsController', ['$scope', '$stateParams', '$location', 'Global', 'Events', 'Chapters', 'MeanUser', 'Circles', 'Deliverables', 'RiskManagementTeams', 'Members', 'Comments',
-    function ($scope, $stateParams, $location, Global, Events, Chapters, MeanUser, Circles, Deliverables, RiskManagementTeams, Members, Comments) {
+angular.module('mean.chapters').controller('EventsController', ['$scope', '$stateParams', '$location', 'Global', 'Events',
+    'Chapters', 'MeanUser', 'Circles', 'Deliverables', 'RiskManagementTeams', 'Members', 'Comments',
+    function ($scope, $stateParams, $location, Global, Events, Chapters, MeanUser, Circles, Deliverables,
+              RiskManagementTeams, Members, Comments) {
         $scope.global = Global;
 
         //$scope.CommentSubmission = mongoose.model('CommentSubmission');
@@ -20,7 +20,7 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
 
         $scope.isAppAdminAndSubmitted = function (event, deliverable) {
             if (!event || !event.user) return false;
-            if (deliverable.status != 1)
+            if (deliverable.status != "Waiting on admin")
                 return false;
             return MeanUser.isAdmin;
         };
@@ -32,19 +32,32 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
             return MeanUser.user.chapter == event.chapter;
         };
 
-        $scope.isChapterAdminAndNotSubmitted = function (event, deliverable) {
+        $scope.arrayChapterAdminAndNotSubmitted = function (event, deliverable) {
             if (!event || !event.user) return false;
-            if (deliverable.status != "Waiting on you")
+            if (deliverable.status != "Waiting on you" ||
+                deliverable.type != "Array")
+                return false;
+            return MeanUser.user.chapter == event.chapter;
+        };
+
+        $scope.fileChapterAdminAndNotSubmitted = function (event, deliverable) {
+            if (!event || !event.user) return false;
+            if (deliverable.status != "Waiting on you" ||
+                deliverable.type != "File")
+                return false;
+            return MeanUser.user.chapter == event.chapter;
+        };
+
+        $scope.stringChapterAdminAndNotSubmitted = function (event, deliverable) {
+            if (!event || !event.user) return false;
+            if (deliverable.status != "Waiting on you" ||
+                deliverable.type != "String")
                 return false;
             return MeanUser.user.chapter == event.chapter;
         };
 
         $scope.availableCircles = [];
-        $scope.rmAvailablePositions = [
-            {id: 1, text: 'Inside Sober Monitor'},
-            {id: 2, text: 'Outside Sober Monitor'},
-            {id: 3, text: 'Bartender'},
-            {id: 4, text: 'Sober Exec'}];
+
 
         /*
          *
@@ -213,13 +226,13 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
             console.log("This is the right number: " + $scope.minSoberMonitors);
             // Add Risk Management Team
             var rm = new RiskManagementTeams({
-                position: "Sober Exec",
+                position: "Sober Executive",
                 member: null
             });
             arr.push(rm);
             for (var i = 0; i < $scope.minSoberMonitors; i++) {
                 rm = new RiskManagementTeams({
-                    position: "Sober Monitor " + i,
+                    position: null,
                     member: null
                 });
                 arr.push(rm);
@@ -379,6 +392,18 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
             //}
         };
 
+        $scope.riskManagement
+
+        $scope.setupDeliverableArray = function (index) {
+            $scope.findMembers();
+            if ($scope.event.deliverables[index].rmArray)
+                $scope.riskManagementTeam = $scope.event.deliverables[index].rmArray;
+            else
+                console.log("big problem in update deliverable array");
+            //console.log( $scope.event.deliverables[index].rmArray);
+            console.log($scope.riskManagementTeam);
+        };
+
         $scope.findEvents = function () {
             Events.query(function (events) {
                 $scope.events = events;
@@ -398,7 +423,7 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
                 //$scope.generateDeliverables(event);
                 console.log($scope.event);
 
-                $scope.generateRiskManagementTeamTable(event.attendance);
+                //$scope.generateRiskManagementTeamTable(event.attendance);
             });
         };
 
@@ -448,25 +473,218 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
 
         };
 
+        $scope.deliverableSubmissionData = [];
+
+        $scope.createDeliverableSubmissionDataFromFile = function (url) {
+            var comment = []//new Comment();
+            //comment.dId = id;
+            //comment.user = MeanUser.user;
+            comment.fileURL = url;
+            return comment;
+        };
+
         /* Event Comment File Callback */
-        $scope.commentUploadFileCallback = function (file, deliverable, event) {
-            var comment = new Comment();
-            comment.comment = "This is the first comment";
-            comment.fileURL = file.src;
-            comment.user = MeanUser.user;
-            deliverable.comments.push(comment);
+        $scope.commentUploadFileCallback = function (file, deliverable, event, index) {
+            var comment;// = new Comment();
+            //comment.comment = "This is the first comment";
+            //comment.fileURL = file.src;
+            //comment.user = MeanUser.user;
+            console.log(index);
+            //$scope.deliverableSubmissionData[5] = "hi";
+            console.log("dsd");
+            console.log($scope.deliverableSubmissionData);
+            //if($scope.deliverableSubmissionData[index]){
+            //    $scope.deliverableSubmissionData.splice(index, 1);
+            //}
+            //var id = deliverable._id;
+            //if($scope.deliverableSubmissionData) {
+            //    for(var i = 0; i < $scope.deliverableSubmissionData.length; i++) {
+            //        if($scope.deliverableSubmissionData[i].dId == id) {
+            //            $scope.deliverableSubmissionData.splice(i, 1);
+            //        }
+            //    }
+            //}
+            $scope.deliverableSubmissionData[index] = $scope.createDeliverableSubmissionDataFromFile(file.src);
+
+            console.log("dsd");
+            console.log($scope.deliverableSubmissionData);
+            //deliverable.comments.push(comment);
+            //$scope.event = event;
+            //console.log(event);
+        };
+
+        $scope.submitFileDeliverableForReview = function (index, commentString) {
+            var event = $scope.event;
+            console.log("submitDeliverableForReview");
+            //console.log(deliverable);
+            console.log("comment string: " + commentString);
+            console.log("dsd");
+            var c;
+            var d;
+            var DONOTSAVE = 0;
+            console.log($scope.deliverableSubmissionData[index]);
+            if ((d = $scope.deliverableSubmissionData[index])) {
+                c = new Comment();
+                c.user = MeanUser.user;
+                c.fileURL = d.fileURL ? d.fileURL : null;
+                c.comment = commentString ? commmentString : null;
+                if (!event.deliverables[index].comments)
+                    event.deliverables[index].comments = [];
+                event.deliverables[index].comments.push(c);
+                event.deliverables[index].status = "Waiting on admin";
+            }
+            else if (commentString != null) {
+                c = new Comment();
+                c.user = MeanUser.user;
+                c.comment = commentString;
+                if (!event.deliverables[index].comments)
+                    event.deliverables[index].comments = [];
+                event.deliverables[index].comments.push(c);
+                event.deliverables[index].status = "Waiting on admin";
+            }
+            else {
+                DONOTSAVE = 1;
+                console.log("error, nothing in the comment");
+            }
+            //$scope.deliverableSubmissionData.forEach(function(d) {
+            //   if(deliverable._id == d.dId) {
+            //       var c = new Comment();
+            //       c.user = MeanUser.user;
+            //       c.fileURL = d.fileURL ? d.fileURL : null;
+            //       c.comment = d.comment ? d.comment : null;
+            //
+            //
+            //       deliverable.comments.push(c)
+            //   }
+            //});
+            //console.log("deliverable");
+            //console.log(deliverable);
+            console.log("event");
             $scope.event = event;
+            console.log($scope.event);
 
-            event.$update(function () {
-                $location.path('events/' + event._id);
-            });
+            if (!DONOTSAVE) {
+                event.$update(function () {
+                    $location.path('events/' + event._id);
+                }).then(function () {
+                    console.log("event updated!");
+                });
+            }
+        };
 
+        $scope.submitStringDeliverableForReview = function (index) {
+            console.log("Submit String");
+            var event;
+            if ($scope.event.deliverables[index].strContent != null) {
+                event = $scope.event;
+                event.deliverables[index].status = "Waiting on admin";
+                event.$update(function () {
+                    $location.path('events/' + event._id);
+                });
+                $scope.event = event;
+            }
         };
 
 
         $scope.uploadFinished = function(files) {
             console.log(files);
         };
+
+        /*
+         * Risk Management
+         */
+
+        $scope.rmNotEditable = 1;
+
+        $scope.rmAvailablePositions = [
+            {value: 'Sober Executive', text: 'Sober Executive'},
+            {value: 'Inside Sober Monitor', text: 'Inside Sober Monitor'},
+            {value: 'Outside Sober Monitor', text: 'Outside Sober Monitor'},
+            {value: 'Bartender', text: 'Bartender'},
+            {value: 'General Sober Monitor', text: 'General Sober Monitor'}];
+
+        $scope.rmAvailablePositions = [
+            'Sober Executive',
+            'Inside Sober Monitor',
+            'Outside Sober Monitor',
+            'Bartender',
+            'General Sober Monitor'];
+
+        $scope.updateRMPosition = function () {
+
+        };
+
+        //$scope.rmAvailablePositions = ['Sober Executive',
+        //    'Inside Sober Monitor',
+        //    'Outside Sober Monitor',
+        //    'Bartender',
+        //    'General Sober Monitor'];
+
+        $scope.showPosition = function (risk) {
+            var selected = [];
+            console.log(risk.position);
+            if (risk.position) {
+                selected = $scope.rmAvailablePositions.forEach(function (r) {
+                    if (r.text == risk.position) {
+                        console.log("found r!");
+                        console.log(r)
+                        return r;
+                    }
+                });
+                //, function(r) { return r.id == '45' });
+                //$filter('filter')($scope.statuses, {id: risk.position});
+            }
+            return risk.position;
+            //return selected.length ? selected[0].text : 'Not set';
+        };
+
+        $scope.showMember = function (risk) {
+            return risk.member;
+
+        };
+
+        $scope.addRisk = function (index) {
+            var rm = new RiskManagementTeams({
+                position: null,
+                member: null
+            });
+            $scope.event.deliverables[index].rmArray.push(rm);
+            console.log($scope.event.deliverables[index].rmArray);
+        };
+
+        $scope.saveRiskTable = function (index) {
+            var results = []
+            console.log("index: " + index);
+            var riskArray = $scope.event.deliverables[index].rmArray;
+            console.log(riskArray);
+            var i;
+            for (i = 0; i < riskArray.length; i++) {
+                var risk = $scope.riskArray[i];
+                // actually delete user
+                //if (risk.isDeleted) {
+                //    riskArray.splice(i, 1);
+                //}
+                //// mark as not new
+                //if (risk.isNew) {
+                //    risk.isNew = false;
+                //}
+
+                // send on server
+                //results.push($http.post('/saveUser', user));
+            }
+
+            return $q.all(results);
+        };
+
+        $scope.updateRiskManagement = function (type, index) {
+            var event = $scope.event;
+            event.$update(function () {
+                $location.path('events/' + event._id);
+            }).then(function () {
+                console.log("update risk management");
+            });
+            $scope.event = event;
+        }
 
 
     }
