@@ -20,7 +20,8 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
 
         $scope.isAppAdminAndSubmitted = function (event, deliverable) {
             if (!event || !event.user) return false;
-            if (deliverable.status != "Waiting on admin")
+            if (deliverable.status != "Waiting on admin" &&
+                deliverable.status != "Being Reviewed")
                 return false;
             return MeanUser.isAdmin;
         };
@@ -34,7 +35,7 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
 
         $scope.arrayChapterAdminAndNotSubmitted = function (event, deliverable) {
             if (!event || !event.user) return false;
-            if (deliverable.status != "Waiting on you" ||
+            if (deliverable.status != "Waiting on chapter" ||
                 deliverable.type != "Array")
                 return false;
             return MeanUser.user.chapter == event.chapter;
@@ -42,7 +43,7 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
 
         $scope.fileChapterAdminAndNotSubmitted = function (event, deliverable) {
             if (!event || !event.user) return false;
-            if (deliverable.status != "Waiting on you" ||
+            if (deliverable.status != "Waiting on chapter" ||
                 deliverable.type != "File")
                 return false;
             return MeanUser.user.chapter == event.chapter;
@@ -50,13 +51,38 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
 
         $scope.stringChapterAdminAndNotSubmitted = function (event, deliverable) {
             if (!event || !event.user) return false;
-            if (deliverable.status != "Waiting on you" ||
+            if (deliverable.status != "Waiting on chapter" ||
                 deliverable.type != "String")
                 return false;
             return MeanUser.user.chapter == event.chapter;
         };
 
         $scope.availableCircles = [];
+
+        $scope.getUserFromId = function (userID) {
+            console.log("getuser from id: " + userID);
+            MeanUser.findOne({
+                _id: userID
+
+            }, function (user) {
+                console.log(user);
+            });
+            //Events.get({
+            //    eventId: $stateParams.eventId
+            //}, function (event) {
+            //    $scope.event = event;
+            //    $scope.deliverables = event.deliverables;
+            //    //$scope.riskManagementTeam = event.arrContent;
+            //    console.log('eventID' + $stateParams.eventId);
+            //    console.log(event.deliverables[0]);
+            //    //$scope.deliverables = [];
+            //    //$scope.generateDeliverables(event);
+            //    console.log($scope.event);
+            //
+            //    //$scope.generateRiskManagementTeamTable(event.attendance);
+            //});
+        }
+
 
 
         /*
@@ -216,7 +242,7 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
             d = new Deliverables({
                 type: "String",
                 name: "Risk Management Plan",
-                status: "Waiting on you",
+                status: "Waiting on chapter",
                 comments: []
             });
             event.deliverables.push(d);
@@ -240,7 +266,7 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
             d = new Deliverables({
                 type: "Array",
                 name: "Risk Management Team",
-                status: "Waiting on you",
+                status: "Waiting on chapter",
                 rmArray: arr,
                 comments: []
             });
@@ -250,7 +276,7 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
                 d = new Deliverables({
                     type: "File",
                     name: "Third Party Liquor License",
-                    status: "Waiting on you",
+                    status: "Waiting on chapter",
                     comments: []
                 });
                 event.deliverables.push(d);
@@ -259,7 +285,7 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
                 d = new Deliverables({
                     type: "File",
                     name: "Third Party Event Management Contract",
-                    status: "Waiting on you",
+                    status: "Waiting on chapter",
                     comments: []
                 });
                 event.deliverables.push(d);
@@ -269,7 +295,7 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
                 d = new Deliverables({
                     type: "File",
                     name: "Third Party Transportation Contract",
-                    status: "Waiting on you",
+                    status: "Waiting on chapter",
                     comments: []
                 });
                 event.deliverables.push(d);
@@ -278,7 +304,7 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
             d = new Deliverables({
                 type: "File",
                 name: "Pre Event Guest List",
-                status: "Waiting on you",
+                status: "Waiting on chapter",
                 comments: []
             });
             event.deliverables.push(d);
@@ -286,7 +312,7 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
             d = new Deliverables({
                 type: "File",
                 name: "Post Event Guest List",
-                status: "Waiting on you",
+                status: "Waiting on chapter",
                 comments: []
             });
             event.deliverables.push(d);
@@ -294,7 +320,7 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
             d = new Deliverables({
                 type: "String",
                 name: "Post Event Review",
-                status: "Waiting on you",
+                status: "Waiting on chapter",
                 comments: []
             });
             event.deliverables.push(d);
@@ -572,17 +598,67 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
             }
         };
 
+        $scope.adminReviewDeliverable = function (index, commentString, status) {
+            var event = $scope.event;
+            console.log("submitDeliverableForReview");
+            //console.log(deliverable);
+            console.log("comment string: " + commentString);
+            console.log("Status: " + status);
+            console.log("dsd");
+            var c;
+
+            c = new Comment();
+            c.user = MeanUser.user;
+            if (status == 'deny') {
+                event.deliverables[index].status = "Waiting on chapter";
+                c.comment = commentString ? commentString : "Denied";
+            }
+            else if (status == 'review') {
+                event.deliverables[index].status = "Being Reviewed";
+                c.comment = commentString ? commentString : "Being Reviewed";
+            }
+            else if (status == 'approve') {
+                event.deliverables[index].status = "Approved";
+                c.comment = commentString ? commentString : "Approved";
+            }
+
+            //if (!$scope.event.deliverables[index].comments) {
+            //    $scope.event.deliverables[index].comments = [];
+            //    $scope.event.deliverables[index].comments = [];
+            //}
+            event.deliverables[index].comments.push(c);
+
+            $scope.event = event;
+            event.$update(function () {
+                $location.path('events/' + event._id);
+            }).then(function () {
+                console.log("event updated!");
+            });
+        };
+
         $scope.submitStringDeliverableForReview = function (index) {
             console.log("Submit String");
             var event;
             if ($scope.event.deliverables[index].strContent != null) {
                 event = $scope.event;
+                $scope.event.deliverables[index].status = "Waiting on admin";
                 event.deliverables[index].status = "Waiting on admin";
                 event.$update(function () {
                     $location.path('events/' + event._id);
                 });
                 $scope.event = event;
             }
+        };
+
+        $scope.submitArrayDeliverableForReview = function (index) {
+            console.log("Submit Array");
+            var event = $scope.event;
+            event.deliverables[index].status = "Waiting on admin";
+            event.$update(function () {
+                $location.path('events/' + event._id);
+            });
+            $scope.event = event;
+
         };
 
 
@@ -594,7 +670,7 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
          * Risk Management
          */
 
-        $scope.rmNotEditable = 1;
+        $scope.riskManagementTeamNotEditable = 1;
 
         $scope.rmAvailablePositions = [
             {value: 'Sober Executive', text: 'Sober Executive'},
