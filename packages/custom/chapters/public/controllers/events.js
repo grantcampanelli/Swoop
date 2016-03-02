@@ -18,11 +18,24 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
             return MeanUser.isAdmin;
         };
 
+        $scope.isAppAdminAndSubmitted = function (event, deliverable) {
+            if (!event || !event.user) return false;
+            if (deliverable.status != 1)
+                return false;
+            return MeanUser.isAdmin;
+        };
+
+
+
         $scope.isChapterAdmin = function (event) {
             if (!event || !event.user) return false;
-            //console.log("user chapter: " + MeanUser.getChapter);
-            //console.log("event chapter: " + event.chapter);
-            //console.log(MeanUser);
+            return MeanUser.user.chapter == event.chapter;
+        };
+
+        $scope.isChapterAdminAndNotSubmitted = function (event, deliverable) {
+            if (!event || !event.user) return false;
+            if (deliverable.status != "Waiting on you")
+                return false;
             return MeanUser.user.chapter == event.chapter;
         };
 
@@ -325,7 +338,15 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
                 if (!event.updated) {
                     event.updated = [];
                 }
+
+                //var comment = new Comments();
+                //comment.comment =  "This is the first comment";
+                //comment.fileURL =  "path/to/url";
+                //event.deliverables[0].comments.push(comment);
+
                 event.updated.push(new Date().getTime());
+                console.log("checking if its there");
+                console.log(event);
 
                 event.$update(function () {
                     $location.path('events/' + event._id);
@@ -413,46 +434,35 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
         /* Event File Submission */
 
         $scope.uploadFileCallback = function(file, deliverable, event) {
-           console.log("---- uploadFileCallback --- ");
-            console.log(file);
-            console.log(deliverable);
 
-            var comment = new Comments();
+            var comment = new Comment();
             comment.comment =  "This is the first comment";
             comment.fileURL =  file.src;
+            comment.user = MeanUser.user;
             deliverable.comments.push(comment);
-            console.log("--- Deliverable:");
-            console.log(deliverable);
-            console.log("event before setting equal");
-            console.log(event);
-            console.log("event after setting equal");
-            $scope.event = event;
-            console.log(event);
-            console.log('update the event');
             $scope.event = event;
 
-            //event.save(function(err) {
-            //    console.log("saving event...");
-            //}).then(function() {
-            //    console.log("event saved!");
-            //});
-
-            //$scope.updateEvent(true);
             event.$update(function () {
                 $location.path('events/' + event._id);
             });
-            console.log('updating event...');
-            //var comment = new CommentSubmissions();
-            //console.log(comment);
 
-            //if (file.type.indexOf('image') !== -1){
-            //    $scope.images.push(file);
-            //    $scope.addSlide(file.src);
-            //}
-            //else{
-            //    $scope.files.push(file);
-            //}
         };
+
+        /* Event Comment File Callback */
+        $scope.commentUploadFileCallback = function (file, deliverable, event) {
+            var comment = new Comment();
+            comment.comment = "This is the first comment";
+            comment.fileURL = file.src;
+            comment.user = MeanUser.user;
+            deliverable.comments.push(comment);
+            $scope.event = event;
+
+            event.$update(function () {
+                $location.path('events/' + event._id);
+            });
+
+        };
+
 
         $scope.uploadFinished = function(files) {
             console.log(files);

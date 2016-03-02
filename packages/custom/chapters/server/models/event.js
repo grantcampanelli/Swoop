@@ -6,7 +6,8 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+    Schema = mongoose.Schema,
+    tree = require('mongoose-tree');
 
 var MemberSchema = new Schema({
     created: {
@@ -87,51 +88,51 @@ MemberSchema.statics.load = function (id, cb) {
 
 mongoose.model('Member', MemberSchema);
 
-var StringSubmissionSchema = new Schema({
-    created: {
-        type: Date,
-        default: Date.now
-    },
-    user: {
-        type: Schema.ObjectId,
-        ref: 'User',
-        required: true
-    },
-    content: String,
-    comment: String
-});
-
-var ArraySubmissionSchema = new Schema({
-    created: {
-        type: Date,
-        default: Date.now
-    },
-    user: {
-        type: Schema.ObjectId,
-        ref: 'User',
-        required: true
-    },
-    content: Array,
-    comment: String
-});
-
-var FileSubmissionSchema = new Schema({
-    created: {
-        type: Date,
-        default: Date.now
-    },
-    user: {
-        type: Schema.ObjectId,
-        ref: 'User',
-        required: true
-    },
-    //content: File,
-    comment: String
-});
-
-mongoose.model('StringSubmissions', StringSubmissionSchema);
-mongoose.model('ArraySubmissions', ArraySubmissionSchema);
-mongoose.model('FileSubmissions', FileSubmissionSchema);
+//var StringSubmissionSchema = new Schema({
+//    created: {
+//        type: Date,
+//        default: Date.now
+//    },
+//    user: {
+//        type: Schema.ObjectId,
+//        ref: 'User',
+//        required: true
+//    },
+//    content: String,
+//    comment: String
+//});
+//
+//var ArraySubmissionSchema = new Schema({
+//    created: {
+//        type: Date,
+//        default: Date.now
+//    },
+//    user: {
+//        type: Schema.ObjectId,
+//        ref: 'User',
+//        required: true
+//    },
+//    content: Array,
+//    comment: String
+//});
+//
+//var FileSubmissionSchema = new Schema({
+//    created: {
+//        type: Date,
+//        default: Date.now
+//    },
+//    user: {
+//        type: Schema.ObjectId,
+//        ref: 'User',
+//        required: true
+//    },
+//    //content: File,
+//    comment: String
+//});
+//
+//mongoose.model('StringSubmissions', StringSubmissionSchema);
+//mongoose.model('ArraySubmissions', ArraySubmissionSchema);
+//mongoose.model('FileSubmissions', FileSubmissionSchema);
 
 var RiskManagementTeamSchema = new Schema({
     position: String,
@@ -156,8 +157,9 @@ var CommentSchema = new Schema({
     fileURL: String,
     comment: String
 });
+CommentSchema.plugin(tree);
 
-//mongoose.model('CommentSubmission', CommentSubmissionSchema);
+mongoose.model('Comment', CommentSchema);
 /**
  * Deliverable Schema
  */
@@ -177,8 +179,9 @@ var DeliverableSchema = new Schema({
     //ss: [StringSubmissionSchema]
 });
 
+DeliverableSchema.plugin(tree);
 
-//mongoose.model('Deliverables', DeliverableSchema);
+mongoose.model('Deliverable', DeliverableSchema);
 
 
 /**
@@ -294,6 +297,7 @@ var EventSchema = new Schema({
     deliverables: [DeliverableSchema]
 });
 
+EventSchema.plugin(tree);
 /**
  * Validations
  */

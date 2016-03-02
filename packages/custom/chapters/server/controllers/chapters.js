@@ -8,6 +8,8 @@ var mongoose = require('mongoose'),
     Member = mongoose.model('Member'),
     Event = mongoose.model('Event'),
     GradeAverage = mongoose.model('GradeAverage'),
+    Deliverable = mongoose.model('Deliverable'),
+    Comment = mongoose.model('Comment'),
 //Grades = mongoose.model('Grades')
     config = require('meanio').loadConfig(),
     _ = require('lodash');
@@ -334,15 +336,27 @@ module.exports = function (Chapters) {
             event = _.extend(event, req.body);
 
             console.log("in updateEvent via server");
-            console.log(event);
+
+            //var deliverable = new Deliverable({
+            //    name:"testingChildDeliverable"
+            //});
+            //console.log("deliverable:");
+            //console.log(deliverable);
+
+
+            //console.log(event);
 
             event.save(function (err) {
+                console.log("in save");
                 if (err) {
+                    console.log(err);
                     return res.status(500).json({
                         error: 'Cannot update the event'
                     });
                 }
+                //deliverable.save();
 
+                console.log("about to publish");
                 Chapters.events.publish({
                     action: 'updated',
                     user: {

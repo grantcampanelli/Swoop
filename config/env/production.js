@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  db: 'mongodb://' + (process.env.DB_PORT_27017_TCP_ADDR || 'localhost') + '/mean-prod',
+  db: 'mongodb://' + (process.env.DB_PORT_27017_TCP_ADDR || 'localhost') + '/mean-dev',
   /**
    * Database options that will be passed directly to mongoose.connect
    * Below are some examples.
@@ -26,7 +26,7 @@ module.exports = {
     }
     */
   },
-  hostname: 'http://localhost:3000',
+  hostname: 'http://app.grantcampanelli.com',
   app: {
     name: 'LEGACY'
   },
