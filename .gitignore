@@ -72,3 +72,10 @@ modules/views/
 # vim Files
 # --------------------
 *.swp
+
+
+# Config Files for Production
+config/env/all.js
+config/env/development.js
+config/env/production.js
+config/env/test.js
