@@ -722,7 +722,8 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$wind
          * Setting Up Viewing An Event
          */
         $scope.setupViewEvent = function () {
-
+            console.log("config: ")
+            console.log($location.host());
             Events.get({
                 eventId: $stateParams.eventId
             }, function (event) {
