@@ -1,4 +1,4 @@
-<section data-ng-controller="MembersController" data-ng-init="findMembers()">
+<section data-ng-controller="MembersController" data-ng-init="listMembers()">
     <h1>Members</h1>
     <!--<ul class="members unstyled">-->
     <!--<li data-ng-repeat="member in members">-->
@@ -108,7 +108,8 @@
 
     <!--</li>-->
 
-    <h1 data-ng-hide="!members || members.length">No members yet. <br> Why don't you <a href="/members/create">Create
+    <h1 data-ng-hide="membersLoading || !members || members.length">No members yet. <br> Why don't you <a
+            href="/members/create">Create
         One</a>?</h1>
 
 

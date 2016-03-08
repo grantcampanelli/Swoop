@@ -8,7 +8,9 @@ module.exports = function(Admin, app, auth, database) {
 
     //Setting up the users api
     var users = require('../controllers/users');
-    app.get('/api/admin/users', auth.requiresAdmin, users.all);
+    //app.get('/api/admin/users', auth.requiresAdmin, users.all);
+    app.get('/api/admin/users', auth.requiresLogin, users.all);
+    /* Changed this line so logged in can get users */
     app.post('/api/admin/users', auth.requiresAdmin, users.create);
     app.put('/api/admin/users/:userId', auth.requiresAdmin, users.update);
     app.delete('/api/admin/users/:userId', auth.requiresAdmin, users.destroy);

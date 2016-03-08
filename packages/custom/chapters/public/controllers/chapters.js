@@ -104,6 +104,8 @@ angular.module('mean.chapters').controller('ChaptersController', ['$scope', '$st
             if (isValid) {
                 // $scope.chapter.permissions.push('test test');
                 var chapter = new Chapters($scope.chapter);
+                chapter.permissions = [];
+                chapter.permissions.push("authenticated");
 
                 chapter.$save(function(response) {
                     $location.path('chapters/' + response._id);

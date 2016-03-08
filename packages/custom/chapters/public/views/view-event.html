@@ -1,4 +1,4 @@
-<section data-ng-controller="EventsController" data-ng-init="findOneEvent()">
+<section data-ng-controller="EventsController" data-ng-init="setupViewEvent()">
     <div class="col-md-8 col-md-offset-2">
         <span>{{event.created | date:'mediumDate'}}</span> /
         <span>{{event.user.name}}</span>
@@ -18,7 +18,7 @@
             <a class="btn" href="/events/{{event._id}}/edit">
                 <i class="glyphicon glyphicon-edit">Edit </i>
             </a>
-            <a class="btn" data-ng-click="removeEvent(event);">
+            <a class="btn" data-ng-click="verifyRemoveEvent(event);">
                 <i class="glyphicon glyphicon-trash">Delete</i>
             </a>
         </div>
@@ -33,7 +33,7 @@
                 'panel-warning': deliverable.status == 'Waiting on admin',
                 'panel-success': deliverable.status == 'Approved',
                 'panel-info': deliverable.status == 'Being Reviewed'}"
-                 data-ng-init="findMembers()">
+            >
 
                 <div class="panel-heading col-xs-12 col-md-12" style="padding-bottom: 10px; margin-bottom: 10px;">
                     <div class="col-md-6 col-xs-7 pull-left" style="text-align: left;">
@@ -106,7 +106,9 @@
                             </a>
                         </div>
 
-                        <div style="overflow-x:scroll">
+                        <!-- COMMENTS SECTION -->
+                        <div style="padding-top: 20px;">
+                            <h5>Comments and File Submissions</h5>
                             <!--<p><a href="{{'http://localhost:3000' + comment.fileURL}}">Test</a></p>-->
                             <table class="table table-bordered table-striped table-condensed"
                                    style="width:100%; table-layout:fixed">
@@ -135,17 +137,20 @@
                     </div>
 
 
-                    <div class="panel-footer" style="background-color: #f2f2f2;">
+                    <div class="panel-footer" style="background-color: #f2f2f2;"
+                         ng-if="deliverable.status != 'Approved'">
 
                         <!-- Array Footer Content-->
                         <div ng-show="arrayChapterAdminAndNotSubmitted(event, deliverable)"
                              style="background-color: #f2f2f2; padding-bottom: 20px;">
-                            <div class="col-xs-6 col-md-offset-1 col-md-4">
+                            <div style="padding-bottom: 10px;">
                                 <h4>Make a Comment</h4>
                                 <input type="text" style="width: 100%;" id="commentString" ng-model="commentString">
                             </div>
+                            <div>
                             <a class="btn btn-success"
                                ng-click="submitArrayDeliverableForReview($index, commentString)">Submit Array For Review</a>
+                            </div>
                         </div>
 
                         <!-- File Footer Content -->
@@ -170,12 +175,14 @@
                         <!--String footer content-->
                         <div ng-show="stringChapterAdminAndNotSubmitted(event, deliverable)"
                              style="background-color: #f2f2f2; padding-bottom: 20px;">
-                            <div class="col-xs-6 col-md-offset-1 col-md-4">
+                            <div style="padding-bottom: 10px;">
                                 <h4>Make a Comment</h4>
                                 <input type="text" style="width: 100%;" id="commentStr" ng-model="commentString">
                             </div>
+                            <div>
                             <a class="btn btn-success"
                                ng-click="submitStringDeliverableForReview($index, commentString)">Submit String For Review</a>
+                            </div>
                         </div>
 
                         <!-- App Admin can see and deliverable has been submitted -->

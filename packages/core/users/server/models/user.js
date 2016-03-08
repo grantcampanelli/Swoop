@@ -137,12 +137,19 @@ UserSchema.methods.isAdmin = function() {
   return this.roles.indexOf('admin') !== -1;
 };
 
-UserSchema.methods.checkChapter = function () {
+UserSchema.methods.checkChapter = function (chapter) {
+  var UserChapter = this.chapter;
+  return chapter == UserChapter;
   //console.log("Chapter from model: "+this.chapter)
   //console.log("in model checkChapter")
   //return this.chapter == chapterName;
-  return 1;
+  //return 1;
 };
+
+UserSchema.methods.getChapter = function () {
+  return this.chapter
+};
+
 
 /**
  * Authenticate - check if the passwords are the same

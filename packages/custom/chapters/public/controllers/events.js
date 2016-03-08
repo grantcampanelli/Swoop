@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('mean.chapters').controller('EventsController', ['$scope', '$stateParams', '$location', 'Global', 'Events',
+angular.module('mean.chapters').controller('EventsController', ['$scope', '$window', '$stateParams', '$location', 'Global', 'Events',
     'Chapters', 'MeanUser', 'Circles', 'Deliverables', 'RiskManagementTeams', 'Members', 'Comments', 'Users',
-    function ($scope, $stateParams, $location, Global, Events, Chapters, MeanUser, Circles, Deliverables,
+    function ($scope, $window, $stateParams, $location, Global, Events, Chapters, MeanUser, Circles, Deliverables,
               RiskManagementTeams, Members, Comments, Users) {
         $scope.global = Global;
 
@@ -25,7 +25,6 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
                 return false;
             return MeanUser.isAdmin;
         };
-
 
 
         $scope.isChapterAdmin = function (event) {
@@ -70,7 +69,6 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
         };
 
 
-
         /*
          *
          * CUSTOM CODE START
@@ -79,25 +77,30 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
         var userChapter;
         $scope.setupCreateEvent = function () {
             $scope.findAvailableChapters();
-            console.log(MeanUser.user.chapter);
-            if(MeanUser.user.chapter)
-                $scope.userChapter = MeanUser.user.chapter;
+            //console.log(MeanUser.user.chapter);
+            if (MeanUser.getChapter)
+                $scope.userChapter = MeanUser.getChapter;
             console.log($scope.userChapter);
+            $scope.chapter = MeanUser.getChapter;
             $scope.getChapterExec($scope.userChapter);
         };
 
         $scope.chapterExec = [];
         $scope.getChapterExec = function (chapterName) {
-            Users.query({}, function(users) {
+            Users.query({}, function (users) {
                 //console.log("User Chapter: "+user.chapter);
                 //console.log(user);
                 //console.log("Chapter Name: "+ chapterName);
-                users.forEach(function(user) {
-                    if(user.chapter == chapterName) {
-                        $scope.chapterExec.push(user);
-                        console.log(user)
-                    }
-                });
+                if (!chapterName)
+                    $scope.chapterExec = users;
+                else {
+                    users.forEach(function (user) {
+                        if (user.chapter == chapterName) {
+                            $scope.chapterExec.push(user);
+                            console.log(user)
+                        }
+                    });
+                }
 
             });
 
@@ -106,10 +109,10 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
             }));
         };
 
-        $scope.getPointOfContactFromEvent = function(chapter, pocuser) {
-            Users.query({}, function(users) {
-                users.forEach(function(user) {
-                    if(user._id == pocuser) {
+        $scope.getPointOfContactFromEvent = function (chapter, pocuser) {
+            Users.query({}, function (users) {
+                users.forEach(function (user) {
+                    if (user._id == pocuser) {
                         $scope.pointofcontact = user;
                         console.log(user)
                     }
@@ -371,6 +374,7 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
 
                 //$scope.generateDeliverables();
                 var event = new Events($scope.event);
+                event.chapter = MeanUser.getChapter;
                 event = $scope.generateDeliverables(event);
                 event.$save(function (response) {
                     $location.path('events/' + response._id);
@@ -399,6 +403,14 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
                 });
             }
         };
+
+        $scope.verifyRemoveEvent = function (event) {
+            var deleteUser = $window.confirm('Are you sure you want to delete this event?');
+            if (deleteUser) {
+                $scope.removeEvent(event);
+            }
+
+        }
 
         $scope.updateEvent = function (isValid) {
             if (isValid) {
@@ -470,8 +482,9 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
                 eventId: $stateParams.eventId
             }, function (event) {
                 $scope.event = event;
-                $scope.deliverables = event.deliverables;
-                $scope.pointofcontact = $scope.getPointOfContactFromEvent(event.chapter, event.pocuser);
+                //$scope.deliverables = event.deliverables;
+                //$scope.pointofcontact = $scope.getPointOfContactFromEvent(event.chapter, event.pocuser);
+                //$scope.findMembers();
             });
         };
 
@@ -506,11 +519,11 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
 
         /* Event File Submission */
 
-        $scope.uploadFileCallback = function(file, deliverable, event) {
+        $scope.uploadFileCallback = function (file, deliverable, event) {
 
             var comment = new Comment();
-            comment.comment =  "This is the first comment";
-            comment.fileURL =  file.src;
+            comment.comment = "This is the first comment";
+            comment.fileURL = file.src;
             comment.user = MeanUser.user;
             deliverable.comments.push(comment);
             $scope.event = event;
@@ -544,14 +557,14 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
             var d = $scope.deliverableSubmissionData[index];
             var c = new Comment();
 
-            if(d) {
+            if (d) {
                 c.fileURL = d.fileURL ? d.fileURL : null;
                 c.fileName = d.fileName ? d.fileName : null;
             }
-            if(c) {
+            if (c) {
                 c.comment = commentString ? commentString : null;
             }
-            if(d || commentString != null) {
+            if (d || commentString != null) {
                 c.user = MeanUser.user;
                 if (!event.deliverables[index].comments)
                     event.deliverables[index].comments = [];
@@ -605,7 +618,7 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
         };
 
 
-        $scope.uploadFinished = function(files) {
+        $scope.uploadFinished = function (files) {
             console.log(files);
         };
 
@@ -703,7 +716,23 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
                 console.log("update risk management");
             });
             $scope.event = event;
-        }
+        };
+
+        /*
+         * Setting Up Viewing An Event
+         */
+        $scope.setupViewEvent = function () {
+
+            Events.get({
+                eventId: $stateParams.eventId
+            }, function (event) {
+                $scope.event = event;
+                $scope.deliverables = event.deliverables;
+                $scope.pointofcontact = $scope.getPointOfContactFromEvent(event.chapter, event.pocuser);
+                $scope.findMembers();
+            });
+
+        };
 
 
     }

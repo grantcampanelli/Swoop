@@ -19,10 +19,10 @@ angular.module('mean.chapters').controller('MembersController', ['$scope', '$sta
             Chapters.query(function (chapters) {
                 chapters.forEach(function (chapter) {
                     $scope.chapterNames.push(chapter.name);
-                })
+                });
                 $scope.chapterNames.sort();
             });
-        }
+        };
 
 
         $scope.availableColleges = globalAvailableColleges;
@@ -118,6 +118,33 @@ angular.module('mean.chapters').controller('MembersController', ['$scope', '$sta
                 $scope.members = members;
                 $scope.membersLoading = 0;
                 $scope.exportMembers();
+            });
+        };
+
+        $scope.listMembers = function () {
+            console.log("meanUser chapter");
+            console.log(MeanUser.getChapter);
+            if (!$scope.members)
+                $scope.members = [];
+            Members.query(function (members) {
+                //console.log(members);
+                if (MeanUser.isAdmin) {
+                    $scope.members = members;
+
+                }
+                else {
+                    var chapter = MeanUser.getChapter;
+                    members.forEach(function (member) {
+                        if (member.chapter == chapter) {
+                            $scope.members.push(member);
+                        }
+                    })
+                }
+
+                $scope.membersLoading = 0;
+                $scope.exportMembers();
+
+
             });
         };
 

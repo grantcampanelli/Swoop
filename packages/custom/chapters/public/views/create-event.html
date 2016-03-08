@@ -23,22 +23,35 @@
                 </div>
             </div>
         </div>
-        <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.chapter.$invalid }">
-            <label mean-token="'create-chapter'" class="col-md-12">Your Chapter</label>
-            <div class="col-md-12">
+        <!--<div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.chapter.$invalid }">-->
+        <!--<label mean-token="'create-chapter'" class="col-md-12">Your Chapter</label>-->
+        <!--<div class="col-md-12" ng-if="isAppAdmin()">-->
 
-                <ui-select ng-model="event.chapter" append-to-body="'true'">
-                    <ui-select-match placeholder="Select chapter...">{{$select.selected}}
-                    </ui-select-match>
-                    <ui-select-choices repeat="chapter in chapterNames | filter:$select.search" name="chapter">
-                        {{chapter}}
-                    </ui-select-choices>
-                </ui-select>
-                <div ng-show="submitted && eventForm.chapter.$invalid" class="help-block">
-                    <p ng-show="eventForm.chapter.$error.required">Chapter is required</p>
-                </div>
-            </div>
-        </div>
+        <!--<ui-select ng-model="event.chapter" append-to-body="'true'">-->
+        <!--<ui-select-match placeholder="Select chapter...">{{$select.selected}}-->
+        <!--</ui-select-match>-->
+        <!--<ui-select-choices repeat="chapter in chapterNames | filter:$select.search" name="chapter">-->
+        <!--{{chapter}}-->
+        <!--</ui-select-choices>-->
+        <!--</ui-select>-->
+        <!--<div ng-show="submitted && eventForm.chapter.$invalid" class="help-block">-->
+        <!--<p ng-show="eventForm.chapter.$error.required">Chapter is required</p>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="col-md-12" ng-if="!isAppAdmin()">-->
+        <!--<input type="text" ng-model="event.chapter" value="userChapter"> {{event.chapter}}-->
+        <!--&lt;!&ndash;<ui-select ng-model="event.chapter" append-to-body="'true'">&ndash;&gt;-->
+        <!--&lt;!&ndash;<ui-select-match placeholder="Select chapter...">{{$select.selected}}&ndash;&gt;-->
+        <!--&lt;!&ndash;</ui-select-match>&ndash;&gt;-->
+        <!--&lt;!&ndash;<ui-select-choices repeat="chapter in chapterNames | filter:$select.search" name="chapter">&ndash;&gt;-->
+        <!--&lt;!&ndash;{{chapter}}&ndash;&gt;-->
+        <!--&lt;!&ndash;</ui-select-choices>&ndash;&gt;-->
+        <!--&lt;!&ndash;</ui-select>&ndash;&gt;-->
+        <!--<div ng-show="submitted && eventForm.chapter.$invalid" class="help-block">-->
+        <!--<p ng-show="eventForm.chapter.$error.required">Chapter is required</p>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
 
         <!-- TODO add validation -->
         <div class="form-group">

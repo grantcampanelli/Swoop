@@ -43,6 +43,7 @@ angular.module('mean.users').factory('MeanUser', [ '$rootScope', '$http', '$loca
       this.registerForm = false;
       this.loggedin = false;
       this.isAdmin = false;
+      this.getChapter = null;
       this.loginError = 0;
       this.usernameError = null;
       this.registerError = null;
@@ -93,6 +94,7 @@ angular.module('mean.users').factory('MeanUser', [ '$rootScope', '$http', '$loca
       this.loginError = 0;
       this.registerError = 0;
       this.isAdmin = this.user.roles.indexOf('admin') > -1;
+      this.getChapter = this.user.chapter;
       // Add circles info to user
       $http.get('/api/circles/mine').success(function(acl) {
         if(self.aclDefer) {
