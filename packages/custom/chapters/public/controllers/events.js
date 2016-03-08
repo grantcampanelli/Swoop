@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('mean.chapters').controller('EventsController', ['$scope', '$stateParams', '$location', 'Global', 'Events',
-    'Chapters', 'MeanUser', 'Circles', 'Deliverables', 'RiskManagementTeams', 'Members', 'Comments',
+    'Chapters', 'MeanUser', 'Circles', 'Deliverables', 'RiskManagementTeams', 'Members', 'Comments', 'Users',
     function ($scope, $stateParams, $location, Global, Events, Chapters, MeanUser, Circles, Deliverables,
-              RiskManagementTeams, Members, Comments) {
+              RiskManagementTeams, Members, Comments, Users) {
         $scope.global = Global;
 
         //$scope.CommentSubmission = mongoose.model('CommentSubmission');
@@ -61,27 +61,13 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
 
         $scope.getUserFromId = function (userID) {
             console.log("getuser from id: " + userID);
-            MeanUser.findOne({
+            Users.get({
                 _id: userID
 
             }, function (user) {
                 console.log(user);
             });
-            //Events.get({
-            //    eventId: $stateParams.eventId
-            //}, function (event) {
-            //    $scope.event = event;
-            //    $scope.deliverables = event.deliverables;
-            //    //$scope.riskManagementTeam = event.arrContent;
-            //    console.log('eventID' + $stateParams.eventId);
-            //    console.log(event.deliverables[0]);
-            //    //$scope.deliverables = [];
-            //    //$scope.generateDeliverables(event);
-            //    console.log($scope.event);
-            //
-            //    //$scope.generateRiskManagementTeamTable(event.attendance);
-            //});
-        }
+        };
 
 
 
@@ -90,6 +76,47 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
          * CUSTOM CODE START
          *
          */
+        var userChapter;
+        $scope.setupCreateEvent = function () {
+            $scope.findAvailableChapters();
+            console.log(MeanUser.user.chapter);
+            if(MeanUser.user.chapter)
+                $scope.userChapter = MeanUser.user.chapter;
+            console.log($scope.userChapter);
+            $scope.getChapterExec($scope.userChapter);
+        };
+
+        $scope.chapterExec = [];
+        $scope.getChapterExec = function (chapterName) {
+            Users.query({}, function(users) {
+                //console.log("User Chapter: "+user.chapter);
+                //console.log(user);
+                //console.log("Chapter Name: "+ chapterName);
+                users.forEach(function(user) {
+                    if(user.chapter == chapterName) {
+                        $scope.chapterExec.push(user);
+                        console.log(user)
+                    }
+                });
+
+            });
+
+            $scope.chapterExec.push(new Users({
+                name: 'Other'
+            }));
+        };
+
+        $scope.getPointOfContactFromEvent = function(chapter, pocuser) {
+            Users.query({}, function(users) {
+                users.forEach(function(user) {
+                    if(user._id == pocuser) {
+                        $scope.pointofcontact = user;
+                        console.log(user)
+                    }
+                });
+
+            });
+        };
 
         $scope.eventTypes =
             ['Chapter House Event',
@@ -190,7 +217,9 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
                 '12:15am', '12:30am', '12:45am', '1:00am'];
 
         $scope.hideOtherPointOfContact = function (pointofcontact) {
-            if (pointofcontact == 'Other') {
+            console.log("point of contact")
+            console.log(pointofcontact);
+            if (pointofcontact.name == 'Other') {
                 //console.log("point of contact clicked: "+pointofcontact);
                 $('.pointofcontactother').removeClass("ng-hide");
                 $('.pointofcontactother').addClass("ng-show");
@@ -435,21 +464,14 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
                 $scope.events = events;
             });
         };
-
+        var pointofcontact;
         $scope.findOneEvent = function () {
             Events.get({
                 eventId: $stateParams.eventId
             }, function (event) {
                 $scope.event = event;
                 $scope.deliverables = event.deliverables;
-                //$scope.riskManagementTeam = event.arrContent;
-                console.log('eventID' + $stateParams.eventId);
-                console.log(event.deliverables[0]);
-                //$scope.deliverables = [];
-                //$scope.generateDeliverables(event);
-                console.log($scope.event);
-
-                //$scope.generateRiskManagementTeamTable(event.attendance);
+                $scope.pointofcontact = $scope.getPointOfContactFromEvent(event.chapter, event.pocuser);
             });
         };
 
@@ -501,95 +523,45 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
 
         $scope.deliverableSubmissionData = [];
 
-        $scope.createDeliverableSubmissionDataFromFile = function (url) {
+        $scope.createDeliverableSubmissionDataFromFile = function (url, filename) {
             var comment = []//new Comment();
             //comment.dId = id;
             //comment.user = MeanUser.user;
             comment.fileURL = url;
+            comment.fileName = filename;
             return comment;
         };
 
         /* Event Comment File Callback */
-        $scope.commentUploadFileCallback = function (file, deliverable, event, index) {
-            var comment;// = new Comment();
-            //comment.comment = "This is the first comment";
-            //comment.fileURL = file.src;
-            //comment.user = MeanUser.user;
-            console.log(index);
-            //$scope.deliverableSubmissionData[5] = "hi";
-            console.log("dsd");
-            console.log($scope.deliverableSubmissionData);
-            //if($scope.deliverableSubmissionData[index]){
-            //    $scope.deliverableSubmissionData.splice(index, 1);
-            //}
-            //var id = deliverable._id;
-            //if($scope.deliverableSubmissionData) {
-            //    for(var i = 0; i < $scope.deliverableSubmissionData.length; i++) {
-            //        if($scope.deliverableSubmissionData[i].dId == id) {
-            //            $scope.deliverableSubmissionData.splice(i, 1);
-            //        }
-            //    }
-            //}
-            $scope.deliverableSubmissionData[index] = $scope.createDeliverableSubmissionDataFromFile(file.src);
+        $scope.commentUploadFileCallback = function (file, index) {
+            $scope.deliverableSubmissionData[index] = $scope.createDeliverableSubmissionDataFromFile(file.src, file.name);
 
-            console.log("dsd");
-            console.log($scope.deliverableSubmissionData);
-            //deliverable.comments.push(comment);
-            //$scope.event = event;
-            //console.log(event);
         };
 
-        $scope.submitFileDeliverableForReview = function (index, commentString) {
+        $scope.submitGeneralComment = function (index, commentString, status) {
             var event = $scope.event;
-            console.log("submitDeliverableForReview");
-            //console.log(deliverable);
-            console.log("comment string: " + commentString);
-            console.log("dsd");
-            var c;
-            var d;
-            var DONOTSAVE = 0;
-            console.log($scope.deliverableSubmissionData[index]);
-            if ((d = $scope.deliverableSubmissionData[index])) {
-                c = new Comment();
-                c.user = MeanUser.user;
-                c.fileURL = d.fileURL ? d.fileURL : null;
-                c.comment = commentString ? commmentString : null;
-                if (!event.deliverables[index].comments)
-                    event.deliverables[index].comments = [];
-                event.deliverables[index].comments.push(c);
-                event.deliverables[index].status = "Waiting on admin";
-            }
-            else if (commentString != null) {
-                c = new Comment();
-                c.user = MeanUser.user;
-                c.comment = commentString;
-                if (!event.deliverables[index].comments)
-                    event.deliverables[index].comments = [];
-                event.deliverables[index].comments.push(c);
-                event.deliverables[index].status = "Waiting on admin";
-            }
-            else {
-                DONOTSAVE = 1;
-                console.log("error, nothing in the comment");
-            }
-            //$scope.deliverableSubmissionData.forEach(function(d) {
-            //   if(deliverable._id == d.dId) {
-            //       var c = new Comment();
-            //       c.user = MeanUser.user;
-            //       c.fileURL = d.fileURL ? d.fileURL : null;
-            //       c.comment = d.comment ? d.comment : null;
-            //
-            //
-            //       deliverable.comments.push(c)
-            //   }
-            //});
-            //console.log("deliverable");
-            //console.log(deliverable);
-            console.log("event");
-            $scope.event = event;
-            console.log($scope.event);
+            var okayToSave = 0;
+            var d = $scope.deliverableSubmissionData[index];
+            var c = new Comment();
 
-            if (!DONOTSAVE) {
+            if(d) {
+                c.fileURL = d.fileURL ? d.fileURL : null;
+                c.fileName = d.fileName ? d.fileName : null;
+            }
+            if(c) {
+                c.comment = commentString ? commentString : null;
+            }
+            if(d || commentString != null) {
+                c.user = MeanUser.user;
+                if (!event.deliverables[index].comments)
+                    event.deliverables[index].comments = [];
+                event.deliverables[index].comments.push(c);
+                event.deliverables[index].status = status;
+                okayToSave = 1;
+            }
+            $scope.event = event;
+
+            if (okayToSave) {
                 event.$update(function () {
                     $location.path('events/' + event._id);
                 }).then(function () {
@@ -598,67 +570,38 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$stat
             }
         };
 
-        $scope.adminReviewDeliverable = function (index, commentString, status) {
-            var event = $scope.event;
-            console.log("submitDeliverableForReview");
-            //console.log(deliverable);
-            console.log("comment string: " + commentString);
-            console.log("Status: " + status);
-            console.log("dsd");
-            var c;
 
-            c = new Comment();
-            c.user = MeanUser.user;
+        $scope.submitFileDeliverableForReview = function (index, commentString) {
+            $scope.submitGeneralComment(index, commentString, "Waiting on admin");
+        };
+
+        $scope.adminReviewDeliverable = function (index, commentString, status) {
+            var newStatus, newCommentString;
+
             if (status == 'deny') {
-                event.deliverables[index].status = "Waiting on chapter";
-                c.comment = commentString ? commentString : "Denied";
+                newStatus = "Waiting on chapter";
+                newCommentString = commentString ? commentString : "Denied";
             }
             else if (status == 'review') {
-                event.deliverables[index].status = "Being Reviewed";
-                c.comment = commentString ? commentString : "Being Reviewed";
+                newStatus = "Being Reviewed";
+                newCommentString = commentString ? commentString : "Being Reviewed";
             }
             else if (status == 'approve') {
-                event.deliverables[index].status = "Approved";
-                c.comment = commentString ? commentString : "Approved";
+                newStatus = "Approved";
+                newCommentString = commentString ? commentString : "Approved";
             }
 
-            //if (!$scope.event.deliverables[index].comments) {
-            //    $scope.event.deliverables[index].comments = [];
-            //    $scope.event.deliverables[index].comments = [];
-            //}
-            event.deliverables[index].comments.push(c);
-
-            $scope.event = event;
-            event.$update(function () {
-                $location.path('events/' + event._id);
-            }).then(function () {
-                console.log("event updated!");
-            });
+            $scope.submitGeneralComment(index, newCommentString, newStatus);
         };
 
-        $scope.submitStringDeliverableForReview = function (index) {
-            console.log("Submit String");
-            var event;
+        $scope.submitStringDeliverableForReview = function (index, commentString) {
             if ($scope.event.deliverables[index].strContent != null) {
-                event = $scope.event;
-                $scope.event.deliverables[index].status = "Waiting on admin";
-                event.deliverables[index].status = "Waiting on admin";
-                event.$update(function () {
-                    $location.path('events/' + event._id);
-                });
-                $scope.event = event;
+                $scope.submitGeneralComment(index, commentString, "Waiting on admin");
             }
         };
 
-        $scope.submitArrayDeliverableForReview = function (index) {
-            console.log("Submit Array");
-            var event = $scope.event;
-            event.deliverables[index].status = "Waiting on admin";
-            event.$update(function () {
-                $location.path('events/' + event._id);
-            });
-            $scope.event = event;
-
+        $scope.submitArrayDeliverableForReview = function (index, commentString) {
+            $scope.submitGeneralComment(index, commentString, "Waiting on admin");
         };
 
 

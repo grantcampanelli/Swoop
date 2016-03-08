@@ -7,7 +7,9 @@
             <h4>{{event.eventType}}</h4>
             <p>Attendance: {{event.attendance}}</p>
             <p>Event Description: {{event.content}}</p>
-            <p>Event Point of Contact: {{event.pointofcontact}}</p>
+            <p>Event Point of Contact: {{pointofcontact.position ?
+                pointofcontact.name + " | " + pointofcontact.position :
+                pointofcontact.name}}</p>
             <p>Date: {{event.date | date: 'mediumDate'}}</p>
             <p>Time: {{event.starttime}} - {{event.endtime}}</p>
             <p>Address: {{event.address}}</p>
@@ -32,293 +34,167 @@
                 'panel-success': deliverable.status == 'Approved',
                 'panel-info': deliverable.status == 'Being Reviewed'}"
                  data-ng-init="findMembers()">
+
                 <div class="panel-heading col-xs-12 col-md-12" style="padding-bottom: 10px; margin-bottom: 10px;">
                     <div class="col-md-6 col-xs-7 pull-left" style="text-align: left;">
-                        <h4>{{deliverable.name}}</h4>
+                        <h4>
+                            <a data-toggle="collapse" data-target="#collapse{{deliverableIndex}}"
+                               href="#collapse{{deliverableIndex}}">{{deliverable.name}}
+                            </a>
+                        </h4>
                     </div>
                     <div class="col-md-6 col-xs-5 pull-right" style="text-align: right;">
                         <h5>Status: {{deliverable.status}}</h5>
                     </div>
                 </div>
-                <div class="panel-body">
-                    <div ng-show="deliverable.type == 'File'">
-                        <p>Description for file to submit: ...</p>
+                <div id="collapse{{deliverableIndex}}" class="panel-collapse collapse" class="collapsed">
+                    <div class="panel-body">
+                        <div ng-show="deliverable.type == 'File'">
+                            <p>Description for file to submit: ...</p>
 
-                    </div>
-                    <div ng-show="deliverable.type == 'Array'">
-                        <!--<form editable-form name="riskTable" onaftersave="saveRiskTable(deliverableIndex)" oncancel="cancelRiskTable()">-->
-                        <table class="table table-bordered table-striped table-responsive">
-                            <thead>
-                            <tr>
-                                <th>Responsibility</th>
-                                <th>Member</th>
-                                <!--<th>Email</th>-->
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr ng-repeat="riskObj in deliverable.rmArray"
-                                data-ng-init="setupDeliverableArray(deliverableIndex)">
-                                <td>
-                                    <ui-select ng-disabled="deliverable.status != 'Waiting on chapter'"
-                                               ng-model="deliverable.rmArray[$index].position" append-to-body="'true'">
-                                        <ui-select-match placeholder="Select position...">{{$select.selected}}
-                                        </ui-select-match>
-                                        <ui-select-choices repeat="r in rmAvailablePositions" name="position">
-                                            {{r}}
-                                        </ui-select-choices>
-                                    </ui-select>
-                                </td>
-                                <td>
-                                    <ui-select ng-disabled="deliverable.status != 'Waiting on chapter'"
-                                               ng-model="deliverable.rmArray[$index].member" append-to-body="'true'">
-                                        <ui-select-match placeholder="Select member...">
-                                            {{$select.selected.firstName + ' ' + $select.selected.lastName}}
-                                        </ui-select-match>
-                                        <ui-select-choices repeat="m in members" name="member">
-                                            {{m.firstName + ' ' + m.lastName}}
-                                        </ui-select-choices>
-                                    </ui-select>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <div class="btn-add-row" ng-hide="deliverable.status != 'Waiting on chapter'">
-                            <button type="button" class="btn btn-default"
-                                    ng-click="addRisk($index)">
-                                Add Row
-                            </button>
+                        </div>
+                        <div ng-show="deliverable.type == 'Array'">
+                            <!--<form editable-form name="riskTable" onaftersave="saveRiskTable(deliverableIndex)" oncancel="cancelRiskTable()">-->
+                            <table class="table table-bordered table-striped table-responsive">
+                                <thead>
+                                <tr>
+                                    <th>Responsibility</th>
+                                    <th>Member</th>
+                                    <!--<th>Email</th>-->
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="riskObj in deliverable.rmArray"
+                                    data-ng-init="setupDeliverableArray(deliverableIndex)">
+                                    <td>
+                                        <ui-select ng-disabled="deliverable.status != 'Waiting on chapter'"
+                                                   ng-model="deliverable.rmArray[$index].position"
+                                                   append-to-body="'true'">
+                                            <ui-select-match placeholder="Select position...">{{$select.selected}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="r in rmAvailablePositions" name="position">
+                                                {{r}}
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </td>
+                                    <td>
+                                        <ui-select ng-disabled="deliverable.status != 'Waiting on chapter'"
+                                                   ng-model="deliverable.rmArray[$index].member"
+                                                   append-to-body="'true'">
+                                            <ui-select-match placeholder="Select member...">
+                                                {{$select.selected.firstName + ' ' + $select.selected.lastName}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="m in members" name="member">
+                                                {{m.firstName + ' ' + m.lastName}}
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="btn-add-row" ng-hide="deliverable.status != 'Waiting on chapter'">
+                                <button type="button" class="btn btn-default"
+                                        ng-click="addRisk($index)">
+                                    Add Row
+                                </button>
+                            </div>
+                        </div>
+                        <div ng-show="deliverable.type == 'String'">
+                            <a href="#" editable-textarea="deliverable.strContent" onbeforesave="updateDeliverables()"
+                               onaftersave="updateEvent(true)" e-rows="7" e-cols="40">
+                                <pre>{{deliverable.strContent || 'Please click in this box to proceed...' }}</pre>
+                            </a>
                         </div>
 
-                        <!--<div class="btn-form" ng-show="riskTable.$visible">-->
+                        <div style="overflow-x:scroll">
+                            <!--<p><a href="{{'http://localhost:3000' + comment.fileURL}}">Test</a></p>-->
+                            <table class="table table-bordered table-striped table-condensed"
+                                   style="width:100%; table-layout:fixed">
+                                <thead>
+                                <tr style="">
+                                    <!--<th>UserID</th>-->
+                                    <th ng-if="deliverable.type != 'Array'">File Source</th>
+                                    <th>Comment</th>
+                                    <th>Date</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="comment in deliverable.comments">
+                                    <!--<th>{{comment.user.name}}</th>-->
+                                    <th ng-if="deliverable.type != 'Array'"><a href="{{'http://localhost:3000'+comment.fileURL}}" target="_blank">
+                                        {{comment.fileName ? comment.fileName : comment.fileURL}}
+                                    </a></th>
+                                    <th>{{comment.comment}}</th>
+                                    <th>{{comment.created | date: 'mediumDate'}}</th>
+                                </tr>
+                                </tbody>
 
-                        <!--<button type="submit" ng-disabled="riskTable.$waiting" class="btn btn-primary">save-->
-                        <!--</button>-->
-                        <!--<button type="button" ng-disabled="riskTable.$waiting" ng-click="riskTable.$cancel()"-->
-                        <!--class="btn btn-default">cancel-->
-                        <!--</button>-->
-                        <!--</div>-->
-                        <!--</form>-->
-                    </div>
-                    <div ng-show="deliverable.type == 'String'">
-                        <a href="#" editable-textarea="deliverable.strContent" onbeforesave="updateDeliverables()"
-                           onaftersave="updateEvent(true)" e-rows="7" e-cols="40">
-                            <pre>{{deliverable.strContent || 'Please click in this box to proceed...' }}</pre>
-                        </a>
-                    </div>
-
-                    <div style="overflow-x:scroll">
-                        <!--<p><a href="{{'http://localhost:3000' + comment.fileURL}}">Test</a></p>-->
-                        <table class="table table-bordered table-striped table-condensed"
-                               style="width:100%; table-layout:fixed">
-                            <thead>
-                            <tr style="">
-                                <!--<th>UserID</th>-->
-                                <th>File Source</th>
-                                <th>Comment</th>
-                                <th>Date</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr ng-repeat="comment in deliverable.comments">
-                                <!--<th>{{comment.user.name}}</th>-->
-                                <th>{{comment.fileURL}}</th>
-                                <th>{{comment.comment}}</th>
-                                <th>{{comment.created | date: 'mediumDate'}}</th>
-                            </tr>
-                            </tbody>
-
-                        </table>
-                    </div>
-
-                </div>
-
-
-                <div class="panel-footer" style="background-color: #f2f2f2;">
-
-                    <!-- Array Footer Content-->
-                    <div ng-show="arrayChapterAdminAndNotSubmitted(event, deliverable)"
-                         style="background-color: #f2f2f2; padding-bottom: 20px;">
-                        <a class="btn btn-success"
-                           ng-click="submitArrayDeliverableForReview($index)">Submit Array For Review</a>
-                    </div>
-
-                    <!-- File Footer Content -->
-                    <div style="background-color: #f2f2f2; padding-bottom: 20px;"
-                         ng-show="fileChapterAdminAndNotSubmitted(event, deliverable)">
-                        <div class="col-xs-6 col-md-offset-1 col-md-4">
-                            <h4>Add File</h4>
-                            <mean-upload file-dest="'/events'" upload-callback="uploadFinished(files)"
-                                         upload-file-callback="commentUploadFileCallback(file,deliverable,event,$index)"></mean-upload>
+                            </table>
                         </div>
-                        <div class="col-xs-6 col-md-offset-1 col-md-4">
-                            <h4>Make a Comment</h4>
-                            <input type="text" style="width: 100%; height: 50px;" id="commentStr"
-                                   ng-model="commentString">
-                        </div>
-                        <div>
+
+                    </div>
+
+
+                    <div class="panel-footer" style="background-color: #f2f2f2;">
+
+                        <!-- Array Footer Content-->
+                        <div ng-show="arrayChapterAdminAndNotSubmitted(event, deliverable)"
+                             style="background-color: #f2f2f2; padding-bottom: 20px;">
+                            <div class="col-xs-6 col-md-offset-1 col-md-4">
+                                <h4>Make a Comment</h4>
+                                <input type="text" style="width: 100%;" id="commentString" ng-model="commentString">
+                            </div>
                             <a class="btn btn-success"
-                               ng-click="submitFileDeliverableForReview($index,commentString)">Submit File For
+                               ng-click="submitArrayDeliverableForReview($index, commentString)">Submit Array For Review</a>
+                        </div>
+
+                        <!-- File Footer Content -->
+                        <div style="background-color: #f2f2f2; padding-bottom: 20px;"
+                             ng-show="fileChapterAdminAndNotSubmitted(event, deliverable)">
+                            <div class="col-xs-6 col-md-offset-1 col-md-4">
+                                <h4>Add File</h4>
+                                <mean-upload file-dest="'/events'" upload-callback="uploadFinished(files)"
+                                             upload-file-callback="commentUploadFileCallback(file,$index)"></mean-upload>
+                            </div>
+                            <div class="col-xs-6 col-md-offset-1 col-md-4">
+                                <h4>Make a Comment</h4>
+                                <input type="text" style="width: 100%;" id="commentStr" ng-model="commentString">
+                            </div>
+                            <div>
+                                <a class="btn btn-success"
+                                   ng-click="submitFileDeliverableForReview($index,commentString)">Submit File For
+                                    Review</a>
+                            </div>
+                        </div>
+
+                        <!--String footer content-->
+                        <div ng-show="stringChapterAdminAndNotSubmitted(event, deliverable)"
+                             style="background-color: #f2f2f2; padding-bottom: 20px;">
+                            <div class="col-xs-6 col-md-offset-1 col-md-4">
+                                <h4>Make a Comment</h4>
+                                <input type="text" style="width: 100%;" id="commentStr" ng-model="commentString">
+                            </div>
+                            <a class="btn btn-success"
+                               ng-click="submitStringDeliverableForReview($index, commentString)">Submit String For Review</a>
+                        </div>
+
+                        <!-- App Admin can see and deliverable has been submitted -->
+                        <div class="panel" style="background-color: #f2f2f2;"
+                             ng-show="isAppAdminAndSubmitted(event, deliverable)">
+                            <div class="col-xs-12" style="margin-bottom: 20px;">
+                                <h4>Make a Comment</h4>
+                                <input type="text" style="width: 100%;" id="adminCommentString"
+                                       ng-model="adminCommentString">
+                            </div>
+                            <a class="btn btn-success" ng-click="adminReviewDeliverable($index, adminCommentString, 'approve')">Verify</a>
+                            <a class="btn btn-warning" ng-click="adminReviewDeliverable($index, adminCommentString, 'review')">In
                                 Review</a>
+                            <a class="btn btn-danger"
+                               ng-click="adminReviewDeliverable($index, adminCommentString, 'deny')">Deny</a>
                         </div>
                     </div>
-
-                    <!--String footer content-->
-                    <div ng-show="stringChapterAdminAndNotSubmitted(event, deliverable)"
-                         style="background-color: #f2f2f2; padding-bottom: 20px;">
-                        <a class="btn btn-success"
-                           ng-click="submitStringDeliverableForReview($index)">Submit String For Review</a>
-                    </div>
-
-                    <!-- App Admin can see and deliverable has been submitted -->
-                    <div class="panel" style="background-color: #f2f2f2;"
-                         ng-show="isAppAdminAndSubmitted(event, deliverable)">
-                        <div class="col-xs-12" style="margin-bottom: 20px;">
-                            <h4>Make a Comment</h4>
-                            <input type="text" style="width: 100%; height: 50px;" id="commentStr"
-                                   ng-model="commentString">
-                        </div>
-                        <a class="btn btn-success" ng-click="adminReviewDeliverable($index, commentStr, 'approve')">Verify</a>
-                        <a class="btn btn-warning" ng-click="adminReviewDeliverable($index, commentStr, 'review')">In
-                            Review</a>
-                        <a class="btn btn-danger" ng-click="adminReviewDeliverable($index, commentStr, 'deny')">Deny</a>
-
-                    </div>
-
                 </div>
             </div>
-
         </div>
-        <!--<div class="panel panel-default" ng-show="riskManagementDocumentRequired" id="riskManagementDocument">-->
-        <!--<div class="panel-heading">-->
-        <!--<h4 class="panel-title">-->
-        <!--<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Chapter Risk Management-->
-        <!--Plan</a>-->
-        <!--</h4>-->
-        <!--</div>-->
-        <!--<div id="collapseOne" class="panel-collapse collapse in">-->
-        <!--<div class="panel-body">-->
-        <!--<p><a href="#">Click here to submit risk management document</a></p>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
-
-        <!--&lt;!&ndash;<div id="riskManagementDocument" ng-show="riskManagementDocumentRequired">&ndash;&gt;-->
-        <!--&lt;!&ndash;<hr>&ndash;&gt;-->
-        <!--&lt;!&ndash;<h3>Chapter Risk Management Plan </h3>&ndash;&gt;-->
-        <!--&lt;!&ndash;<a href="#">Click here to submit risk management document</a>&ndash;&gt;-->
-        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-        <!--<div class="panel panel-default" id="riskManagementTeam" ng-show="riskManagementTeamRequired">-->
-        <!--<div class="panel-heading">-->
-        <!--<h4 class="panel-title">-->
-        <!--<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Risk Management Team</a>-->
-        <!--</h4>-->
-        <!--</div>-->
-        <!--<div id="collapseTwo" class="panel-collapse collapse in">-->
-        <!--<div class="panel-body">-->
-        <!--<p>You must have 1 sober monitor for every 30 guests in attendance. At least one-->
-        <!--sober monitor must be a member of your executive board.</p>-->
-        <!--<table class="table table-bordered table-striped">-->
-        <!--<thead>-->
-        <!--<tr>-->
-        <!--<th>Responsibility</th>-->
-        <!--<th>Member</th>-->
-        <!--<th>Email</th>-->
-        <!--</tr>-->
-        <!--</thead>-->
-        <!--<tbody>-->
-        <!--<tr ng-repeat="position in riskManagementTeamPositions">-->
-        <!--<td>{{position.title}}</td>-->
-        <!--<td>{{position.name}}</td>-->
-        <!--<td>grantcampanelli@gmail.com</td>-->
-        <!--</tr>-->
-        <!--</tbody>-->
-        <!--</table>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div class="panel panel-default" id="thirdPartyEventManagementContract"-->
-        <!--ng-show="thirdPartyEventManagementContractRequired">-->
-        <!--<div class="panel-heading">-->
-        <!--<h4 class="panel-title">-->
-        <!--<a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">Third Party Event-->
-        <!--Management Contract</a>-->
-        <!--</h4>-->
-        <!--</div>-->
-        <!--<div id="collapseFour" class="panel-collapse collapse in">-->
-        <!--<div class="panel-body">-->
-        <!--<a href="#">Click here to submit third party event management contract</a>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div class="panel panel-default" id="guestList" ng-show="guestListRequired">-->
-        <!--<div class="panel-heading">-->
-        <!--<h4 class="panel-title">-->
-        <!--<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Pre Event Guest-->
-        <!--List</a>-->
-        <!--</h4>-->
-        <!--</div>-->
-        <!--<div id="collapseThree" class="panel-collapse collapse in">-->
-        <!--<div class="panel-body">-->
-        <!--<p><a href="#">Click here to submit guest list</a></p>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
-
-        <!--<div class="panel panel-default" id="postGuestList" ng-show="postGuestListRequired">-->
-        <!--<div class="panel-heading">-->
-        <!--<h4 class="panel-title">-->
-        <!--<a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">Post Event Guest-->
-        <!--List</a>-->
-        <!--</h4>-->
-        <!--</div>-->
-        <!--<div id="collapseFive" class="panel-collapse collapse in">-->
-        <!--<div class="panel-body">-->
-        <!--<a href="#">Click here to submit post event guest list</a>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
-    </div>
-    <!--<div ng-if="event !== undefined" ng-include="'comments/views/index.html'"-->
-    <!--data-ng-controller="CommentsController" data-ng-init="findComments(event, 2)"/>-->
-    <!-- Voila, you are done. Were you expecting some more steps? :-) -->
-    <!--<div id="riskManagementTeam" ng-show="riskManagementTeamRequired">-->
-    <!--<hr>-->
-    <!--<h3>Risk Management Team</h3>-->
-    <!--<p>You must have 1 sober monitor for every 30 guests in attendance. At least one-->
-    <!--sober monitor must be a member of your executive board.</p>-->
-    <!--<table class="table table-bordered table-striped">-->
-    <!--<thead>-->
-    <!--<tr>-->
-    <!--<th>Responsibility</th>-->
-    <!--<th>Member</th>-->
-    <!--<th>Email</th>-->
-    <!--</tr>-->
-    <!--</thead>-->
-    <!--<tbody>-->
-    <!--<tr ng-repeat="position in riskManagementTeamPositions">-->
-    <!--<td>{{position.title}}</td>-->
-    <!--<td>{{position.name}}</td>-->
-    <!--<td>grantcampanelli@gmail.com</td>-->
-    <!--</tr>-->
-    <!--</tbody>-->
-    <!--</table>-->
-    <!--</div>-->
-    <!--<div id="guestList" ng-show="guestListRequired">-->
-    <!--<hr>-->
-    <!--<h3>Guest List</h3>-->
-    <!--<a href="#">Click here to submit guest list</a>-->
-    <!--</div>-->
-    <!--<div id="thirdPartyEventManagementContract"-->
-    <!--ng-show="thirdPartyEventManagementContractRequired">-->
-    <!--<hr>-->
-    <!--<h3>Third Party Event Management Contract</h3>-->
-    <!--<a href="#">Click here to submit third party event management contract</a>-->
-    <!--</div>-->
-    <!--<div id="postGuestList" ng-show="postGuestListRequired">-->
-    <!--<hr>-->
-    <!--<h3>Post Event Guest List</h3>-->
-    <!--<a href="#">Click here to submit post event guest list</a>-->
-    <!--</div>-->
-    <!--<hr>-->
     </div>
 </section>

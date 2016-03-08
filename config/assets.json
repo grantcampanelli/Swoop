@@ -5,7 +5,8 @@
         "bower_components/angular/angular-csp.css",
         "bower_components/angular-ui-select/dist/select.min.css",
         "bower_components/angular-chart.js/dist/angular-chart.css",
-        "bower_components/angular-xeditable/dist/css/xeditable.css"
+        "bower_components/angular-xeditable/dist/css/xeditable.css",
+        "bower_components/bootstrap/dist/css/bootstrap.min.css"
 
       ]
     },
@@ -28,7 +29,8 @@
         "bower_components/Chart.js/Chart.min.js",
         "bower_components/angular-chart.js/dist/angular-chart.js",
         "bower_components/angular-xeditable/dist/js/xeditable.js",
-        "bower_components/angular-random-string/src/angular-random-string.js"
+        "bower_components/angular-random-string/src/angular-random-string.js",
+        "bower_components/bootstrap/dist/js/bootstrap.min.js"
       ]
     }
   }

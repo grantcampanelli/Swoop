@@ -1,0 +1,2 @@
+_id,created,firstName,lastName,chapter,calpolyemail,phone,college,status,abroadcoop,pellgrant,birthday,year,permissions
+"ObjectID(""56b938edfc13ae1acf0003eb"")",ISODate(2016-02-03T04:54:55.113Z),Patrick,Fisher,Delta Upsilon,pfisher0@wisc.edu,63-(465)459-4677,Orfalea College of Business,Active,No,No,4/24/1993,3rd Year,authenticated

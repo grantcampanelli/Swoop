@@ -155,6 +155,7 @@ var CommentSchema = new Schema({
     strContent: String,
     arrContent: Array,
     fileURL: String,
+    fileName: String,
     comment: String
 });
 CommentSchema.plugin(tree);
@@ -215,6 +216,11 @@ var EventSchema = new Schema({
     pointofcontact: {
         type: String,
         trim: true
+    },
+    pocuser: {
+        type: Schema.ObjectId,
+        ref: 'User',
+        required: true
     },
     contactName: {
         type: String,

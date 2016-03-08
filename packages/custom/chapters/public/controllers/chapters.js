@@ -46,7 +46,7 @@ angular.module('mean.chapters').controller('ChaptersController', ['$scope', '$st
 
         $scope.chapterExec = [];
 
-        $scope.getChapterExec = function (chapter) {
+        $scope.getChapterExec = function () {
             var chapterName;
             Chapters.get({
                 chapterId: $stateParams.chapterId
@@ -67,31 +67,8 @@ angular.module('mean.chapters').controller('ChaptersController', ['$scope', '$st
                         }
                     });
                     console.log($scope.chapterExec);
-                    //$scope.users = users;
-
-                    //console.log(users);
                 });
             });
-
-            //var chapterName = chapter.name;
-            //Users.query({}, function(users) {
-            //    console.log(users);
-            //    users.forEach(function(user){
-            //       if(user.chapter == chapterName) {
-            //           chapterExec.push(user);
-            //       }
-            //    });
-            //    console.log(chapterExec);
-            //    //$scope.users = users;
-            //
-            //    //console.log(users);
-            //});
-
-            //MeanUser.query(function (users) {
-            //    //$scope.members = members;
-            //    console.log(users);
-            //    //console.log($filter('filter')(users, {users: chapter.name}));
-            //});
         };
 
 

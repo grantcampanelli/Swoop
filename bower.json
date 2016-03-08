@@ -7,7 +7,7 @@
     "angular-cookies": "latest",
     "angular-mocks": "latest",
     "angular-route": "latest",
-    "bootstrap": "latest",
+    "bootstrap": "^3.3.6",
     "angular-bootstrap": "latest",
     "angular-ui-router": "#master",
     "web-bootstrap": "./node_modules/meanio/resources/web-bootstrap.js",

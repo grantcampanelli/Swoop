@@ -1,4 +1,4 @@
-<section data-ng-controller="EventsController" data-ng-init="findAvailableChapters()">
+<section data-ng-controller="EventsController" data-ng-init="setupCreateEvent()">
     <form name="eventForm" class="form-horizontal col-md-8 col-md-offset-2" role="form"
           data-ng-submit="createEvent(eventForm.$valid)"
           novalidate>
@@ -67,20 +67,22 @@
             </div>
         </div>
 
-        <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.pointofcontact.$invalid }">
-            <label mean-token="'create-pointofcontact'" class="col-md-12">Event Point of Contact</label>
+        <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.pocuser.$invalid }">
+            <label mean-token="'create-pocuser'" class="col-md-12">Event Point of Contact</label>
             <div class="col-md-12">
 
-                <ui-select ng-model="event.pointofcontact" append-to-body="'true'">
-                    <ui-select-match placeholder="Select point of contact...">{{$select.selected}}
+                <ui-select ng-model="event.pocuser" append-to-body="'true'">
+                    <ui-select-match placeholder="Select point of contact...">
+                        {{ $select.selected.position ?
+                            $select.selected.name + ' - ' + $select.selected.position : $select.selected.name }}
                     </ui-select-match>
-                    <ui-select-choices repeat="pointofcontact in availablePointOfContacts | filter:$select.search"
-                                       name="pointofcontact" ng-click="hideOtherPointOfContact($select.selected)">
-                        {{pointofcontact}}
+                    <ui-select-choices repeat="exec in chapterExec | filter:$select.search"
+                                       name="exec.name" ng-click="hideOtherPointOfContact($select.selected)">
+                        {{exec.position ? exec.name+ ' - ' + exec.position : exec.name}}
                     </ui-select-choices>
                 </ui-select>
-                <div ng-show="submitted && eventForm.pointofcontact.$invalid" class="help-block">
-                    <p ng-show="eventForm.pointofcontact.$error.required">Point Of Contact is required</p>
+                <div ng-show="submitted && eventForm.pocuser.$invalid" class="help-block">
+                    <p ng-show="eventForm.pocuser.$error.required">Point Of Contact is required</p>
                 </div>
             </div>
         </div>
@@ -230,14 +232,14 @@
 
 
         <!-- TODO add validation -->
-        <div class="form-group" ng-show="event.alcoholPresent">
+        <div class="form-group" ng-hide="!event.alcoholPresent">
             <label mean-token="'create-verifyDrinkingAgeID'" class="col-md-12">
                 To verify that guests are of legal drinking age, please select at least one
                 form of ID that you will accept
             </label>
             <div class="col-md-12">
                 <ui-select multiple ng-model="event.verifyDrinkingAgeID" append-to-body="'true'">
-                    <ui-select-match placeholder="Select forms of verification...">{{$item}}
+                    <ui-select-match>{{$item}}
                     </ui-select-match>
                     <ui-select-choices repeat="identification in identifications | filter:$select.search"
                                        name="verifyDrinkingAgeID">
@@ -248,7 +250,7 @@
         </div>
 
         <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.verifyAgeWhileServing.$invalid }"
-             ng-show="event.alcoholPresent">
+             ng-hide="!event.alcoholPresent">
             <label mean-token="'create-verifyAgeWhileServing'" class="col-md-12">
                 How will those serving or providing alcoholic beverages identify persons of legal drinking age?
             </label>
