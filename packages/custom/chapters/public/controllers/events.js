@@ -26,6 +26,10 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$wind
             return MeanUser.isAdmin;
         };
 
+        $scope.hostName = function () {
+            var ref = $location.host()
+            return (ref == 'localhost' || ref == 'grantcampanelli.com') ? ref + ':3000' : ref;
+        }();
 
         $scope.isChapterAdmin = function (event) {
             if (!event || !event.user) return false;
@@ -722,8 +726,6 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$wind
          * Setting Up Viewing An Event
          */
         $scope.setupViewEvent = function () {
-            console.log("config: ")
-            console.log($location.host());
             Events.get({
                 eventId: $stateParams.eventId
             }, function (event) {

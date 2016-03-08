@@ -123,7 +123,8 @@
                                 <tbody>
                                 <tr ng-repeat="comment in deliverable.comments">
                                     <!--<th>{{comment.user.name}}</th>-->
-                                    <th ng-if="deliverable.type != 'Array'"><a href="{{'http://localhost:3000'+comment.fileURL}}" target="_blank">
+                                    <th ng-if="deliverable.type != 'Array'"><a
+                                            href="{{'http://'+hostName+comment.fileURL}}" target="_blank">
                                         {{comment.fileName ? comment.fileName : comment.fileURL}}
                                     </a></th>
                                     <th>{{comment.comment}}</th>
