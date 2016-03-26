@@ -26,7 +26,7 @@ module.exports = {
     }
     */
   },
-  hostname: 'http://app.grantcampanelli.com',
+  hostname: 'http://cplegacy.com',
   app: {
     name: 'LEGACY'
   },

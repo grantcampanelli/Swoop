@@ -152,6 +152,7 @@ var CommentSchema = new Schema({
         ref: 'User',
         required: true
     },
+    username: String,
     strContent: String,
     arrContent: Array,
     fileURL: String,

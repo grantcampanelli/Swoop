@@ -67,19 +67,6 @@
             </div>
         </div>
 
-        <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.attendance.$invalid }">
-            <label mean-token="'create-attendance'" class="col-md-12">Event Attendance</label>
-            <div class="col-md-12">
-                <input name="attendance" type="number" class="form-control" data-ng-model="event.attendance"
-                       id="attendance"
-                       placeholder="#" required>
-                <div ng-show="submitted && eventForm.attendance.$invalid" class="help-block">
-                    <p ng-show="eventForm.attendance.$error.required">Event Attendance is
-                        required</p>
-                </div>
-            </div>
-        </div>
-
         <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.pocuser.$invalid }">
             <label mean-token="'create-pocuser'" class="col-md-12">Event Point of Contact</label>
             <div class="col-md-12">
@@ -146,8 +133,29 @@
             </div>
         </div>
 
-        <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.date.$invalid }">
-            <label mean-token="'create-date'" class="col-md-12">Event Date</label>
+        <div class="col-md-12">
+            <hr>
+            <p>If your event will have 0-100 people in attendance, you must register it 5 business days in advance<br>
+                If your event will have over 100 people in attendance, you must register it 10 business days in advance</p>
+            <hr>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.attendance.$invalid }">
+            <label mean-token="'create-attendance'" class="col-md-12">Event Attendance</label>
+            <div class="col-md-12">
+                <input name="attendance" type="number" class="form-control" data-ng-model="event.attendance"
+                       id="attendance"
+                       placeholder="#" required>
+                <div ng-show="submitted && eventForm.attendance.$invalid" class="help-block">
+                    <p ng-show="eventForm.attendance.$error.required">Event Attendance is
+                        required</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-md-12" ng-class="{ 'has-error' : submitted && eventForm.date.$invalid }">
+            <label mean-token="'create-date'">Event Date</label>
+
             <div class="col-md-12">
                 <!--<input uib-datepicker="date" name="date" class="form-control" ng-model="event.date" id="date" required>
                 -->
@@ -168,6 +176,11 @@
             </div>
         </div>
 
+        <div class="col-md-12">
+            <hr>
+            <p>Your event must end before 1:00am and must not be more than 5 hours in length</p>
+            <hr>
+        </div>
         <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.starttime.$invalid }">
             <label mean-token="'create-starttime'" class="col-md-12">Start Time</label>
             <div class="col-md-12">
@@ -186,9 +199,9 @@
             </div>
         </div>
 
-        <div class="form-group" ng-class="{ 'has-error' : submitted && eventForm.endtime.$invalid }">
-            <label mean-token="'create-endtime'" class="col-md-12">End Time</label>
-            <div class="col-md-12">
+        <div class="form-group col-md-12" ng-class="{ 'has-error' : submitted && eventForm.endtime.$invalid }">
+            <label mean-token="'create-endtime'">End Time</label>
+            <div>
 
                 <ui-select ng-model="event.endtime" append-to-body="'true'">
                     <ui-select-match placeholder="Select end time...">{{$select.selected}}

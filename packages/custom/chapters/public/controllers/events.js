@@ -26,6 +26,13 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$wind
             return MeanUser.isAdmin;
         };
 
+        $scope.isAppAdminAndApproved = function (event, deliverable) {
+            if (!event || !event.user) return false;
+            if (deliverable.status != "Approved")
+                return false;
+            return MeanUser.isAdmin;
+        };
+
         $scope.hostName = function () {
             var ref = $location.host()
             return (ref == 'localhost' || ref == 'grantcampanelli.com') ? ref + ':3000' : ref;
@@ -81,7 +88,6 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$wind
         var userChapter;
         $scope.setupCreateEvent = function () {
             $scope.findAvailableChapters();
-            //console.log(MeanUser.user.chapter);
             if (MeanUser.getChapter)
                 $scope.userChapter = MeanUser.getChapter;
             console.log($scope.userChapter);
@@ -92,9 +98,6 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$wind
         $scope.chapterExec = [];
         $scope.getChapterExec = function (chapterName) {
             Users.query({}, function (users) {
-                //console.log("User Chapter: "+user.chapter);
-                //console.log(user);
-                //console.log("Chapter Name: "+ chapterName);
                 if (!chapterName)
                     $scope.chapterExec = users;
                 else {
@@ -162,15 +165,6 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$wind
         $scope.thirdPartyEventManagementContractRequired = 1;
 
         $scope.riskManagementTeamPositions = [];
-        //    = function () {
-        //    var array = [];
-        //    array.push({'title': 'Inside 1', 'name': 'Grant Campanelli'});
-        //    array.push({'title': 'Inside 2', 'name': 'Grant Campanelli'});
-        //    array.push({'title': 'Inside 3', 'name': 'Grant Campanelli'});
-        //    array.push({'title': 'Inside 4', 'name': 'Grant Campanelli'});
-        //    return array;
-        //}();
-
 
         $scope.chapterNames = [];
 
@@ -183,8 +177,6 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$wind
                 console.log($scope.chapterNames);
             });
         };
-
-        //$scope.availableChapters = ['Kappa Sigma', 'Alpha Chi Omega'];
 
         $scope.availablePointOfContacts = ['President', 'Social Chair', 'Risk Manager', 'Other'];
 
@@ -224,20 +216,17 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$wind
                 '12:15am', '12:30am', '12:45am', '1:00am'];
 
         $scope.hideOtherPointOfContact = function (pointofcontact) {
-            console.log("point of contact")
-            console.log(pointofcontact);
+            var poc = $('.pointofcontactother');
             if (pointofcontact.name == 'Other') {
-                //console.log("point of contact clicked: "+pointofcontact);
-                $('.pointofcontactother').removeClass("ng-hide");
-                $('.pointofcontactother').addClass("ng-show");
-                $('.pointofcontactinput').prop('required', true);
+                poc.removeClass("ng-hide");
+                poc.addClass("ng-show");
+                poc.prop('required', true);
             }
             else {
-                $('.pointofcontactother').removeClass("ng-show");
-                $('.pointofcontactother').addClass("ng-hide");
-                $('.pointofcontactinput').removeAttr('required');
+                poc.removeClass("ng-show");
+                poc.addClass("ng-hide");
+                poc.removeAttr('required');
             }
-            //console.log("Hide other point of contact function");
         };
 
         /*
@@ -362,14 +351,6 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$wind
             event.deliverables.push(d);
 
             return event;
-
-            //console.log($scope.event);
-
-
-            //
-            //if(event.coHosts.length) {
-            //    numHosts +=
-            //}
         };
 
         $scope.createEvent = function (isValid) {
@@ -414,7 +395,7 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$wind
                 $scope.removeEvent(event);
             }
 
-        }
+        };
 
         $scope.updateEvent = function (isValid) {
             if (isValid) {
@@ -422,11 +403,6 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$wind
                 if (!event.updated) {
                     event.updated = [];
                 }
-
-                //var comment = new Comments();
-                //comment.comment =  "This is the first comment";
-                //comment.fileURL =  "path/to/url";
-                //event.deliverables[0].comments.push(comment);
 
                 event.updated.push(new Date().getTime());
                 console.log("checking if its there");
@@ -444,23 +420,6 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$wind
             $scope.event.deliverables = $scope.deliverables;
             console.log("Updated deliverables");
             console.log($scope.event);
-            //if (isValid) {
-            //
-            //    $scope.event.deliverables = $scope.deliverables;
-
-            //
-            //var event = $scope.event;
-            //if (!event.updated) {
-            //    event.updated = [];
-            //}
-            //event.updated.push(new Date().getTime());
-            //
-            //event.$update(function () {
-            //    $location.path('events/' + event._id);
-            //});
-            //} else {
-            //    $scope.submitted = true;
-            //}
         };
 
         $scope.riskManagement
@@ -471,8 +430,6 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$wind
                 $scope.riskManagementTeam = $scope.event.deliverables[index].rmArray;
             else
                 console.log("big problem in update deliverable array");
-            //console.log( $scope.event.deliverables[index].rmArray);
-            console.log($scope.riskManagementTeam);
         };
 
         $scope.findEvents = function () {
@@ -481,14 +438,12 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$wind
             });
         };
         var pointofcontact;
+        $scope.eventContentLoaded = 0;
         $scope.findOneEvent = function () {
             Events.get({
                 eventId: $stateParams.eventId
             }, function (event) {
                 $scope.event = event;
-                //$scope.deliverables = event.deliverables;
-                //$scope.pointofcontact = $scope.getPointOfContactFromEvent(event.chapter, event.pocuser);
-                //$scope.findMembers();
             });
         };
 
@@ -498,16 +453,11 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$wind
             if (!$scope.members) {
                 $scope.members = [];
                 Members.query(function (members) {
-                    //console.log(members);
-                    //members;
-                    //$scope.membersLoading = 0;
-                    //$scope.exportMembers();
                     $scope.members = []
                     members.forEach(function (member) {
                         if (member.chapter == $scope.event.chapter)
                             $scope.members.push(member);
                     });
-                    //console.log($scope.members);
                 });
             }
         };
@@ -515,7 +465,6 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$wind
         $scope.updateRMTeam = function (risk, member) {
             risk.member = new Members();
 
-            //console.log(risk.position + " " + member.firstName)
             risk.member = member;
             console.log("Updated RM?");
         };
@@ -541,9 +490,7 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$wind
         $scope.deliverableSubmissionData = [];
 
         $scope.createDeliverableSubmissionDataFromFile = function (url, filename) {
-            var comment = []//new Comment();
-            //comment.dId = id;
-            //comment.user = MeanUser.user;
+            var comment = []
             comment.fileURL = url;
             comment.fileName = filename;
             return comment;
@@ -570,6 +517,7 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$wind
             }
             if (d || commentString != null) {
                 c.user = MeanUser.user;
+                c.username = c.user.name;
                 if (!event.deliverables[index].comments)
                     event.deliverables[index].comments = [];
                 event.deliverables[index].comments.push(c);
@@ -583,6 +531,7 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$wind
                     $location.path('events/' + event._id);
                 }).then(function () {
                     console.log("event updated!");
+                    $scope.setupViewEvent();
                 });
             }
         };
@@ -590,6 +539,10 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$wind
 
         $scope.submitFileDeliverableForReview = function (index, commentString) {
             $scope.submitGeneralComment(index, commentString, "Waiting on admin");
+        };
+
+        $scope.revokeApprovalDeliverable = function(index) {
+            $scope.submitGeneralComment(index, "Revoked Approval", "Waiting on admin");
         };
 
         $scope.adminReviewDeliverable = function (index, commentString, status) {
@@ -621,9 +574,8 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$wind
             $scope.submitGeneralComment(index, commentString, "Waiting on admin");
         };
 
-
         $scope.uploadFinished = function (files) {
-            console.log(files);
+            //console.log(files);
         };
 
         /*
@@ -637,41 +589,31 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$wind
             {value: 'Inside Sober Monitor', text: 'Inside Sober Monitor'},
             {value: 'Outside Sober Monitor', text: 'Outside Sober Monitor'},
             {value: 'Bartender', text: 'Bartender'},
-            {value: 'General Sober Monitor', text: 'General Sober Monitor'}];
+            {value: 'General Sober Monitor', text: 'General Sober Monitor'}
+        ];
 
         $scope.rmAvailablePositions = [
             'Sober Executive',
             'Inside Sober Monitor',
             'Outside Sober Monitor',
             'Bartender',
-            'General Sober Monitor'];
+            'General Sober Monitor'
+        ];
 
         $scope.updateRMPosition = function () {
 
         };
 
-        //$scope.rmAvailablePositions = ['Sober Executive',
-        //    'Inside Sober Monitor',
-        //    'Outside Sober Monitor',
-        //    'Bartender',
-        //    'General Sober Monitor'];
-
         $scope.showPosition = function (risk) {
             var selected = [];
-            console.log(risk.position);
             if (risk.position) {
                 selected = $scope.rmAvailablePositions.forEach(function (r) {
                     if (r.text == risk.position) {
-                        console.log("found r!");
-                        console.log(r)
                         return r;
                     }
                 });
-                //, function(r) { return r.id == '45' });
-                //$filter('filter')($scope.statuses, {id: risk.position});
             }
             return risk.position;
-            //return selected.length ? selected[0].text : 'Not set';
         };
 
         $scope.showMember = function (risk) {
@@ -685,28 +627,14 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$wind
                 member: null
             });
             $scope.event.deliverables[index].rmArray.push(rm);
-            console.log($scope.event.deliverables[index].rmArray);
         };
 
         $scope.saveRiskTable = function (index) {
             var results = []
-            console.log("index: " + index);
             var riskArray = $scope.event.deliverables[index].rmArray;
-            console.log(riskArray);
             var i;
             for (i = 0; i < riskArray.length; i++) {
                 var risk = $scope.riskArray[i];
-                // actually delete user
-                //if (risk.isDeleted) {
-                //    riskArray.splice(i, 1);
-                //}
-                //// mark as not new
-                //if (risk.isNew) {
-                //    risk.isNew = false;
-                //}
-
-                // send on server
-                //results.push($http.post('/saveUser', user));
             }
 
             return $q.all(results);
@@ -723,6 +651,40 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$wind
         };
 
         /*
+         * Deliverable Progress Bar
+         */
+        $scope.numDeliverablesApproved = 0;
+        $scope.numDeliverablesChapter = 0;
+        $scope.numDeliverablesAdmin = 0;
+        $scope.numDeliverablesReviewing = 0;
+
+        $scope.setupDeliverableProgress = function() {
+            if($scope.deliverables) {
+                var approved = 0, chapter = 0, admin = 0, reviewing = 0;
+                $scope.deliverables.forEach(function(d) {
+                    switch(d.status) {
+                        case "Approved":
+                            approved++;
+                            break;
+                        case "Waiting on chapter":
+                            chapter++;
+                            break;
+                        case "Waiting on admin":
+                            admin++;
+                            break;
+                        case "Being Reviewed":
+                            reviewing++;
+                            break;
+                    }
+                });
+                $scope.numDeliverablesApproved = approved;
+                $scope.numDeliverablesChapter = chapter;
+                $scope.numDeliverablesAdmin = admin;
+                $scope.numDeliverablesReviewing = reviewing;
+            }
+        };
+
+        /*
          * Setting Up Viewing An Event
          */
         $scope.setupViewEvent = function () {
@@ -731,8 +693,11 @@ angular.module('mean.chapters').controller('EventsController', ['$scope', '$wind
             }, function (event) {
                 $scope.event = event;
                 $scope.deliverables = event.deliverables;
+                $scope.setupDeliverableProgress();
                 $scope.pointofcontact = $scope.getPointOfContactFromEvent(event.chapter, event.pocuser);
                 $scope.findMembers();
+                $scope.eventContentLoaded = 1;
+                console.log(event);
             });
 
         };
